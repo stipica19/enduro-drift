@@ -1,6 +1,8 @@
 ---
+import { getImage } from "astro:assets";
 import { Globe, Check, Play } from "lucide-astro";
 import videoSrc from "@/assets/video/enduro-video.mp4";
+import posterSrc from "@/assets/video/enduro-poster.webp";
 import { topEnduro } from "@/content/site/topEnduro";
 
 interface Props {
@@ -10,6 +12,9 @@ interface Props {
 const { lang = "de" } = Astro.props;
 const content = topEnduro[lang];
 const highlights = content.highlights;
+
+// Kartica je max 384 px široka (max-w-sm), pa 576 px pokriva i retinu 1.5x
+const poster = await getImage({ src: posterSrc, width: 576, format: "webp", quality: 70 });
 ---
 
 <section class="bg-white text-neutral-900">
@@ -60,16 +65,18 @@ const highlights = content.highlights;
       </div>
     </div>
 
-    <!-- TODO: zamijeni sa <video> tagom kad fajl bude spreman -->
     <div
       class="relative mx-auto aspect-3/4 w-full max-w-sm overflow-hidden rounded-2xl bg-neutral-200"
     >
+      <!-- preload="none": MP4 (~2.8 MB) se ne dotiče dok gost ne pritisne play. Sa "metadata"
+           je Chrome povlačio cijeli fajl pri učitavanju stranice i gušio LCP hero slike. -->
       <video
         id="top-enduro-video"
         src={videoSrc}
+        poster={poster.src}
         class="h-full w-full object-cover"
         playsinline
-        preload="metadata"></video>
+        preload="none"></video>
       <button
         id="top-enduro-play"
         class="absolute inset-0 flex items-center justify-center"

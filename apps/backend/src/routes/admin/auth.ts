@@ -31,6 +31,7 @@ const adminAuthRoutes: FastifyPluginAsync = async (fastify) => {
   );
 
   fastify.post("/api/admin/auth/logout", async (request, reply) => {
+    console.log("AAA");
     reply.clearCookie("session", { path: "/" });
     return { success: true };
   });

@@ -15,6 +15,7 @@ export const createBookingSchema = z.object({
   arrivalMethod: z.string().optional(),
   rentBike: z.boolean().optional(),
   message: z.string().optional(),
+  lang: z.enum(["de", "en"]).optional().default("de"),
 });
 
 export type CreateBookingInput = z.infer<typeof createBookingSchema>;

@@ -33,6 +33,7 @@ export interface BookingFormContent {
   submitting: string;
   success: string;
   error: string;
+  notEnoughSpots: string;
 }
 
 export const bookingForm: Record<"de" | "en", BookingFormContent> = {
@@ -71,6 +72,8 @@ export const bookingForm: Record<"de" | "en", BookingFormContent> = {
     submitting: "Wird gesendet…",
     success: "Vielen Dank! Ihre Anmeldung wurde erfolgreich gesendet. Wir melden uns per E-Mail mit allen Details.",
     error: "Fehler beim Senden. Bitte versuchen Sie es erneut oder kontaktieren Sie uns direkt.",
+    notEnoughSpots:
+      "Für diesen Termin sind nicht genügend Plätze für Ihre Gruppengröße frei. Bitte wählen Sie einen anderen Termin oder kontaktieren Sie uns.",
   },
   en: {
     heading: "Book your tour now",
@@ -107,5 +110,7 @@ export const bookingForm: Record<"de" | "en", BookingFormContent> = {
     submitting: "Sending…",
     success: "Thank you! Your booking request was sent successfully. We'll email you with all the details.",
     error: "Something went wrong. Please try again or contact us directly.",
+    notEnoughSpots:
+      "There aren't enough places left on this date for your group size. Please choose another date or contact us.",
   },
 };

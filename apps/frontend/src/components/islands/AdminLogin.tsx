@@ -12,15 +12,28 @@ export default function AdminLogin() {
     setError(null);
     setLoading(true);
 
-    const res = await apiFetch("/api/admin/auth/login", {
-      method: "POST",
-      body: JSON.stringify({ email, password }),
-    });
+    let res: Response;
+    try {
+      res = await apiFetch("/api/admin/auth/login", {
+        method: "POST",
+        body: JSON.stringify({ email, password }),
+      });
+    } catch {
+      setLoading(false);
+      setError("Server nije dostupan. Provjeri vezu i pokušaj ponovo.");
+      return;
+    }
 
     setLoading(false);
 
-    if (!res.ok) {
+    if (res.status === 401) {
       setError("Pogrešan email ili lozinka.");
+      return;
+    }
+
+    // Sve osim 401 nije problem s lozinkom (npr. 500 kad backendu fali SESSION_SECRET)
+    if (!res.ok) {
+      setError(`Greška na serveru (HTTP ${res.status}). Provjeri logove backenda.`);
       return;
     }
 

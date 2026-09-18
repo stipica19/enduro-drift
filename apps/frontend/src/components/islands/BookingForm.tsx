@@ -49,6 +49,7 @@ export default function BookingForm({ tours, tourDates, initialTour, lang = "de"
     tourId: initialTour && tours.includes(initialTour) ? initialTour : "",
   });
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
+  const [errorMessage, setErrorMessage] = useState("");
 
   // Stranica je statična (SSG) — Astro.url.searchParams na serveru nema pristup
   // stvarnom query stringu iz browsera, pa ?tour= čitamo ovdje, na klijentu.
@@ -87,10 +88,13 @@ export default function BookingForm({ tours, tourDates, initialTour, lang = "de"
         arrivalMethod: form.arrivalMethod || undefined,
         rentBike: form.rentBike === "ja",
         message: form.message || undefined,
+        lang,
       }),
     });
 
     if (!res.ok) {
+      const data = await res.json().catch(() => null);
+      setErrorMessage(data?.code === "NOT_ENOUGH_SPOTS" ? t.notEnoughSpots : t.error);
       setStatus("error");
       return;
     }
@@ -402,7 +406,7 @@ export default function BookingForm({ tours, tourDates, initialTour, lang = "de"
           role="alert"
           className="mt-4 rounded-xl border border-red-100 bg-red-50 px-4 py-3 text-sm leading-relaxed text-red-700"
         >
-          {t.error}
+          {errorMessage || t.error}
         </p>
       )}
     </form>

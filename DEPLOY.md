@@ -288,7 +288,10 @@ MONGODB_URI=mongodb+srv://<user>:<password>@<cluster>.mongodb.net/?retryWrites=t
 MONGODB_DB_NAME=endurodrift
 OLD_MONGODB_DB_NAME=
 
-SESSION_SECRET=          # generiši: openssl rand -base64 32
+# OBAVEZNO: bez njega admin prijava ne radi (backend u produkciji odbija startati).
+# Generiši na serveru s "openssl rand -base64 32" i zalijepi rezultat ovdje.
+# Komentar NE piši u istom redu kao vrijednost.
+SESSION_SECRET=
 RESEND_API_KEY=
 CONTACT_EMAIL_TO=endurodriftbosnien@gmail.com
 CONTACT_EMAIL_FROM=onboarding@resend.dev
@@ -331,6 +334,7 @@ Provjera slojeva, od unutra prema van:
 curl -fsS http://127.0.0.1:3001/api/health     # backend direktno
 curl -fsS -o /dev/null -w "%{http_code}\n" http://127.0.0.1:8080/de/   # frontend direktno
 curl -fsS https://dev.skin-glow.beauty/api/health                      # kroz nginx + TLS
+curl -sI https://dev.skin-glow.beauty/ | grep -iE "^(HTTP|location)"   # korijen → 301 na /de/
 ```
 
 ### 7.4 Admin nalog
@@ -473,6 +477,19 @@ deploy radi bez daljih koraka.
 **Workflow pada na "Cekaj da backend odgovori"**
 Backend se nije podigao u CI-ju. Najčešće Atlas blokira runnerov IP (korak 5) ili je
 `MONGODB_URI` secret pogrešan. U logu workflowa ispisuju se i logovi kontejnera.
+
+**Ne mogu se prijaviti u admin (`/admin/login`)**
+Forma javlja razlog: "Pogrešan email ili lozinka" je pravi 401, a "Greška na serveru
+(HTTP 500)" znači problem na backendu. Najčešći uzrok je prazan `SESSION_SECRET` u `.env`
+na serveru (log: `signer.sign is not a function`). Backend s novijom verzijom u tom
+slučaju uopće ne starta i u logu piše `SESSION_SECRET nije postavljen`.
+```bash
+docker compose logs --tail=30 backend | grep -iE "SESSION_SECRET|signer"
+grep -c '^SESSION_SECRET=.\+' .env     # 1 = postavljen, 0 = prazan
+```
+Popravka: upiši vrijednost (`openssl rand -base64 32`) pa
+`docker compose up -d --force-recreate backend` (obični restart ne učitava novi `.env`).
+Email za prijavu mora biti onaj iz `ADMIN_EMAIL` kojim je pokrenut `seedAdmin.ts`.
 
 **Kontakt forma vraća grešku**
 `RESEND_API_KEY` fali ili domena nije verifikovana u Resendu. Dok domena nije

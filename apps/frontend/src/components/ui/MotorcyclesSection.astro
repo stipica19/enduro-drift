@@ -88,7 +88,7 @@ const images = Object.values(
               src={img}
               alt={content.bikes[i] ?? "Enduro"}
               class="aspect-3/2 w-full object-cover transition-transform duration-300 hover:scale-105"
-              loading={i < 4 ? "eager" : "lazy"}
+              loading="lazy"
               widths={[300, 500]}
               sizes="(min-width: 1024px) 300px, 45vw"
             />

@@ -14,13 +14,13 @@ const { images } = Astro.props;
     class="gallery-track no-scrollbar flex snap-x snap-mandatory gap-4 overflow-x-auto scroll-smooth"
   >
     {
-      images.map((img, i) => (
+      images.map((img) => (
         <div class="w-[95vw] shrink-0 snap-start sm:w-[calc((100%-1rem)/2)] lg:w-[calc((100%-2rem)/3)]">
           <Image
             src={img}
             alt=""
             class="aspect-4/3 w-full rounded-sm object-cover"
-            loading={i < 3 ? "eager" : "lazy"}
+            loading="lazy"
             widths={[600, 800, 1000]}
             sizes="(min-width: 1024px) 400px, (min-width: 640px) 45vw, 85vw"
           />

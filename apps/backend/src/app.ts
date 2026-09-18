@@ -20,6 +20,16 @@ import cors from "@fastify/cors";
 
 
 export function buildApp() {
+  // Bez tajne @fastify/cookie ne može potpisivati cookie, pa svaka admin prijava završi
+  // sa 500 ("signer.sign is not a function"). Bolje je odmah pasti pri startu s jasnom
+  // porukom nego imati server koji radi, a admin se ne može prijaviti.
+  if (env.nodeEnv === "production" && !env.sessionSecret) {
+    throw new Error(
+      "SESSION_SECRET nije postavljen u .env — admin prijava ne može raditi. " +
+        "Generiši ga s: openssl rand -base64 32",
+    );
+  }
+
   const app = Fastify({
     logger: true,
   }).withTypeProvider<ZodTypeProvider>();

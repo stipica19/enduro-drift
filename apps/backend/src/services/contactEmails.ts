@@ -1,11 +1,6 @@
-const siteUrl = "https://endurodriftbosnien.com";
+import { escapeHtml } from "./emailUtils.js";
 
-function escapeHtml(value: string) {
-  return value
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;");
-}
+const siteUrl = "https://endurodriftbosnien.com";
 
 export function buildNotificationEmail(params: { name: string; email: string; message: string }) {
   const name = escapeHtml(params.name);

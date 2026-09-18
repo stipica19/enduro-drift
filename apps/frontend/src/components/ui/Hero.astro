@@ -1,5 +1,5 @@
 ---
-import { Image } from "astro:assets";
+import { Image, getImage } from "astro:assets";
 import { ArrowRight, Check, Star } from "lucide-astro";
 import hero from "../../assets/hero-bild.webp";
 import { hero as heroContent } from "@/content/site/hero";
@@ -12,19 +12,45 @@ interface Props {
 const { lang = "de", reviewsSummary = null } = Astro.props;
 const content = heroContent[lang];
 const highlights = content.highlights;
+
+// Na mobitelu je hero visok (~900 px) a uzak (~412 px), pa object-cover prikazuje samo
+// središnji uski isječak fotografije. Zato mobitel dobija portretni izrez istog kadra
+// (position: center = isto što i object-center) umjesto cijele 2048 px široke slike.
+// Srcset s "sizes=100vw" ovdje ne bi pomogao: browser bira po širini elementa, a sadržaj
+// je skaliran po visini, pa bi slika ispala mutna.
+const heroMobile = await getImage({
+  src: hero,
+  width: 640,
+  height: 1160,
+  fit: "cover",
+  position: "center",
+  format: "webp",
+  quality: 70,
+});
 ---
 
 <section
   aria-labelledby="hero-title"
   class="relative isolate overflow-hidden bg-neutral-950 text-white"
 >
-  <Image
-    src={hero}
-    alt="Enduro Fahrer im Gelände in Bosnien"
-    class="absolute inset-0 -z-30 h-full w-full object-cover object-center"
-    loading="eager"
-    fetchpriority="high"
-  />
+  <picture>
+    <source
+      media="(max-width: 639px)"
+      srcset={heroMobile.src}
+      width={640}
+      height={1160}
+    />
+    <Image
+      src={hero}
+      alt="Enduro Fahrer im Gelände in Bosnien"
+      class="absolute inset-0 -z-30 h-full w-full object-cover object-center"
+      loading="eager"
+      fetchpriority="high"
+      widths={[1024, 1440, 1920, 2048]}
+      sizes="100vw"
+      quality={72}
+    />
+  </picture>
 
   <!-- Dunkler Bereich hinter dem Text, mehr Bild auf der rechten Seite -->
   <div

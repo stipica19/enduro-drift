@@ -1,21 +1,10 @@
 import type { FastifyPluginAsync } from "fastify";
 import type { ZodTypeProvider } from "fastify-type-provider-zod";
-import { Resend } from "resend";
 import { contactBodySchema } from "shared";
 import { env } from "../config/env.js";
 import { buildNotificationEmail, buildAutoReplyEmail } from "../services/contactEmails.js";
+import { getResend } from "../services/resend.js";
 import { verifyRecaptcha } from "../services/recaptcha.js";
-
-// Lazy: Resend baca ako je ključ prazan. Kad se instancira na top-levelu, nedostajuća
-// RESEND_API_KEY ruši CIJELI server pri startu (i lokalno i u CI-ju), a ne samo ovu rutu.
-let resendClient: Resend | null = null;
-
-function getResend() {
-  if (!resendClient) {
-    resendClient = new Resend(env.resendApiKey);
-  }
-  return resendClient;
-}
 
 const contactRoutes: FastifyPluginAsync = async (fastify) => {
   fastify.withTypeProvider<ZodTypeProvider>().post(
