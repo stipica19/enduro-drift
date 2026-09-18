@@ -104,6 +104,11 @@ jobs:
           script: |
             set -e
             cd ${{ secrets.VPS_PATH }}
+            # Isti GITHUB_TOKEN kojim je runner pushao image-e — ovdje ga koristimo
+            # da VPS smije pull-ati privatne pakete. Radi se pri SVAKOM deployu
+            # (self-healing: ako VPS ikad izgubi docker login, sljedeci deploy ga vrati),
+            # umjesto jednokratnog rucnog "docker login" sa PAT-om.
+            echo '${{ secrets.GITHUB_TOKEN }}' | docker login ghcr.io -u '${{ github.actor }}' --password-stdin
             # Zabiljezi trenutni tag prije promjene — koristi se za rollback
             grep '^IMAGE_TAG=' .env > .env.previous-tag || true
             sed -i "s|^IMAGE_TAG=.*|IMAGE_TAG=${{ github.sha }}|" .env

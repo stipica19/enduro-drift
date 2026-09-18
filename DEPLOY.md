@@ -19,18 +19,28 @@ Internet
    │
    ▼
 nginx na hostu (80/443, Let's Encrypt)
-   ├─ /api/*  →  127.0.0.1:3001   backend kontejner   (Fastify)
-   └─ /*      →  127.0.0.1:8080   frontend kontejner  (nginx + statički Astro)
+   ├─ /api/*  →  127.0.0.1:${BACKEND_HOST_PORT}   backend kontejner   (Fastify)
+   └─ /*      →  127.0.0.1:${FRONTEND_HOST_PORT}  frontend kontejner  (nginx + statički Astro)
                                           │
                               MongoDB Atlas (vanjski)
 ```
+
+> **Portovi su podesivi (`BACKEND_HOST_PORT`/`FRONTEND_HOST_PORT` u `.env`,
+> default `3001`/`8080`).** Na VPS-u koji hostuje više aplikacija ovi portovi
+> mogu već biti zauzeti — provjeri prije prvog deploya:
+> ```bash
+> sudo ss -tlnp | grep -E ':(3001|8080)\b'
+> ```
+> Ako je nešto zauzeto, promijeni odgovarajuću vrijednost u `.env` (npr.
+> `BACKEND_HOST_PORT=3002`) i koristi taj broj u nginx `proxy_pass` (korak 4)
+> — mora se poklapati na oba mjesta.
 
 **Astro je statički (SSG), bez SSR-a.** Važna posljedica: stranice `/de/anmeldung`,
 `/de/termine`, `/de/galerie` i `/de/gastebuch` povlače podatke iz API-ja **tokom
 builda**, ne pri svakom zahtjevu. Zato CI mora dignuti backend prije nego gradi
 frontend — bez toga `fetch` baca i build pada. Druga posljedica: kad se promijene
 podaci u bazi (npr. novi termin), sajt ih **neće** prikazati dok se frontend ne
-rebuilda. Za to postoji ručno pokretanje deploya (vidi *Osvježavanje sadržaja*).
+rebuilda. Za to postoji ručno pokretanje deploya (vidi _Osvježavanje sadržaja_).
 
 ---
 
@@ -124,6 +134,10 @@ frontendu.
 **Zašto:** frontend i backend su na istoj domeni, pa browser nema CORS problema i
 sesijski cookie za admin radi bez `SameSite` komplikacija.
 
+> Brojevi portova ispod (`3001`, `8080`) su **default** vrijednosti. Ako si ih
+> morao promijeniti u `.env` zbog sudara s drugom aplikacijom na istom VPS-u,
+> ovdje upiši te ISTE brojeve — `proxy_pass` mora pogoditi tačan host port.
+
 ```bash
 sudo nano /etc/nginx/sites-available/enduro
 ```
@@ -137,7 +151,7 @@ server {
     # certbot će ovaj blok prepisati i dodati TLS + redirect na 443
     client_max_body_size 2m;
 
-    # Fastify API
+    # Fastify API — port mora biti isti kao BACKEND_HOST_PORT u .env
     location /api/ {
         proxy_pass http://127.0.0.1:3001;
         proxy_http_version 1.1;
@@ -148,7 +162,7 @@ server {
         proxy_set_header X-Forwarded-Proto $scheme;
     }
 
-    # Statički Astro sajt
+    # Statički Astro sajt — port mora biti isti kao FRONTEND_HOST_PORT u .env
     location / {
         proxy_pass http://127.0.0.1:8080;
         proxy_http_version 1.1;
@@ -193,6 +207,7 @@ sudo certbot renew --dry-run
 frontend build povlači podatke iz API-ja. Ako Atlas blokira runnera, build pada.
 
 U Atlas konzoli → **Network Access**:
+
 - dodaj IP VPS-a,
 - za CI: `0.0.0.0/0` (pristup odasvud). Zaštita tada ostaje na jakoj lozimci iz
   `MONGODB_URI`. Ako ti je to preširoko, alternativa je self-hosted runner sa
@@ -209,16 +224,16 @@ GitHub ga sam daje.
 
 **Settings → Secrets and variables → Actions → New repository secret**
 
-| Secret                 | Vrijednost / kako dobiti                                            |
-| ---------------------- | ------------------------------------------------------------------- |
-| `MONGODB_URI`          | Atlas connection string                                             |
-| `MONGODB_DB_NAME`      | `endurodrift`                                                       |
-| `PUBLIC_API_URL`       | `https://dev.skin-glow.beauty` (ugrađuje se u klijentski JS)        |
-| `RECAPTCHA_SITE_KEY`   | reCAPTCHA v3 site key (javan, ali ide kao secret radi jednostavnosti)|
-| `VPS_HOST`             | IP servera                                                          |
-| `VPS_USER`             | `deploy`                                                            |
-| `VPS_SSH_KEY`          | **privatni** SSH ključ (cijeli sadržaj, vidi ispod)                 |
-| `VPS_PATH`             | `/home/deploy/apps/enduro-drift-bosnien`                                                       |
+| Secret               | Vrijednost / kako dobiti                                              |
+| -------------------- | --------------------------------------------------------------------- |
+| `MONGODB_URI`        | Atlas connection string                                               |
+| `MONGODB_DB_NAME`    | `endurodrift`                                                         |
+| `PUBLIC_API_URL`     | `https://dev.skin-glow.beauty` (ugrađuje se u klijentski JS)          |
+| `RECAPTCHA_SITE_KEY` | reCAPTCHA v3 site key (javan, ali ide kao secret radi jednostavnosti) |
+| `VPS_HOST`           | IP servera                                                            |
+| `VPS_USER`           | `deploy`                                                              |
+| `VPS_SSH_KEY`        | **privatni** SSH ključ (cijeli sadržaj, vidi ispod)                   |
+| `VPS_PATH`           | `/home/deploy/apps/enduro-drift-bosnien`                              |
 
 SSH ključ za deploy (generiši lokalno, ne na serveru):
 
@@ -262,14 +277,14 @@ nano .env
 Sadržaj `.env` na serveru — popuni po `.env.example` iz repoa:
 
 ```env
-GHCR_OWNER=tvoj-github-username
+GHCR_OWNER=stipica19
 IMAGE_TAG=latest
 
 PORT=3001
 NODE_ENV=production
 FRONTEND_ORIGIN=https://dev.skin-glow.beauty
 
-MONGODB_URI=mongodb+srv://...
+MONGODB_URI=mongodb+srv://<user>:<password>@<cluster>.mongodb.net/?retryWrites=true&w=majority
 MONGODB_DB_NAME=endurodrift
 OLD_MONGODB_DB_NAME=
 
@@ -289,15 +304,17 @@ chmod 600 .env    # da ga drugi korisnici na serveru ne mogu čitati
 Prvi `docker compose pull` neće uspjeti dok image-i ne postoje. Zato prvo pusti
 workflow (push na `main` ili **Actions → Build & Deploy → Run workflow**).
 
-Ako su paketi privatni, server im mora imati pristup:
+Ako su paketi privatni, workflow **sam** prijavljuje VPS na GHCR prije svakog
+`pull`-a (vidi korak "Deploy preko SSH-a" u `.github/workflows/deploy.yml`) —
+koristi isti automatski `GITHUB_TOKEN` kojim je runner pushao image-e, tako da
+nema potrebe za ručno generisanim Personal Access Tokenom niti ručnim
+`docker login` korakom na serveru. Radi se pri svakom deployu, pa je i
+self-healing — ako VPS ikad izgubi sačuvanu prijavu (rebuild, obrišeš
+`~/.docker/config.json`...), sljedeći deploy je sam vrati.
 
-```bash
-# na serveru, s GitHub Personal Access Tokenom koji ima read:packages
-echo TVOJ_PAT | docker login ghcr.io -u TVOJ_GITHUB_USERNAME --password-stdin
-```
-
-Alternativa: u GitHubu **Packages → enduro-frontend → Package settings → Change
-visibility → Public**, pa login nije potreban.
+Jednostavnija alternativa, ako ti ni to ne treba: u GitHubu **Packages →
+enduro-frontend → Package settings → Change visibility → Public** — tada
+prijava nije potrebna nikome, ni CI-ju ni serveru.
 
 ### 7.3 Pokretanje
 
@@ -339,7 +356,7 @@ Svaki push na `main` pokreće workflow, koji:
 4. ugasi privremeni backend,
 5. SSH-om na server upiše `IMAGE_TAG=<SHA>` u `.env`, pa `docker compose pull && up -d`.
 
-Zašto SHA tagovi, a ne samo `latest`: `latest` ne govori *koja* je verzija gore i ne
+Zašto SHA tagovi, a ne samo `latest`: `latest` ne govori _koja_ je verzija gore i ne
 može se vratiti nazad. Sa SHA tagom rollback je promjena jedne linije.
 
 ### Osvježavanje sadržaja bez promjene koda
@@ -370,13 +387,13 @@ sudo journalctl -u nginx -f
 
 Gruba podjela:
 
-| Simptom                              | Gdje gledati                                  |
-| ------------------------------------ | --------------------------------------------- |
-| 502 Bad Gateway                      | kontejner je pao → `docker compose logs`      |
-| Sajt radi, `/api/*` ne               | nginx `location /api/` blok                   |
-| Greška pri slanju maila              | `docker compose logs backend` (Resend)        |
-| Certifikat istekao                   | `sudo certbot renew`                          |
-| Stari podaci na stranicama           | treba rebuild frontenda (statički sajt)       |
+| Simptom                    | Gdje gledati                             |
+| -------------------------- | ---------------------------------------- |
+| 502 Bad Gateway            | kontejner je pao → `docker compose logs` |
+| Sajt radi, `/api/*` ne     | nginx `location /api/` blok              |
+| Greška pri slanju maila    | `docker compose logs backend` (Resend)   |
+| Certifikat istekao         | `sudo certbot renew`                     |
+| Stari podaci na stranicama | treba rebuild frontenda (statički sajt)  |
 
 Logovi kontejnera nisu vječni — ograniči ih da ne pojedu disk:
 
@@ -435,8 +452,23 @@ docker compose down        # nginx će vraćati 502
 
 ## 11. Česti problemi
 
+**`Bind for 0.0.0.0:3001 failed: port is already allocated`**
+Nešto drugo na VPS-u (najčešće druga aplikacija) već koristi taj port —
+posebno vjerovatno na deljenom VPS-u sa više app-ova. Provjeri šta:
+```bash
+sudo ss -tlnp | grep 3001
+docker ps -a --filter "publish=3001"
+```
+Popravka: u `.env` promijeni `BACKEND_HOST_PORT` (ili `FRONTEND_HOST_PORT` za
+8080) na slobodan broj, ažuriraj `proxy_pass` u nginx configu (korak 4) na
+ISTI broj, pa `sudo nginx -t && sudo systemctl reload nginx` i
+`docker compose up -d`.
+
 **`docker compose pull` → `denied` / `unauthorized`**
-Paketi su privatni, a server nije prijavljen → `docker login ghcr.io` (korak 7.2).
+Paketi su privatni i `docker login` korak u workflowu (7.2) nije uspio, ili paket
+prvi put treba ručno povezati s repoom: GitHub → Package → **Package settings →
+Manage Actions access** → dodaj repo s `Read` pristupom. Nakon toga sljedeći
+deploy radi bez daljih koraka.
 
 **Workflow pada na "Cekaj da backend odgovori"**
 Backend se nije podigao u CI-ju. Najčešće Atlas blokira runnerov IP (korak 5) ili je
@@ -495,14 +527,14 @@ docker rm -f enduro-be-local enduro-fe-local
 
 Razdvojene su jer se koriste u različitim trenucima i na različitim mjestima.
 
-| Varijabla                   | Kada djeluje            | Gdje se postavlja                  |
-| --------------------------- | ----------------------- | ---------------------------------- |
-| `API_INTERNAL_URL`          | tokom `astro build`     | build-arg u CI-ju                  |
-| `PUBLIC_API_URL`            | u browseru posjetitelja | build-arg (ugradi se u JS)         |
-| `PUBLIC_RECAPTCHA_SITE_KEY` | u browseru posjetitelja | build-arg (ugradi se u JS)         |
-| `RECAPTCHA_SECRET_KEY`      | runtime backenda        | `.env` na serveru                  |
-| `MONGODB_URI`               | runtime backenda + CI   | `.env` na serveru + GitHub secret  |
-| `IMAGE_TAG`                 | pri `docker compose up` | `.env` na serveru (mijenja CI)     |
+| Varijabla                   | Kada djeluje            | Gdje se postavlja                 |
+| --------------------------- | ----------------------- | --------------------------------- |
+| `API_INTERNAL_URL`          | tokom `astro build`     | build-arg u CI-ju                 |
+| `PUBLIC_API_URL`            | u browseru posjetitelja | build-arg (ugradi se u JS)        |
+| `PUBLIC_RECAPTCHA_SITE_KEY` | u browseru posjetitelja | build-arg (ugradi se u JS)        |
+| `RECAPTCHA_SECRET_KEY`      | runtime backenda        | `.env` na serveru                 |
+| `MONGODB_URI`               | runtime backenda + CI   | `.env` na serveru + GitHub secret |
+| `IMAGE_TAG`                 | pri `docker compose up` | `.env` na serveru (mijenja CI)    |
 
 Ključno: `PUBLIC_*` varijable se **ugrađuju u statički build**, pa njihova promjena
 zahtijeva rebuild — restart kontejnera nije dovoljan. Varijable bez `PUBLIC_`
