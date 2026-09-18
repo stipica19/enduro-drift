@@ -1,5 +1,6 @@
 ---
 import { tourDatesTable } from "@/content/site/tourDatesTable";
+import { SERVER_API_URL } from "@/lib/serverApi";
 
 interface Props {
   lang?: "de" | "en";
@@ -17,8 +18,7 @@ interface TourDate {
 const { lang = "de" } = Astro.props;
 const t = tourDatesTable[lang];
 
-const API_URL = import.meta.env.PUBLIC_API_URL || "http://localhost:3001";
-const res = await fetch(`${API_URL}/api/tour-dates`);
+const res = await fetch(`${SERVER_API_URL}/api/tour-dates`);
 const tourDates: TourDate[] = res.ok ? await res.json() : [];
 
 const bySeason = tourDates.reduce<Record<string, TourDate[]>>((acc, td) => {

@@ -1,0 +1,30 @@
+# Produkcijski stack na VPS-u.
+# Pokretanje:  docker compose pull && docker compose up -d
+#
+# TLS, domenu i rutiranje radi nginx NA HOSTU (/etc/nginx/sites-available),
+# ne Docker. Zato su portovi vezani na 127.0.0.1 — dostupni su host nginxu,
+# ali ne i direktno s interneta.
+
+services:
+  frontend:
+    image: ghcr.io/${GHCR_OWNER}/enduro-frontend:${IMAGE_TAG:-latest}
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:8080:80"
+
+  backend:
+    image: ghcr.io/${GHCR_OWNER}/enduro-backend:${IMAGE_TAG:-latest}
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:3001:3001"
+    env_file:
+      - .env
+    environment:
+      NODE_ENV: production
+      PORT: 3001
+    healthcheck:
+      test: ["CMD", "node", "-e", "fetch('http://127.0.0.1:3001/api/health').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 15s

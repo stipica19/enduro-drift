@@ -1,0 +1,23 @@
+# Build context je root repoa za OBA servisa, pa je ovaj fajl zajednički.
+node_modules
+**/node_modules
+
+# Build artefakti — grade se unutar image-a
+dist
+**/dist
+apps/frontend/.astro
+
+# Tajne nikad ne smiju u image
+.env
+**/.env
+cookies.txt
+
+# Git i CI
+.git
+.github
+.gitignore
+
+# Dokumentacija i lokalne stvari
+*.md
+!README.md
+docs

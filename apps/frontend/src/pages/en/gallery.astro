@@ -1,6 +1,7 @@
 ---
 import Layout from "@/layouts/Layout.astro";
 import { gallery } from "@/content/site/gallery";
+import { SERVER_API_URL } from "@/lib/serverApi";
 
 interface GalleryImage {
   url: string;
@@ -10,8 +11,7 @@ interface GalleryImage {
 const lang = "en" as const;
 const t = gallery[lang];
 
-const API_URL = import.meta.env.PUBLIC_API_URL || "http://localhost:3001";
-const res = await fetch(`${API_URL}/api/gallery`);
+const res = await fetch(`${SERVER_API_URL}/api/gallery`);
 const images: GalleryImage[] = res.ok ? await res.json() : [];
 ---
 

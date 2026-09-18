@@ -2,6 +2,7 @@
 import Layout from "@/layouts/Layout.astro";
 import { Quote } from "lucide-astro";
 import { guestbook } from "@/content/site/guestbook";
+import { SERVER_API_URL } from "@/lib/serverApi";
 
 interface Review {
   name: string;
@@ -13,8 +14,7 @@ interface Review {
 const lang = "en" as const;
 const t = guestbook[lang];
 
-const API_URL = import.meta.env.PUBLIC_API_URL || "http://localhost:3001";
-const res = await fetch(`${API_URL}/api/reviews`);
+const res = await fetch(`${SERVER_API_URL}/api/reviews`);
 const reviews: Review[] = res.ok ? await res.json() : [];
 
 function formatDate(iso: string) {

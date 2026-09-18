@@ -1,0 +1,6 @@
+# Build context je root repoa, pa glavna pravila stoje u /.dockerignore.
+# Ovaj fajl je tu radi jasnoće ako se frontend ikad bude gradio iz vlastitog contexta.
+node_modules
+dist
+.astro
+.env

@@ -1,0 +1,113 @@
+name: Build & Deploy
+
+on:
+  push:
+    branches: [main]
+  # Omogucava rucno pokretanje iz GitHub UI-ja (Actions → Build & Deploy → Run workflow)
+  workflow_dispatch:
+
+env:
+  REGISTRY: ghcr.io
+  BACKEND_IMAGE: ghcr.io/${{ github.repository_owner }}/enduro-backend
+  FRONTEND_IMAGE: ghcr.io/${{ github.repository_owner }}/enduro-frontend
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write # potrebno za push na GHCR
+
+    steps:
+      - name: Checkout koda
+        uses: actions/checkout@v4
+
+      - name: Prijava na GitHub Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      # --- Backend ---
+      # Gradi se prvi jer ga frontend build treba ziv (SSG povlaci podatke iz API-ja).
+      - name: Build backend image
+        run: |
+          docker build \
+            -f apps/backend/Dockerfile \
+            -t "$BACKEND_IMAGE:${{ github.sha }}" \
+            -t "$BACKEND_IMAGE:latest" \
+            .
+
+      - name: Push backend image
+        run: |
+          docker push "$BACKEND_IMAGE:${{ github.sha }}"
+          docker push "$BACKEND_IMAGE:latest"
+
+      # --- Privremeni backend za frontend build ---
+      # Astro je staticki: stranice /de/anmeldung, /de/termine, /de/galerie i
+      # /de/gastebuch rade fetch TOKOM builda. Bez zivog backenda fetch baca i build pada.
+      - name: Pokreni privremeni backend
+        run: |
+          docker run -d --name backend-ci \
+            -p 127.0.0.1:3001:3001 \
+            -e NODE_ENV=production \
+            -e PORT=3001 \
+            -e MONGODB_URI='${{ secrets.MONGODB_URI }}' \
+            -e MONGODB_DB_NAME='${{ secrets.MONGODB_DB_NAME }}' \
+            -e SESSION_SECRET='ci-build-only-not-a-real-secret' \
+            "$BACKEND_IMAGE:${{ github.sha }}"
+
+      - name: Cekaj da backend odgovori
+        run: |
+          for i in $(seq 1 30); do
+            if curl -fsS http://127.0.0.1:3001/api/health > /dev/null; then
+              echo "Backend spreman nakon ${i}s"
+              exit 0
+            fi
+            sleep 1
+          done
+          echo "Backend se nije podigao na vrijeme. Logovi:"
+          docker logs backend-ci
+          exit 1
+
+      # --- Frontend ---
+      # --network=host: RUN koraci u Dockerfileu moraju doci do backenda na 127.0.0.1:3001
+      - name: Build frontend image
+        run: |
+          docker build \
+            -f apps/frontend/Dockerfile \
+            --network=host \
+            --build-arg API_INTERNAL_URL=http://127.0.0.1:3001 \
+            --build-arg PUBLIC_API_URL='${{ secrets.PUBLIC_API_URL }}' \
+            --build-arg PUBLIC_RECAPTCHA_SITE_KEY='${{ secrets.RECAPTCHA_SITE_KEY }}' \
+            -t "$FRONTEND_IMAGE:${{ github.sha }}" \
+            -t "$FRONTEND_IMAGE:latest" \
+            .
+
+      - name: Push frontend image
+        run: |
+          docker push "$FRONTEND_IMAGE:${{ github.sha }}"
+          docker push "$FRONTEND_IMAGE:latest"
+
+      - name: Ugasi privremeni backend
+        if: always()
+        run: docker rm -f backend-ci || true
+
+      # --- Deploy na VPS ---
+      - name: Deploy preko SSH-a
+        uses: appleboy/ssh-action@v1.2.0
+        with:
+          host: ${{ secrets.VPS_HOST }}
+          username: ${{ secrets.VPS_USER }}
+          key: ${{ secrets.VPS_SSH_KEY }}
+          script: |
+            set -e
+            cd ${{ secrets.VPS_PATH }}
+            # Zabiljezi trenutni tag prije promjene — koristi se za rollback
+            grep '^IMAGE_TAG=' .env > .env.previous-tag || true
+            sed -i "s|^IMAGE_TAG=.*|IMAGE_TAG=${{ github.sha }}|" .env
+            docker compose pull
+            docker compose up -d
+            docker image prune -f
+            docker compose ps

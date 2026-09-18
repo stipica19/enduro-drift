@@ -7,6 +7,7 @@ import { Info } from "lucide-astro";
 import coverImage from "@/assets/hero-bild.webp";
 import { booking } from "@/content/site/booking";
 import { arrivalNotice } from "@/content/site/arrivalNotice";
+import { SERVER_API_URL } from "@/lib/serverApi";
 
 const lang = "en" as const;
 const t = booking[lang];
@@ -23,9 +24,7 @@ interface TourDateApiItem {
   available: boolean;
 }
 
-const API_URL = import.meta.env.PUBLIC_API_URL || "http://localhost:3001";
-
-const [tourDatesRes] = await Promise.all([fetch(`${API_URL}/api/tour-dates`)]);
+const [tourDatesRes] = await Promise.all([fetch(`${SERVER_API_URL}/api/tour-dates`)]);
 
 const rawTourDates: TourDateApiItem[] = tourDatesRes.ok
   ? await tourDatesRes.json()
