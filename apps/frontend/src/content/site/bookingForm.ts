@@ -4,6 +4,11 @@ export interface BookingFormContent {
   tourLabel: string;
   dateLabel: string;
   choosePlaceholder: string;
+  bookingTypeLabel: string;
+  bookingTypeJoin: string;
+  bookingTypeJoinHint: string;
+  bookingTypePrivate: string;
+  bookingTypePrivateHint: string;
   nameLabel: string;
   namePlaceholder: string;
   emailLabel: string;
@@ -37,6 +42,11 @@ export const bookingForm: Record<"de" | "en", BookingFormContent> = {
     tourLabel: "Tour",
     dateLabel: "Termin",
     choosePlaceholder: "Bitte wählen…",
+    bookingTypeLabel: "Art der Buchung",
+    bookingTypeJoin: "Gruppen-Tour",
+    bookingTypeJoinHint: "Sie schließen sich einer bestehenden Gruppe an",
+    bookingTypePrivate: "Private Tour",
+    bookingTypePrivateHint: "Die Tour ist exklusiv für Ihre Gruppe",
     nameLabel: "Vorname und Nachname",
     namePlaceholder: "Max Mustermann",
     emailLabel: "E-Mail",
@@ -68,6 +78,11 @@ export const bookingForm: Record<"de" | "en", BookingFormContent> = {
     tourLabel: "Tour",
     dateLabel: "Date",
     choosePlaceholder: "Please choose…",
+    bookingTypeLabel: "Booking type",
+    bookingTypeJoin: "Group tour",
+    bookingTypeJoinHint: "You'll join an existing group",
+    bookingTypePrivate: "Private tour",
+    bookingTypePrivateHint: "The tour is exclusive to your group",
     nameLabel: "First and last name",
     namePlaceholder: "John Smith",
     emailLabel: "Email",

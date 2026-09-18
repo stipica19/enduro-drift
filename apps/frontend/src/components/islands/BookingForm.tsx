@@ -31,7 +31,7 @@ interface FormState {
 const initialState: FormState = {
   tourId: "",
   tourDateId: "",
-  bookingType: "",
+  bookingType: "join",
   name: "",
   email: "",
   phone: "",
@@ -176,6 +176,43 @@ export default function BookingForm({ tours, tourDates, initialTour, lang = "de"
             ))}
           </select>
         </div>
+
+        <fieldset className="sm:col-span-2">
+          <legend className={labelClass}>
+            {t.bookingTypeLabel} <span className="text-red-600">*</span>
+          </legend>
+          <div className="flex flex-wrap gap-3">
+            <label className={radioLabelClass}>
+              <input
+                type="radio"
+                name="bookingType"
+                value="join"
+                checked={form.bookingType === "join"}
+                onChange={handleChange}
+                className={radioClass}
+              />
+              <span>
+                {t.bookingTypeJoin}
+                <span className="block text-xs text-neutral-500">{t.bookingTypeJoinHint}</span>
+              </span>
+            </label>
+
+            <label className={radioLabelClass}>
+              <input
+                type="radio"
+                name="bookingType"
+                value="private"
+                checked={form.bookingType === "private"}
+                onChange={handleChange}
+                className={radioClass}
+              />
+              <span>
+                {t.bookingTypePrivate}
+                <span className="block text-xs text-neutral-500">{t.bookingTypePrivateHint}</span>
+              </span>
+            </label>
+          </div>
+        </fieldset>
 
         <div className="my-2 border-t border-neutral-100 sm:col-span-2" />
 
