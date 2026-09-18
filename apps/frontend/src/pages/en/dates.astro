@@ -1,0 +1,49 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import TourDatesTable from "@/components/ui/TourDatesTable.astro";
+import { Info } from "lucide-astro";
+import { dates } from "@/content/site/dates";
+import { arrivalNotice } from "@/content/site/arrivalNotice";
+
+const lang = "en" as const;
+const t = dates[lang];
+const notice = arrivalNotice[lang];
+---
+
+<Layout
+  title={`${t.heading} | Enduro Drift Bosnien`}
+  description={t.intro}
+  path="/en/dates"
+  lang={lang}
+  alternates={{ de: "/de/termine", en: "/en/dates" }}
+>
+  <section class="bg-white py-16 lg:py-24">
+    <div class="mx-auto max-w-5xl px-4 lg:px-8">
+      <h1 class="text-3xl font-bold text-neutral-900 lg:text-4xl">{t.heading}</h1>
+      <p class="mt-4 text-neutral-600">
+        {t.intro}
+      </p>
+
+      <div
+        class="mt-8 flex items-start gap-3 rounded-xl border border-sky-200 bg-sky-50 p-5"
+      >
+        <Info class="mt-0.5 h-5 w-5 shrink-0 text-sky-600" />
+        <div class="text-sm text-neutral-700">
+          <p class="font-semibold text-neutral-900">
+            {notice.title}
+          </p>
+          <p class="mt-1">
+            {notice.intro}
+          </p>
+          <ul class="mt-2 list-disc space-y-1 pl-5">
+            {notice.items.map((item) => <li>{item}</li>)}
+          </ul>
+        </div>
+      </div>
+
+      <div class="mt-10">
+        <TourDatesTable lang={lang} />
+      </div>
+    </div>
+  </section>
+</Layout>

@@ -1,0 +1,52 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import { gallery } from "@/content/site/gallery";
+
+interface GalleryImage {
+  url: string;
+  publicId: string | null;
+}
+
+const lang = "de" as const;
+const t = gallery[lang];
+
+const API_URL = import.meta.env.PUBLIC_API_URL || "http://localhost:3001";
+const res = await fetch(`${API_URL}/api/gallery`);
+const images: GalleryImage[] = res.ok ? await res.json() : [];
+---
+
+<Layout
+  title={`${t.heading} | Enduro Drift Bosnien`}
+  description={t.intro}
+  path="/de/galerie"
+  lang={lang}
+  alternates={{ de: "/de/galerie", en: "/en/gallery" }}
+>
+  <section class="bg-white py-16 lg:py-24">
+    <div class="mx-auto max-w-7xl px-4 lg:px-8">
+      <h1 class="text-3xl font-bold text-neutral-900 lg:text-4xl">
+        {t.heading}
+      </h1>
+      <p class="mt-4 text-neutral-600">{t.intro}</p>
+
+      {
+        images.length === 0 ? (
+          <p class="mt-10 rounded-xl bg-neutral-100 p-6 text-center text-neutral-600">
+            {t.empty}
+          </p>
+        ) : (
+          <div class="mt-10 columns-1 gap-4 sm:columns-2 lg:columns-4">
+            {images.map((img, i) => (
+              <img
+                src={img.url}
+                alt={`Gallery image ${i + 1}`}
+                loading={i < 8 ? "eager" : "lazy"}
+                class="mb-4 w-full break-inside-avoid rounded-xl bg-neutral-100 object-cover"
+              />
+            ))}
+          </div>
+        )
+      }
+    </div>
+  </section>
+</Layout>

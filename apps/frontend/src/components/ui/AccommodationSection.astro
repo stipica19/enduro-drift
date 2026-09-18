@@ -1,0 +1,33 @@
+---
+import GallerySlider from "@/components/ui/GallerySlider.astro";
+import { accommodation } from "@/content/site/accommodation";
+
+interface Props {
+  lang?: "de" | "en";
+}
+
+const { lang = "de" } = Astro.props;
+const content = accommodation[lang];
+
+const images = Object.values(
+  import.meta.glob<{ default: ImageMetadata }>(
+    "../../assets/unterkunft/*.{jpg,jpeg,png,webp}",
+    { eager: true },
+  ),
+).map((mod) => mod.default);
+---
+
+<section class="bg-white py-16 lg:py-24">
+  <div class="mx-auto max-w-7xl px-4 text-center lg:px-8">
+    <h2 class="text-3xl font-bold text-neutral-900 lg:text-4xl">
+      <span class="underline decoration-red-500 decoration-4 underline-offset-8">
+        {content.heading}
+      </span>
+    </h2>
+    <p class="mx-auto mt-6 max-w-3xl text-neutral-600">
+      {content.intro}
+    </p>
+  </div>
+
+  <GallerySlider images={images} />
+</section>

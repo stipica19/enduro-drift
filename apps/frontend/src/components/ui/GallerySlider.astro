@@ -1,0 +1,75 @@
+---
+import { Image } from "astro:assets";
+import { ChevronLeft, ChevronRight } from "lucide-astro";
+
+interface Props {
+  images: ImageMetadata[];
+}
+
+const { images } = Astro.props;
+---
+
+<div class="gallery-slider relative mx-auto mt-8 max-w-7xl px-4 lg:px-8">
+  <div
+    class="gallery-track no-scrollbar flex snap-x snap-mandatory gap-4 overflow-x-auto scroll-smooth"
+  >
+    {
+      images.map((img, i) => (
+        <div class="w-[95vw] shrink-0 snap-start sm:w-[calc((100%-1rem)/2)] lg:w-[calc((100%-2rem)/3)]">
+          <Image
+            src={img}
+            alt=""
+            class="aspect-4/3 w-full rounded-sm object-cover"
+            loading={i < 3 ? "eager" : "lazy"}
+            widths={[600, 800, 1000]}
+            sizes="(min-width: 1024px) 400px, (min-width: 640px) 45vw, 85vw"
+          />
+        </div>
+      ))
+    }
+  </div>
+
+  <button
+    class="gallery-prev absolute top-1/2 left-0 hidden -translate-y-1/2 rounded-full bg-white/90 p-2 text-neutral-900 shadow lg:flex"
+    aria-label="Zurück"
+  >
+    <ChevronLeft class="h-5 w-5" />
+  </button>
+  <button
+    class="gallery-next absolute top-1/2 right-0 hidden -translate-y-1/2 rounded-full bg-white/90 p-2 text-neutral-900 shadow lg:flex"
+    aria-label="Weiter"
+  >
+    <ChevronRight class="h-5 w-5" />
+  </button>
+</div>
+
+<script>
+  document.querySelectorAll<HTMLElement>(".gallery-slider").forEach((root) => {
+    const track = root.querySelector<HTMLElement>(".gallery-track");
+    const prev = root.querySelector<HTMLElement>(".gallery-prev");
+    const next = root.querySelector<HTMLElement>(".gallery-next");
+
+    function scrollByCard(direction: number) {
+      if (!track) return;
+
+      const card = track.querySelector("div");
+      const distance = (card?.clientWidth ?? 300) + 16;
+      const maxScroll = track.scrollWidth - track.clientWidth;
+
+      if (direction > 0 && track.scrollLeft >= maxScroll - 5) {
+        track.scrollTo({ left: 0, behavior: "smooth" });
+        return;
+      }
+
+      if (direction < 0 && track.scrollLeft <= 5) {
+        track.scrollTo({ left: maxScroll, behavior: "smooth" });
+        return;
+      }
+
+      track.scrollBy({ left: distance * direction, behavior: "smooth" });
+    }
+
+    prev?.addEventListener("click", () => scrollByCard(-1));
+    next?.addEventListener("click", () => scrollByCard(1));
+  });
+</script>

@@ -1,0 +1,79 @@
+---
+import { Image } from "astro:assets";
+import Layout from "@/layouts/Layout.astro";
+import mladen1 from "@/assets/team/001-6.webp";
+import mladen2 from "@/assets/team/001-9.webp";
+import mladen3 from "@/assets/team/ckalja-motor.webp";
+import mladen4 from "@/assets/team/000-01.webp";
+import dario1 from "@/assets/team/dario.webp";
+import dario2 from "@/assets/team/dario1.webp";
+import anel1 from "@/assets/team/alen.webp";
+import anel2 from "@/assets/team/alen1.webp";
+import { team as teamContent } from "@/content/site/team";
+
+const lang = "en" as const;
+const t = teamContent[lang];
+
+const memberImages = [
+  [mladen1, mladen2, mladen3, mladen4],
+  [dario1, dario2],
+  [anel1, anel2],
+];
+
+const team = t.members.map((member, i) => ({
+  ...member,
+  images: memberImages[i],
+}));
+---
+
+<Layout
+  title={t.metaTitle}
+  description={t.metaDescription}
+  path="/en/guide"
+  lang={lang}
+  alternates={{ de: "/de/reisefuhrer", en: "/en/guide" }}
+>
+  <section class="bg-neutral-950 py-16 text-neutral-100 lg:py-24">
+    <div class="mx-auto max-w-4xl px-4 lg:px-8">
+      <h1 class="text-center text-3xl font-bold lg:text-4xl">
+        {t.heading} <span class="text-red-500">{t.headingAccent}</span>
+      </h1>
+      <p class="mx-auto mt-4 max-w-2xl text-center text-neutral-400">
+        {t.intro}
+      </p>
+
+      {
+        team.map((member, i) => (
+          <div class={i === 0 ? "mt-16" : "mt-20"}>
+            <h2 class="text-center text-2xl font-bold lg:text-3xl">
+              {member.name} <span class="text-red-500">- {member.role}</span>
+            </h2>
+            <p class="mx-auto mt-6 max-w-3xl text-center text-neutral-300">
+              {member.bio}
+            </p>
+
+            <div
+              class:list={[
+                "mx-auto mt-8 grid grid-cols-1 lg:grid-cols-2 gap-4",
+                member.images.length >= 4
+                  ? "max-w-4xl lg:grid-cols-4"
+                  : "max-w-2xl",
+              ]}
+            >
+              {member.images.map((img) => (
+                <Image
+                  src={img}
+                  alt={member.name}
+                  class="aspect-4/5 w-full rounded-2xl object-cover"
+                  loading="lazy"
+                  widths={[300, 500]}
+                  sizes="(min-width: 1024px) 300px, 45vw"
+                />
+              ))}
+            </div>
+          </div>
+        ))
+      }
+    </div>
+  </section>
+</Layout>

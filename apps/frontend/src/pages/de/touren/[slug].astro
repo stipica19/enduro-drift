@@ -1,0 +1,8 @@
+---
+// Vlasnik je odlučio (2026-09-18): 3 ture NE dobijaju pojedinačne detalj-stranice.
+// TourCard/TourPricingSection linkaju direktno na formu za prijavu. Prazan getStaticPaths
+// znači da ova ruta namjerno ne generiše nijednu stranicu.
+export function getStaticPaths() {
+  return [];
+}
+---

@@ -1,0 +1,140 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import KontaktForm from "@/components/islands/KontaktForm";
+import { MapPin, Phone, Mail } from "lucide-astro";
+import {
+  siFacebook,
+  siInstagram,
+  siTiktok,
+  siYoutube,
+  siWhatsapp,
+} from "simple-icons/icons";
+import { contact } from "@/content/site/contact";
+
+const lang = "en" as const;
+const t = contact[lang];
+
+const socialLinks = [
+  {
+    href: "https://www.facebook.com/profile.php?id=100054829614691",
+    label: "Facebook",
+    path: siFacebook.path,
+  },
+  {
+    href: "https://www.instagram.com/enduro_drift_bosnien/",
+    label: "Instagram",
+    path: siInstagram.path,
+  },
+  {
+    href: "https://www.tiktok.com/@endurodriftbosnien",
+    label: "TikTok",
+    path: siTiktok.path,
+  },
+  {
+    href: "https://www.youtube.com/@endurodriftbosnien536",
+    label: "YouTube",
+    path: siYoutube.path,
+  },
+];
+---
+
+<Layout
+  title={`${t.heading} | Enduro Drift Bosnien`}
+  description={t.intro}
+  path="/en/contact"
+  lang={lang}
+  alternates={{ de: "/de/kontakt", en: "/en/contact" }}
+>
+  <section class="bg-neutral-950 py-16 text-neutral-100 lg:py-24">
+    <div class="mx-auto max-w-3xl px-4 text-center lg:px-8">
+      <h1 class="text-3xl font-bold lg:text-4xl">{t.heading}</h1>
+      <p class="mt-4 text-neutral-400">
+        {t.intro}
+      </p>
+    </div>
+  </section>
+
+  <section class="bg-white py-16 lg:py-24">
+    <div
+      class="mx-auto grid max-w-6xl grid-cols-1 gap-12 px-4 lg:grid-cols-2 lg:px-8"
+    >
+      <div>
+        <h2 class="text-xl font-bold text-neutral-900">{t.formHeading}</h2>
+        <div class="mt-6">
+          <KontaktForm lang={lang} client:load />
+        </div>
+      </div>
+
+      <div>
+        <h2 class="text-xl font-bold text-neutral-900">{t.directHeading}</h2>
+        <div class="mt-6 space-y-4 text-neutral-700">
+          <a
+            href="tel:+38763136095"
+            class="flex items-center gap-3 hover:text-red-600"
+          >
+            <Phone class="h-5 w-5 shrink-0" /> +387 63 136 095
+          </a>
+          <a
+            href="mailto:endurodriftbosnien@gmail.com"
+            class="flex items-center gap-3 hover:text-red-600"
+          >
+            <Mail class="h-5 w-5 shrink-0" /> endurodriftbosnien@gmail.com
+          </a>
+          <a
+            href="https://wa.me/38763136095"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="flex items-center gap-3 hover:text-red-600"
+          >
+            <svg viewBox="0 0 24 24" class="h-5 w-5 shrink-0 fill-current"
+              ><path d={siWhatsapp.path}></path></svg
+            > WhatsApp
+          </a>
+          <a
+            href="https://www.google.com/maps/place/Enduro+Drift+Bosnien/@43.9377169,17.5766972"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="flex items-start gap-3 hover:text-red-600"
+          >
+            <MapPin class="mt-0.5 h-5 w-5 shrink-0" /> {t.address}
+          </a>
+        </div>
+
+        <h3
+          class="mt-10 text-sm font-semibold tracking-wide text-neutral-500 uppercase"
+        >
+          {t.followUs}
+        </h3>
+        <div class="mt-3 flex items-center gap-3">
+          {
+            socialLinks.map(({ href, label, path }) => (
+              <a
+                href={href}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={label}
+                class="flex h-10 w-10 items-center justify-center rounded-full bg-neutral-100 text-neutral-700 transition-colors hover:bg-red-600 hover:text-white"
+              >
+                <svg viewBox="0 0 24 24" class="h-4 w-4 fill-current">
+                  <path d={path} />
+                </svg>
+              </a>
+            ))
+          }
+        </div>
+
+        <div class="mt-10 overflow-hidden rounded-xl">
+          <iframe
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2613.014095597526!2d17.576779!3d43.937553!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x475f0de3ca1241e7%3A0x1fb0faed507d7f51!2sEnduro%20Drift%20Bosnien!5e0!3m2!1sen!2sba!4v1700000000000"
+            width="100%"
+            height="300"
+            style="border:0"
+            loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade"
+          >
+          </iframe>
+        </div>
+      </div>
+    </div>
+  </section>
+</Layout>

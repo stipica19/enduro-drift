@@ -1,0 +1,6 @@
+node_modules/
+dist/
+.env
+apps/frontend/dist/
+apps/frontend/.astro/
+cookies.txt

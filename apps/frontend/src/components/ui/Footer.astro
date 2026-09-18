@@ -1,0 +1,124 @@
+---
+import { Image } from "astro:assets";
+import { siFacebook, siInstagram, siTiktok, siYoutube } from "simple-icons/icons";
+import { footer as footerContent } from "@/content/site/footer";
+
+interface Props {
+  lang?: "de" | "en";
+}
+
+const { lang = "de" } = Astro.props;
+const content = footerContent[lang];
+const navItems = content.nav;
+
+const socialLinks = [
+  {
+    href: "https://www.facebook.com/profile.php?id=100054829614691",
+    label: "Facebook",
+    path: siFacebook.path,
+  },
+  {
+    href: "https://www.instagram.com/enduro_drift_bosnien/",
+    label: "Instagram",
+    path: siInstagram.path,
+  },
+  {
+    href: "https://www.tiktok.com/@endurodriftbosnien",
+    label: "TikTok",
+    path: siTiktok.path,
+  },
+  {
+    href: "https://www.youtube.com/@endurodriftbosnien536",
+    label: "YouTube",
+    path: siYoutube.path,
+  },
+];
+
+// TODO: dodaj logotipe partnera u src/assets/partneri/
+const partnerLogos = Object.values(
+  import.meta.glob<{ default: ImageMetadata }>(
+    "../../assets/partneri/*.{jpg,jpeg,png,webp,svg}",
+    { eager: true },
+  ),
+).map((mod) => mod.default);
+---
+
+<footer class="border-t border-neutral-800 bg-neutral-950 text-neutral-400">
+  <div class="mx-auto max-w-7xl px-4 py-10 lg:px-8">
+    <div class="flex flex-col gap-6 sm:flex-row sm:justify-between">
+      <div>
+        <p class="text-sm font-bold tracking-wide text-neutral-100">
+          ENDURO DRIFT BOSNIEN
+        </p>
+        <p class="mt-1 text-sm">
+          Silvija Strahimira Kranjčevića, 70280 Gornji Vakuf-Uskoplje, Bosna i
+          Hercegovina
+        </p>
+        <p class="mt-2 text-sm">
+          <a href="tel:+38763136095" class="hover:text-red-500"
+            >+387 63 136 095</a
+          >
+          <span class="mx-2 text-neutral-700">·</span>
+          <a
+            href="mailto:endurodriftbosnien@gmail.com"
+            class="hover:text-red-500"
+          >
+            endurodriftbosnien@gmail.com
+          </a>
+        </p>
+
+        <div class="mt-4 flex items-center gap-3">
+          {
+            socialLinks.map(({ href, label, path }) => (
+              <a
+                href={href}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={label}
+                class="flex h-9 w-9 items-center justify-center rounded-full bg-neutral-900 text-neutral-300 ring-1 ring-neutral-800 transition-colors hover:bg-red-600 hover:text-white"
+              >
+                <svg viewBox="0 0 24 24" class="h-4 w-4 fill-current"><path d={path} /></svg>
+              </a>
+            ))
+          }
+        </div>
+      </div>
+
+      <nav class="flex flex-wrap gap-4 text-sm">
+        {
+          navItems.map((item) => (
+            <a href={item.href} class="hover:text-red-500">
+              {item.label}
+            </a>
+          ))
+        }
+      </nav>
+    </div>
+
+    {
+      partnerLogos.length > 0 && (
+        <div class="mt-10 border-t border-neutral-900 pt-8">
+          <p class="text-xs tracking-wide text-neutral-600 uppercase">
+            {content.partnersLabel}
+          </p>
+          <div class="mt-4 flex flex-wrap items-center gap-8">
+            {partnerLogos.map((logo) => (
+              <Image
+                src={logo}
+                alt="Partner"
+                class="h-20 w-auto object-contain max-w-40 opacity-80 transition-opacity hover:opacity-100"
+                loading="lazy"
+                widths={[120, 300]}
+                sizes="220px"
+              />
+            ))}
+          </div>
+        </div>
+      )
+    }
+
+    <p class="mt-8 text-xs text-neutral-600">
+      © {new Date().getFullYear()} Enduro Drift Bosnien. {content.rights}
+    </p>
+  </div>
+</footer>

@@ -1,0 +1,55 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import Hero from "../../components/ui/Hero.astro";
+import TopEnduroSection from "@/components/ui/TopEnduroSection.astro";
+import GallerySlider from "@/components/ui/GallerySlider.astro";
+import TourPricingSection from "@/components/ui/TourPricingSection.astro";
+import LocationSection from "@/components/ui/LocationSection.astro";
+import WhyChooseUsSection from "@/components/ui/WhyChooseUsSection.astro";
+import AccommodationSection from "@/components/ui/AccommodationSection.astro";
+import MotorcyclesSection from "@/components/ui/MotorcyclesSection.astro";
+import TourRulesSection from "@/components/ui/TourRulesSection.astro";
+import FaqSection from "@/components/ui/FaqSection.astro";
+import { organizationSchema } from "@/content/site/organizationSchema";
+
+const schema = organizationSchema("de");
+
+const galleryImages = Object.values(
+  import.meta.glob<{ default: ImageMetadata }>(
+    "../../assets/gallerySlider/*.{jpg,jpeg,png,webp}",
+    { eager: true },
+  ),
+).map((mod) => mod.default);
+
+const natureImages = Object.values(
+  import.meta.glob<{ default: ImageMetadata }>(
+    "../../assets/naturSlider/*.{jpg,jpeg,png,webp}",
+    { eager: true },
+  ),
+).map((mod) => mod.default);
+---
+
+<Layout
+  title="Enduro Touren in Bosnien | Enduro Drift Bosnien"
+  description="Geführte Enduro-Touren in Bosnien und Herzegowina für Einsteiger und erfahrene Fahrer. Legale Routen, kleine Gruppen, persönliche Betreuung - jetzt Tour anfragen."
+  path="/de"
+  lang="de"
+  alternates={{ de: "/de", en: "/en" }}
+>
+  <script type="application/ld+json" slot="head" is:inline set:html={JSON.stringify(schema)} />
+  <Hero lang="de" />
+  <TopEnduroSection lang="de" />
+  <section class="bg-white py-16 lg:py-24">
+    <GallerySlider images={galleryImages} />
+  </section>
+  <TourPricingSection lang="de" />
+  <LocationSection lang="de" />
+  <WhyChooseUsSection lang="de" />
+  <section class="bg-white py-16 lg:py-24">
+    <GallerySlider images={natureImages} />
+  </section>
+  <AccommodationSection lang="de" />
+  <MotorcyclesSection lang="de" />
+  <TourRulesSection lang="de" />
+  <FaqSection lang="de" />
+</Layout>

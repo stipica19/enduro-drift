@@ -1,0 +1,144 @@
+---
+import { Image } from "astro:assets";
+import logo from "@/assets/logo.png";
+import { siFacebook, siInstagram, siTiktok } from "simple-icons/icons";
+import { nav } from "@/content/site/nav";
+
+interface Props {
+  lang?: "de" | "en";
+  /** Putanja ekvivalentne stranice na drugom jeziku, za jezički prekidač (hreflang-dosljedan). */
+  alternates?: { de?: string; en?: string };
+}
+
+const { lang = "de", alternates } = Astro.props;
+const navItems = nav[lang];
+const homeHref = lang === "en" ? "/en" : "/de";
+const deHref = alternates?.de ?? "/de";
+const enHref = alternates?.en ?? "/en";
+---
+
+<header
+  class="sticky top-0 z-50 border-b border-neutral-200 bg-white text-neutral-900"
+>
+  <div
+    class="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-3 lg:px-8"
+  >
+    <a href={homeHref} class="flex shrink-0 items-center">
+      <Image
+        src={logo}
+        alt="Enduro Drift Bosnien"
+        class="h-16! max-h-18 w-auto"
+        loading="eager"
+      />
+    </a>
+
+    <nav
+      class="hidden items-center gap-6 text-sm font-medium tracking-wide uppercase lg:flex"
+    >
+      {
+        navItems.map((item) => (
+          <a
+            href={item.href}
+            class="text-neutral-700 transition-colors hover:text-red-600"
+          >
+            {item.label}
+          </a>
+        ))
+      }
+    </nav>
+
+    <div class="hidden items-center gap-4 lg:flex">
+      <div class="flex items-center gap-2 text-base">
+        <a
+          href={deHref}
+          aria-label="Deutsch"
+          title="Deutsch"
+          class={lang === "en" ? "opacity-60 hover:opacity-100" : ""}
+        >
+          🇩🇪
+        </a>
+        <a
+          href={enHref}
+          aria-label="English"
+          title="English"
+          class={lang === "de" ? "opacity-60 hover:opacity-100" : ""}
+        >
+          🇬🇧
+        </a>
+      </div>
+
+      <div class="flex items-center gap-3 text-neutral-700">
+        <a
+          href="https://www.facebook.com/profile.php?id=100054829614691"
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="Facebook"
+          class="hover:text-red-600"
+        >
+          <svg viewBox="0 0 24 24" class="h-4 w-4 fill-current"
+            ><path d={siFacebook.path}></path></svg
+          >
+        </a>
+        <a
+          href="https://www.instagram.com/enduro_drift_bosnien/"
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="Instagram"
+          class="hover:text-red-600"
+        >
+          <svg viewBox="0 0 24 24" class="h-4 w-4 fill-current"
+            ><path d={siInstagram.path}></path></svg
+          >
+        </a>
+        <a
+          href="https://www.tiktok.com/@endurodriftbosnien"
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="TikTok"
+          class="hover:text-red-600"
+        >
+          <svg viewBox="0 0 24 24" class="h-4 w-4 fill-current"
+            ><path d={siTiktok.path}></path></svg
+          >
+        </a>
+      </div>
+    </div>
+
+    <button
+      id="mobile-menu-toggle"
+      class="text-2xl leading-none text-neutral-900 lg:hidden"
+      aria-label="Meni"
+      aria-expanded="false"
+      aria-controls="mobile-menu"
+    >
+      ☰
+    </button>
+  </div>
+
+  <nav
+    id="mobile-menu"
+    class="hidden flex-col gap-1 border-t border-neutral-200 px-4 py-4 text-neutral-700 lg:hidden"
+  >
+    {
+      navItems.map((item) => (
+        <a href={item.href} class="block py-2 text-sm tracking-wide uppercase">
+          {item.label}
+        </a>
+      ))
+    }
+    <div class="flex gap-4 pt-3 text-base">
+      <a href={deHref}>🇩🇪 Deutsch</a>
+      <a href={enHref}>🇬🇧 English</a>
+    </div>
+  </nav>
+</header>
+
+<script>
+  const toggle = document.getElementById("mobile-menu-toggle");
+  const menu = document.getElementById("mobile-menu");
+
+  toggle?.addEventListener("click", () => {
+    const nowHidden = menu?.classList.toggle("hidden");
+    toggle.setAttribute("aria-expanded", nowHidden ? "false" : "true");
+  });
+</script>

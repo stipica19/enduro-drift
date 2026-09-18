@@ -1,0 +1,74 @@
+---
+import {
+  Wrench,
+  Route,
+  Cross,
+  Hourglass,
+  TrafficCone,
+  Ban,
+  Fuel,
+  Droplets,
+  Smartphone,
+  CircleDot,
+  Disc,
+  Wallet,
+  TriangleAlert,
+} from "lucide-astro";
+import { tourRules } from "@/content/site/tourRules";
+
+interface Props {
+  lang?: "de" | "en";
+}
+
+const { lang = "de" } = Astro.props;
+const content = tourRules[lang];
+
+const icons = [
+  Wrench,
+  Route,
+  Cross,
+  Hourglass,
+  TrafficCone,
+  Ban,
+  Fuel,
+  Droplets,
+  Smartphone,
+  Wrench,
+  Wrench,
+  Wrench,
+  CircleDot,
+  Disc,
+  Wallet,
+];
+---
+
+<section class="bg-white py-16 lg:py-24">
+  <div class="mx-auto max-w-5xl px-4 lg:px-8">
+    <h2 class="text-3xl font-bold text-neutral-900 lg:text-4xl">
+      {content.heading}<span class="text-red-500">{content.headingAccent}</span>
+    </h2>
+
+    <ul class="mt-10 grid grid-cols-1 gap-4 sm:grid-cols-2">
+      {
+        content.rules.map((text, i) => {
+          const Icon = icons[i];
+          return (
+            <li class="flex items-start gap-3 rounded-xl bg-neutral-50 p-4 ring-1 ring-neutral-100">
+              <span class="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-red-50 text-red-500">
+                <Icon class="h-4 w-4" />
+              </span>
+              <span class="text-sm text-neutral-700">{text}</span>
+            </li>
+          );
+        })
+      }
+    </ul>
+
+    <div class="mt-8 flex items-start gap-3 rounded-xl border border-amber-200 bg-amber-50 p-5">
+      <TriangleAlert class="h-5 w-5 shrink-0 text-amber-600" />
+      <p class="text-sm text-amber-900">
+        {content.warning}
+      </p>
+    </div>
+  </div>
+</section>

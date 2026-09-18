@@ -1,0 +1,42 @@
+---
+import { Bike, Mountain, ShieldCheck, Star, Leaf, Users } from "lucide-astro";
+import { whyChooseUs } from "@/content/site/whyChooseUs";
+
+interface Props {
+  lang?: "de" | "en";
+}
+
+const { lang = "de" } = Astro.props;
+const content = whyChooseUs[lang];
+const icons = [Bike, Mountain, ShieldCheck, Star, Leaf, Users];
+---
+
+<section class="bg-slate-50 py-16 lg:py-24">
+  <div class="mx-auto max-w-7xl px-4 text-center lg:px-8">
+    <h2 class="text-3xl font-bold tracking-tight text-neutral-900 lg:text-4xl">
+      {content.heading} <span class="text-red-500">{content.headingAccent}</span>
+    </h2>
+    <p class="mx-auto mt-4 max-w-2xl text-neutral-600">
+      {content.subheading}
+    </p>
+  </div>
+
+  <div
+    class="mx-auto mt-12 grid max-w-7xl grid-cols-1 gap-6 px-4 sm:grid-cols-2 lg:grid-cols-3 lg:px-8"
+  >
+    {
+      content.features.map(({ title, text }, i) => {
+        const Icon = icons[i];
+        return (
+          <div class="rounded-2xl bg-white p-8 text-center shadow-sm ring-1 ring-neutral-100">
+            <span class="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-red-50 text-red-500">
+              <Icon class="h-6 w-6" />
+            </span>
+            <h3 class="mt-4 text-lg font-bold text-neutral-900">{title}</h3>
+            <p class="mt-2 text-sm text-neutral-600">{text}</p>
+          </div>
+        );
+      })
+    }
+  </div>
+</section>

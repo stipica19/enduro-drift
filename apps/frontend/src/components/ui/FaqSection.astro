@@ -1,0 +1,55 @@
+---
+import { ChevronDown } from "lucide-astro";
+import { faq } from "@/content/site/faq";
+
+interface Props {
+  lang?: "de" | "en";
+}
+
+const { lang = "de" } = Astro.props;
+const content = faq[lang];
+
+const schema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: content.items.map((item) => ({
+    "@type": "Question",
+    name: item.question,
+    acceptedAnswer: {
+      "@type": "Answer",
+      text: item.answer,
+    },
+  })),
+};
+---
+
+<script
+  type="application/ld+json"
+  is:inline
+  set:html={JSON.stringify(schema)}
+/>
+
+<section class="bg-neutral-50 py-16 lg:py-24">
+  <div class="mx-auto max-w-5xl px-4 lg:px-8">
+    <h2 class="text-3xl font-bold text-neutral-900 lg:text-4xl">
+      {content.heading}
+      <span class="text-red-500"> {content.headingAccent}</span>
+    </h2>
+
+    <div class="mt-10 space-y-4">
+      {
+        content.items.map((item) => (
+          <details class="group rounded-xl bg-white p-5 ring-1 ring-neutral-100 open:ring-red-100">
+            <summary class="flex cursor-pointer list-none items-center justify-between gap-4 font-semibold text-neutral-900 marker:content-none">
+              {item.question}
+              <ChevronDown class="h-5 w-5 shrink-0 text-red-500 transition-transform group-open:rotate-180" />
+            </summary>
+            <p class="mt-3 text-sm leading-relaxed text-neutral-600">
+              {item.answer}
+            </p>
+          </details>
+        ))
+      }
+    </div>
+  </div>
+</section>
