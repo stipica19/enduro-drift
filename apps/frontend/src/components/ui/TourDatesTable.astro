@@ -29,7 +29,11 @@ const bySeason = tourDates.reduce<Record<string, TourDate[]>>((acc, td) => {
 const seasons = Object.keys(bySeason).sort();
 
 function formatDate(iso: string) {
-  return new Date(iso).toLocaleDateString(t.locale, { day: "2-digit", month: "2-digit", year: "2-digit" });
+  return new Date(iso).toLocaleDateString(t.locale, {
+    day: "2-digit",
+    month: "2-digit",
+    year: "2-digit",
+  });
 }
 ---
 
@@ -51,22 +55,30 @@ function formatDate(iso: string) {
         <table class="w-full text-left text-sm">
           <thead class="bg-neutral-900 text-white">
             <tr>
-              <th class="px-4 py-3 font-semibold">{t.tourNumber}</th>
-              <th class="px-4 py-3 font-semibold">{t.from}</th>
-              <th class="px-4 py-3 font-semibold">{t.to}</th>
+              <th class="px-2 py-3 font-semibold">{t.tourNumber}</th>
+              <th class="px-2 py-3 font-semibold">{t.from}</th>
+              <th class="px-2 py-3 font-semibold">{t.to}</th>
               <th class="px-4 py-3 font-semibold">{t.availability}</th>
             </tr>
           </thead>
           <tbody class="divide-y divide-neutral-100 bg-white">
             {bySeason[season].map((td) => (
               <tr>
-                <td class="px-4 py-3 font-medium text-neutral-900">{td.number}</td>
-                <td class="px-4 py-3 text-neutral-600">{formatDate(td.startDate)}</td>
-                <td class="px-4 py-3 text-neutral-600">{formatDate(td.endDate)}</td>
-                <td class="px-4 py-3">
+                <td class="px-2 py-3 font-medium text-neutral-900">
+                  {td.number}
+                </td>
+                <td class="px-2 py-3 text-neutral-600">
+                  {formatDate(td.startDate)}
+                </td>
+                <td class="px-2 py-3 text-neutral-600">
+                  {formatDate(td.endDate)}
+                </td>
+                <td class="px-2 py-3">
                   <span
                     class={`rounded-full px-3 py-1 text-xs font-semibold ${
-                      td.available ? "bg-green-100 text-green-700" : "bg-red-100 text-red-700"
+                      td.available
+                        ? "bg-green-100 text-green-700"
+                        : "bg-red-100 text-red-700"
                     }`}
                   >
                     {td.available ? t.available : t.unavailable}

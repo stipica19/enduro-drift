@@ -39,17 +39,17 @@ const natureImages = Object.values(
   <script type="application/ld+json" slot="head" is:inline set:html={JSON.stringify(schema)} />
   <Hero lang="en" />
   <TopEnduroSection lang="en" />
-  <section class="bg-white py-16 lg:py-24">
+  <section class="defer-render bg-white py-16 lg:py-24">
     <GallerySlider images={galleryImages} />
   </section>
-  <TourPricingSection lang="en" />
-  <LocationSection lang="en" />
-  <WhyChooseUsSection lang="en" />
-  <section class="bg-white py-16 lg:py-24">
+  <div class="defer-render"><TourPricingSection lang="en" /></div>
+  <div class="defer-render"><LocationSection lang="en" /></div>
+  <div class="defer-render"><WhyChooseUsSection lang="en" /></div>
+  <section class="defer-render bg-white py-16 lg:py-24">
     <GallerySlider images={natureImages} />
   </section>
-  <AccommodationSection lang="en" />
-  <MotorcyclesSection lang="en" />
-  <TourRulesSection lang="en" />
-  <FaqSection lang="en" />
+  <div class="defer-render"><AccommodationSection lang="en" /></div>
+  <div class="defer-render"><MotorcyclesSection lang="en" /></div>
+  <div class="defer-render"><TourRulesSection lang="en" /></div>
+  <div class="defer-render"><FaqSection lang="en" /></div>
 </Layout>

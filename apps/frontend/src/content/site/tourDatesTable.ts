@@ -12,7 +12,7 @@ export interface TourDatesTableContent {
 
 export const tourDatesTable: Record<"de" | "en", TourDatesTableContent> = {
   de: {
-    tourNumber: "Tournummer",
+    tourNumber: "Tour-Nr.",
     from: "Von",
     to: "Bis",
     availability: "Verfügbarkeit",
@@ -23,7 +23,7 @@ export const tourDatesTable: Record<"de" | "en", TourDatesTableContent> = {
     locale: "de-DE",
   },
   en: {
-    tourNumber: "Tour number",
+    tourNumber: "Tour No.",
     from: "From",
     to: "To",
     availability: "Availability",

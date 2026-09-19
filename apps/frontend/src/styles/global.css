@@ -1,5 +1,16 @@
 @import "tailwindcss";
 @plugin "@tailwindcss/typography";
+
+/* Sekcije ispod prvog ekrana: browser preskače layout/paint dok nisu blizu viewporta,
+   pa hero (LCP) ne čeka renderiranje cijele duge stranice. Sadržaj ostaje u DOM-u
+   (SEO, Ctrl+F i skok na anchor rade). "auto" pamti stvarnu visinu nakon prvog
+   renderiranja, a 1000px je samo procjena dok se ne vidi. Preglednici bez podrške
+   ignoriraju svojstvo. */
+@utility defer-render {
+  content-visibility: auto;
+  contain-intrinsic-size: auto 1000px;
+}
+
 .no-scrollbar::-webkit-scrollbar {
   display: none;
 }
