@@ -3,7 +3,6 @@ import { z } from "zod";
 export const createBookingSchema = z.object({
   tourId: z.string(),
   tourDateId: z.string(),
-  bookingType: z.enum(["join", "private"]),
   customer: z.object({
     name: z.string().min(1),
     email: z.string().email(),

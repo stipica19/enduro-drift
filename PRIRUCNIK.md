@@ -79,8 +79,9 @@ Vlasnik je pokazao stvarne dokumente iz stare (Mongoose) baze. Ključni nalazi (
 - Stara `tours` kolekcija spaja "tip ture" i "konkretan termin" u jedan dokument (svaki termin = novi `tours` dokument sa svojim `checkIn_date`/`checkOut_date`). Novi model ih razdvaja: `tours` (definicija ture) + `tourDates` (konkretni termini sa kapacitetom) — stvarno poboljšanje, ne kopiramo staru strukturu.
 - `tour_number` u starim booking dokumentima je ObjectId referenca na `tours._id`, ali se zove isto kao `tours.tour_number` (string) — zbunjujuće. Novi model koristi čisto `tourId`.
 - Bug: `rentaBike` (typo) → ispravljeno u `rentBike`.
-- Stari sistem nema `status` niti `bookingType` (join/private) polja — potpuno nove stvari koje uvodimo.
-- **Odluka (vlasnik):** i `join` i `private` booking uvijek biraju datum iz fiksne `tourDates` kolekcije (vlasnik definiše termine) — nema slobodnog/custom izbora datuma kao u starom sistemu. `tourDateId` je obavezan za oba tipa.
+- Stari sistem nema `status` polje — nova stvar koju uvodimo.
+- **Odluka (vlasnik):** booking uvijek bira datum iz fiksne `tourDates` kolekcije (vlasnik definiše termine) — nema slobodnog/custom izbora datuma kao u starom sistemu. `tourDateId` je obavezan.
+- **Odluka (vlasnik, 2026-09-19):** polje `bookingType` (join/private) se NE koristi — izbačeno iz forme, sheme, baze i mailova.
 
 ---
 

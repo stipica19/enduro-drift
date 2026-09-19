@@ -35,7 +35,7 @@ const bookingRoutes: FastifyPluginAsync = async (fastify) => {
     "/api/bookings",
     { schema: { body: createBookingSchema } },
     async (request, reply) => {
-      const { tourId, tourDateId, customer, participants, bookingType, arrivalMethod, message, lang } =
+      const { tourId, tourDateId, customer, participants, arrivalMethod, message, lang } =
         request.body;
 
       if (!ObjectId.isValid(tourDateId)) {
@@ -102,7 +102,6 @@ const bookingRoutes: FastifyPluginAsync = async (fastify) => {
         participants,
         tourNumber: tourDate.number ?? null,
         tourType: tourId,
-        bookingType,
         checkInDate: stay.checkInDate,
         checkOutDate: stay.checkOutDate,
         nights: stay.nights,

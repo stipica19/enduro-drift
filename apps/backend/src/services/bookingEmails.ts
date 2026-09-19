@@ -11,7 +11,6 @@ export interface BookingEmailData {
   participants: number;
   tourNumber: number | null;
   tourType: string;
-  bookingType: "join" | "private";
   checkInDate: Date;
   checkOutDate: Date;
   nights: number;
@@ -43,11 +42,6 @@ function tableRow(label: string, value: string) {
 
 // --- Mail vlasniku (hrvatski, kao na starom sajtu) ---
 
-const adminBookingTypes = {
-  join: "Grupna tura (pridruživanje grupi)",
-  private: "Privatna tura",
-};
-
 const adminArrivalMethods: Record<string, string> = {
   flugzeug: "Flugzeug",
   auto: "Auto",
@@ -75,7 +69,6 @@ export function buildBookingNotificationEmail(data: BookingEmailData) {
             ${tableRow("Ime i prezime", escapeHtml(data.name))}
             ${tableRow("Email", escapeHtml(data.email))}
             ${tableRow("Broj osoba", String(data.participants))}
-            ${tableRow("Vrsta prijave", adminBookingTypes[data.bookingType])}
             ${tableRow("Tour", `${data.tourNumber ?? "-"} (${escapeHtml(data.tourType)})`)}
             ${tableRow("Dolazak (1. noćenje)", formatTourDate(data.checkInDate, "de-DE"))}
             ${tableRow("Odlazak", formatTourDate(data.checkOutDate, "de-DE"))}
@@ -115,7 +108,6 @@ const guestText = {
     thanks: "Vielen Dank für Ihre Anmeldung! Ihre Anfrage wurde erfolgreich empfangen.",
     details: "Details Ihrer Anmeldung:",
     tour: "Tour",
-    bookingType: "Art der Buchung",
     arrival: "Anreise (1. Übernachtung)",
     departure: "Abreise",
     nights: "Übernachtungen",
@@ -128,7 +120,6 @@ const guestText = {
     cta: "Besuchen Sie unsere Website",
     signOff: "Mit freundlichen Grüßen,",
     team: "Enduro Drift Team",
-    bookingTypes: { join: "Gruppen-Tour", private: "Private Tour" },
     arrivalMethods: { flugzeug: "Flugzeug", auto: "Auto" } as Record<string, string>,
     locale: "de-DE",
   },
@@ -138,7 +129,6 @@ const guestText = {
     thanks: "Thank you for your booking! Your request has been received successfully.",
     details: "Details of your booking:",
     tour: "Tour",
-    bookingType: "Booking type",
     arrival: "Arrival (1st night)",
     departure: "Departure",
     nights: "Nights",
@@ -151,7 +141,6 @@ const guestText = {
     cta: "Visit our website",
     signOff: "Best regards,",
     team: "Enduro Drift Team",
-    bookingTypes: { join: "Group tour", private: "Private tour" },
     arrivalMethods: { flugzeug: "Flight", auto: "Car" } as Record<string, string>,
     locale: "en-GB",
   },
@@ -176,7 +165,6 @@ export function buildBookingConfirmationEmail(data: BookingEmailData) {
           <p style="margin: 0; font-size: 15px;"><strong>${t.details}</strong></p>
           <p style="font-style: italic; color: #333;">
             ${t.tour}: ${data.tourNumber ?? "-"} (${escapeHtml(data.tourType)})<br>
-            ${t.bookingType}: ${t.bookingTypes[data.bookingType]}<br>
             ${t.arrival}: ${formatTourDate(data.checkInDate, t.locale)}<br>
             ${t.departure}: ${formatTourDate(data.checkOutDate, t.locale)}<br>
             ${t.nights}: ${data.nights}<br>

@@ -73,7 +73,7 @@ EN mirror: `/en/tours`, `/en/booking`, `/en/gallery`, `/en/contact`, `/en/dates`
 ```
 tours        → slug, lang, title, difficulty, pricing{ownBike,rentalBike}, included[], excluded[]...
 tourDates    → tourId, season, startDate, endDate, capacity, bookedCount
-bookings     → tourId, tourDateId, bookingType("join"|"private"), customer{...},
+bookings     → tourId, tourDateId, customer{...},
                 participants, arrivalMethod, rentBike, status, internalNotes
 blogPosts    → slug, lang, title, contentHtml, tags[], publishedAt
 team         → name, role, bio, images[]
