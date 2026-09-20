@@ -1,6 +1,8 @@
 export interface TourPricingCard {
   title: string;
   badge?: string;
+  // Opisuje trenutnu (privremenu) sliku — mijenjati zajedno sa slikom u TourPricingSection.astro.
+  imageAlt: string;
   ownBikePrice: number;
   rentalBikePrice: number;
   included: string[];
@@ -13,6 +15,9 @@ export interface TourPricingContent {
   badge: string;
   heading: string;
   headingAccent: string;
+  // H1 kad se sekcija koristi kao glavni sadržaj stranice /touren (na homepageu ostaje H2 gore)
+  pageHeading: string;
+  pageHeadingAccent: string;
   subheading: string;
   additionalCosts: string[];
   excluded: string[];
@@ -28,6 +33,8 @@ export const tourPricing: Record<"de" | "en", TourPricingContent> = {
     badge: "Vorgeschlagene Enduro Bosnien Touren",
     heading: "Wählen Sie Ihr",
     headingAccent: "Abenteuer",
+    pageHeading: "Enduro Touren in Bosnien",
+    pageHeadingAccent: "Preise & Leistungen",
     subheading:
       "Von anfängerfreundlichen Routen bis hin zu extremen Herausforderungen - finden Sie die perfekte Tour für Ihr Niveau.",
     additionalCosts: [
@@ -44,6 +51,7 @@ export const tourPricing: Record<"de" | "en", TourPricingContent> = {
         included: ["3 Tage geführtes Endurofahren", "4 Übernachtungen, Frühstück, Guide"],
         arrival: "Samstag",
         departure: "Mittwoch",
+        imageAlt: "Routenkarte der Einsteiger-Tour: Rundstrecke bei Gornji Vakuf-Uskoplje und dem Prokoško-See",
         ctaHref: "/de/anmeldung/?tour=Tour%201",
       },
       {
@@ -54,6 +62,7 @@ export const tourPricing: Record<"de" | "en", TourPricingContent> = {
         included: ["4 Tage geführtes Endurofahren", "5 Übernachtungen, Frühstück, Guide"],
         arrival: "Samstag",
         departure: "Freitag",
+        imageAlt: "Routenkarte der Fortgeschrittenen-Tour rund um Gornji Vakuf-Uskoplje",
         ctaHref: "/de/anmeldung/?tour=Tour%202",
       },
       {
@@ -63,6 +72,7 @@ export const tourPricing: Record<"de" | "en", TourPricingContent> = {
         included: ["5 Tage geführtes Endurofahren", "7 Übernachtungen, Frühstück, Guide"],
         arrival: "Samstag",
         departure: "Samstag",
+        imageAlt: "Enduro-Fahrer mit ihren Motorrädern über einem türkisfarbenen Bergsee",
         ctaHref: "/de/anmeldung/?tour=Tour%203",
       },
     ],
@@ -81,6 +91,8 @@ export const tourPricing: Record<"de" | "en", TourPricingContent> = {
     badge: "Suggested Enduro Bosnia Tours",
     heading: "Choose Your",
     headingAccent: "Adventure",
+    pageHeading: "Enduro Tours in Bosnia",
+    pageHeadingAccent: "Prices & What's Included",
     subheading:
       "From beginner-friendly routes to extreme challenges - find the perfect tour for your level.",
     additionalCosts: [
@@ -97,6 +109,7 @@ export const tourPricing: Record<"de" | "en", TourPricingContent> = {
         included: ["3 days guided enduro riding", "4 nights, breakfast, guide"],
         arrival: "Saturday",
         departure: "Wednesday",
+        imageAlt: "Route map of the beginner tour: loop near Gornji Vakuf-Uskoplje and Lake Prokoško",
         ctaHref: "/en/booking/?tour=Tour%201",
       },
       {
@@ -107,6 +120,7 @@ export const tourPricing: Record<"de" | "en", TourPricingContent> = {
         included: ["4 days guided enduro riding", "5 nights, breakfast, guide"],
         arrival: "Saturday",
         departure: "Friday",
+        imageAlt: "Route map of the intermediate tour around Gornji Vakuf-Uskoplje",
         ctaHref: "/en/booking/?tour=Tour%202",
       },
       {
@@ -116,6 +130,7 @@ export const tourPricing: Record<"de" | "en", TourPricingContent> = {
         included: ["5 days guided enduro riding", "7 nights, breakfast, guide"],
         arrival: "Saturday",
         departure: "Saturday",
+        imageAlt: "Enduro riders with their motorcycles above a turquoise mountain lake",
         ctaHref: "/en/booking/?tour=Tour%203",
       },
     ],

@@ -17,7 +17,7 @@ FROM base AS build
 # Adresa backenda TOKOM builda (server-side fetch, npr. ime servisa na Docker mreži)
 ARG API_INTERNAL_URL=http://backend:3001
 # Adresa backenda iz BROWSERA — ugrađuje se u klijentski JS bundle
-ARG PUBLIC_API_URL=https://endurodriftbosnien.com
+ARG PUBLIC_API_URL=https://www.endurodriftbosnien.com
 ARG PUBLIC_RECAPTCHA_SITE_KEY=
 
 ENV API_INTERNAL_URL=$API_INTERNAL_URL \

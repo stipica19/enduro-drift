@@ -1,110 +1,22 @@
 ---
-import { getCollection, render } from "astro:content";
-import type { CollectionEntry } from "astro:content";
-import Layout from "@/layouts/Layout.astro";
+import BlogArticle from "@/components/ui/BlogArticle.astro";
+import { getPosts, slugOf } from "@/lib/blog";
+import type { BlogPost } from "@/lib/blog";
 
 export async function getStaticPaths() {
-  const allPosts = await getCollection("blog");
-  const posts = allPosts.filter((post) => post.id.startsWith("en/"));
+  const posts = await getPosts("en");
 
   return posts.map((post) => ({
-    params: { slug: post.id.replace(/^en\//, "") },
+    params: { slug: slugOf(post) },
     props: { post },
   }));
 }
 
 interface Props {
-  post: CollectionEntry<"blog">;
+  post: BlogPost;
 }
 
 const { post } = Astro.props;
-const { Content } = await render(post);
-
-function formatDate(date: Date) {
-  return date.toLocaleDateString("en-GB", {
-    day: "2-digit",
-    month: "long",
-    year: "numeric",
-  });
-}
-
-const siteUrl = "https://endurodriftbosnien.com";
-const postPath = `/en/blog/${post.id.replace(/^en\//, "")}/`;
-
-const breadcrumbSchema = {
-  "@context": "https://schema.org",
-  "@type": "BreadcrumbList",
-  itemListElement: [
-    { "@type": "ListItem", position: 1, name: "Home", item: `${siteUrl}/en/` },
-    { "@type": "ListItem", position: 2, name: "Blog", item: `${siteUrl}/en/blog/` },
-    { "@type": "ListItem", position: 3, name: post.data.title, item: `${siteUrl}${postPath}` },
-  ],
-};
-
-const articleSchema = {
-  "@context": "https://schema.org",
-  "@type": "Article",
-  headline: post.data.title,
-  description: post.data.description,
-  datePublished: post.data.date.toISOString(),
-  ...(post.data.cover && {
-    image: post.data.cover.startsWith("http") ? post.data.cover : `${siteUrl}${post.data.cover}`,
-  }),
-};
 ---
 
-<Layout
-  title={`${post.data.title} | Enduro Drift Bosnien`}
-  description={post.data.description}
-  path={postPath}
-  lang="en"
->
-  <script
-    type="application/ld+json"
-    slot="head"
-    is:inline
-    set:html={JSON.stringify(breadcrumbSchema)}
-  />
-  <script
-    type="application/ld+json"
-    slot="head"
-    is:inline
-    set:html={JSON.stringify(articleSchema)}
-  />
-  <article class="bg-white py-16 lg:py-24">
-    <div class="mx-auto max-w-3xl px-4 lg:px-8">
-      <p class="text-sm text-neutral-500">{formatDate(post.data.date)}</p>
-      <h1 class="mt-2 text-3xl font-bold text-neutral-900 lg:text-4xl">
-        {post.data.title}
-      </h1>
-
-      {
-        post.data.tags.length > 0 && (
-          <div class="mt-4 flex flex-wrap gap-2">
-            {post.data.tags.map((tag) => (
-              <span class="rounded-full bg-neutral-100 px-3 py-1 text-xs font-medium text-neutral-600">
-                {tag}
-              </span>
-            ))}
-          </div>
-        )
-      }
-
-      {
-        post.data.cover && (
-          <img
-            src={post.data.cover}
-            alt={post.data.title}
-            class="mt-8 aspect-video w-full rounded-2xl object-cover"
-          />
-        )
-      }
-
-      <div
-        class="prose prose-neutral mt-10 max-w-none text-neutral-800! prose-headings:font-bold prose-a:text-red-600"
-      >
-        <Content />
-      </div>
-    </div>
-  </article>
-</Layout>
+<BlogArticle lang="en" post={post} />

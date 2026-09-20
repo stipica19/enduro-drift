@@ -3,13 +3,15 @@
 Uputa za deploy Enduro Drift Bosnien sajta na VPS.
 
 > **Test domena:** ovaj deploy ide na `dev.skin-glow.beauty` (testna domena u tvom
-> vlasništvu), ne na finalnu `endurodriftbosnien.com`. Zato su nginx/certbot koraci,
+> vlasništvu), ne na finalnu `www.endurodriftbosnien.com`. Zato su nginx/certbot koraci,
 > `.env` primjeri i GitHub secreti u ovom fajlu podešeni za `dev.skin-glow.beauty`.
 > Kanonski URL-ovi, hreflang i JSON-LD **unutar same aplikacije** (Layout.astro,
-> astro.config.mjs) i dalje su hardkodirani na `endurodriftbosnien.com` — to je ranije
-> potvrđena finalna SEO domena i namjerno se ne mijenja zbog test-deploya. Kad dođe
-> vrijeme za pravi produkcijski deploy, samo zamijeni `dev.skin-glow.beauty` sa
-> `endurodriftbosnien.com` na mjestima označenim ispod.
+> astro.config.mjs) su hardkodirani na `https://www.endurodriftbosnien.com` — to je
+> finalna SEO domena i namjerno se ne mijenja zbog test-deploya. Host je **`www`** jer
+> stari sajt rangira na njemu (apex `endurodriftbosnien.com` mu radi 301 na `www`).
+> Kad dođe vrijeme za pravi produkcijski deploy, zamijeni `dev.skin-glow.beauty` sa
+> `www.endurodriftbosnien.com` na mjestima označenim ispod i prati sekciju
+> _Produkcija: endurodriftbosnien.com_ u koraku 4.
 
 **Arhitektura:** nginx na hostu radi TLS i rutiranje. Frontend i backend su Docker
 kontejneri vezani na `127.0.0.1` — nedostupni direktno s interneta, samo preko nginxa.
@@ -186,7 +188,7 @@ sudo systemctl reload nginx
 ### Test domena: zabrani Googleu indeksiranje
 
 `dev.skin-glow.beauty` je javno dostupna kopija sajta. Stranice imaju `canonical` na
-`endurodriftbosnien.com`, pa ih Google u pravilu neće indeksirati kao zasebne, ali to nije
+`www.endurodriftbosnien.com`, pa ih Google u pravilu neće indeksirati kao zasebne, ali to nije
 zajamčeno. Sigurno je dodati header samo u `server` blok **test domene**:
 
 ```nginx
@@ -194,10 +196,10 @@ zajamčeno. Sigurno je dodati header samo u `server` blok **test domene**:
 ```
 
 > **UPOZORENJE — ovo NE smije završiti u produkcijskom bloku.** Header govori Googleu da
-> ne indeksira ništa na toj domeni. Na `endurodriftbosnien.com` bi uklonio cijeli sajt iz
+> ne indeksira ništa na toj domeni. Na `www.endurodriftbosnien.com` bi uklonio cijeli sajt iz
 > pretrage, uključujući blogove. Pri produkcijskom deployu pravi se **novi** `server` blok
-> za `endurodriftbosnien.com` (ne kopira se ovaj), a ovaj header ostaje samo uz test domenu.
-> Provjera na produkciji: `curl -sI https://endurodriftbosnien.com/de/ | grep -i x-robots`
+> za `www.endurodriftbosnien.com` (ne kopira se ovaj), a ovaj header ostaje samo uz test domenu.
+> Provjera na produkciji: `curl -sI https://www.endurodriftbosnien.com/de/ | grep -i x-robots`
 > **ne smije** ništa ispisati.
 
 ### HTTPS
@@ -212,6 +214,63 @@ Obnova je automatska (systemd timer). Provjera da obnova radi:
 
 ```bash
 sudo certbot renew --dry-run
+```
+
+### Produkcija: endurodriftbosnien.com
+
+**Što radimo:** za pravi deploy pravimo **novi** nginx server blok (ne kopira se test blok
+zbog `X-Robots-Tag`) u kojem je `www.endurodriftbosnien.com` glavni host, a apex
+`endurodriftbosnien.com` samo preusmjerava na njega.
+
+**Zašto:** stari sajt rangira na `www` (provjereno: `endurodriftbosnien.com` → 301 →
+`www.endurodriftbosnien.com`, `www` vraća 200). Kanonski URL-ovi, hreflang, sitemap i JSON-LD u
+aplikaciji su zato na `www`. Da apex servira sajt bez redirecta, imali bismo dva hosta s istim
+sadržajem, a da je `www` bez redirecta, sav postojeći ranking bi morao migrirati.
+
+DNS: `A` zapis za `@` **i** za `www` na IP servera.
+
+```nginx
+# Apex → www (samo redirect)
+server {
+    listen 80;
+    listen [::]:80;
+    server_name endurodriftbosnien.com;
+    return 301 https://www.endurodriftbosnien.com$request_uri;
+}
+
+# Glavni host — isti location blokovi kao u test bloku gore (/api/ i /),
+# BEZ add_header X-Robots-Tag.
+server {
+    listen 80;
+    listen [::]:80;
+    server_name www.endurodriftbosnien.com;
+    client_max_body_size 2m;
+
+    location /api/ { ... }
+    location /     { ... }
+}
+```
+
+```bash
+sudo certbot --nginx -d www.endurodriftbosnien.com -d endurodriftbosnien.com
+```
+
+Vrijednosti koje se **moraju** promijeniti na `www` (inače CORS/cookie ili booking forma padaju):
+
+| Gdje                  | Ključ                | Vrijednost                              |
+| --------------------- | -------------------- | --------------------------------------- |
+| `.env` na VPS-u       | `FRONTEND_ORIGIN`    | `https://www.endurodriftbosnien.com`    |
+| GitHub Secret         | `PUBLIC_API_URL`     | `https://www.endurodriftbosnien.com`    |
+
+`PUBLIC_API_URL` mora biti isti host s kojeg se servira stranica: da pokazuje na apex, POST iz
+forme bi dobio 301 na `www` i booking bi prestao raditi.
+
+Provjera nakon deploya:
+
+```bash
+curl -sI http://endurodriftbosnien.com/de/  | grep -iE '^(HTTP|location)'   # 301 → https://www...
+curl -sI https://endurodriftbosnien.com/de/ | grep -iE '^(HTTP|location)'   # 301 → https://www.endurodriftbosnien.com/de/
+curl -sI https://www.endurodriftbosnien.com/de/ | grep -iE '^(HTTP|x-robots)' # 200, BEZ x-robots-tag
 ```
 
 ---

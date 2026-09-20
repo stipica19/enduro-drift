@@ -1,0 +1,163 @@
+---
+import { render } from "astro:content";
+import { getImage } from "astro:assets";
+import Layout from "@/layouts/Layout.astro";
+import TourCta from "@/components/ui/TourCta.astro";
+import defaultOgSource from "@/assets/hero-bild.webp";
+import { siteUrl } from "@/lib/site";
+import { blogAlternates, blogPath, getPosts, slugOf } from "@/lib/blog";
+import type { BlogPost, Lang } from "@/lib/blog";
+import { blogArticle } from "@/content/site/blogArticle";
+
+interface Props {
+  lang: Lang;
+  post: BlogPost;
+}
+
+const { lang, post } = Astro.props;
+const labels = blogArticle[lang];
+const { Content } = await render(post);
+
+const slug = slugOf(post);
+const postPath = blogPath(lang, slug);
+const alternates = blogAlternates(lang, slug);
+
+// Svaka objava linka na sljedeće 3 po datumu (kružno), pa svaka dobije tačno 3 ulazna linka
+// iz drugih objava umjesto da starije objave skupljaju sve linkove.
+const allPosts = await getPosts(lang);
+const index = allPosts.findIndex((p) => p.id === post.id);
+const related = Array.from(
+  { length: Math.min(3, allPosts.length - 1) },
+  (_, k) => allPosts[(index + 1 + k) % allPosts.length],
+);
+
+function formatDate(date: Date) {
+  return date.toLocaleDateString(lang === "de" ? "de-DE" : "en-GB", {
+    day: "2-digit",
+    month: "long",
+    year: "numeric",
+  });
+}
+
+// Title tag: opcionalni metaTitle (cijeli naslov, s brendom) ili naslov objave + brend.
+const title = post.data.metaTitle ?? `${post.data.title} | Enduro Drift Bosnien`;
+
+// Objave bez covera koriste isti podrazumijevani OG kadar kao Layout.
+const fallbackImage = await getImage({ src: defaultOgSource, width: 1200, height: 630, format: "jpg" });
+const cover = post.data.cover
+  ? post.data.cover.startsWith("http")
+    ? post.data.cover
+    : `${siteUrl}${post.data.cover}`
+  : `${siteUrl}${fallbackImage.src}`;
+
+const breadcrumbSchema = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  itemListElement: [
+    { "@type": "ListItem", position: 1, name: labels.breadcrumbHome, item: `${siteUrl}/${lang}/` },
+    { "@type": "ListItem", position: 2, name: labels.breadcrumbBlog, item: `${siteUrl}/${lang}/blog/` },
+    { "@type": "ListItem", position: 3, name: post.data.title, item: `${siteUrl}${postPath}` },
+  ],
+};
+
+const articleSchema = {
+  "@context": "https://schema.org",
+  "@type": "Article",
+  headline: post.data.title,
+  description: post.data.description,
+  inLanguage: lang,
+  image: cover,
+  datePublished: post.data.date.toISOString(),
+  ...(post.data.updated && { dateModified: post.data.updated.toISOString() }),
+  author: { "@type": "Organization", name: "Enduro Drift Bosnien", url: `${siteUrl}/${lang}/` },
+  publisher: {
+    "@type": "Organization",
+    name: "Enduro Drift Bosnien",
+    logo: { "@type": "ImageObject", url: `${siteUrl}/logo.png` },
+  },
+  mainEntityOfPage: { "@type": "WebPage", "@id": `${siteUrl}${postPath}` },
+};
+---
+
+<Layout
+  title={title}
+  description={post.data.description}
+  path={postPath}
+  lang={lang}
+  alternates={alternates}
+  ogType="article"
+  publishedTime={post.data.date.toISOString()}
+>
+  <script
+    type="application/ld+json"
+    slot="head"
+    is:inline
+    set:html={JSON.stringify(breadcrumbSchema)}
+  />
+  <script
+    type="application/ld+json"
+    slot="head"
+    is:inline
+    set:html={JSON.stringify(articleSchema)}
+  />
+  <article class="bg-white py-16 lg:py-24">
+    <div class="mx-auto max-w-3xl px-4 lg:px-8">
+      <p class="text-sm text-neutral-500">{formatDate(post.data.date)}</p>
+      <h1 class="mt-2 text-3xl font-bold text-neutral-900 lg:text-4xl">
+        {post.data.title}
+      </h1>
+
+      {
+        post.data.tags.length > 0 && (
+          <div class="mt-4 flex flex-wrap gap-2">
+            {post.data.tags.map((tag) => (
+              <span class="rounded-full bg-neutral-100 px-3 py-1 text-xs font-medium text-neutral-600">
+                {tag}
+              </span>
+            ))}
+          </div>
+        )
+      }
+
+      {
+        post.data.cover && (
+          <img
+            src={post.data.cover}
+            alt={post.data.title}
+            class="mt-8 aspect-video w-full rounded-2xl object-cover"
+          />
+        )
+      }
+
+      <div
+        class="prose prose-neutral text-black! mt-10 max-w-none prose-headings:font-bold prose-a:text-red-600"
+      >
+        <Content />
+      </div>
+
+      <TourCta lang={lang} class="mt-14" />
+
+      {
+        related.length > 0 && (
+          <section class="mt-14 border-t border-neutral-200 pt-10">
+            <h2 class="text-xl font-bold text-neutral-900">{labels.relatedHeading}</h2>
+            <ul class="mt-6 space-y-5">
+              {related.map((item) => (
+                <li>
+                  <a href={blogPath(lang, slugOf(item))} class="group block">
+                    <span class="text-base font-semibold text-neutral-900 group-hover:text-red-600">
+                      {item.data.title}
+                    </span>
+                    <span class="mt-1 block text-sm text-neutral-600">
+                      {item.data.description}
+                    </span>
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </section>
+        )
+      }
+    </div>
+  </article>
+</Layout>

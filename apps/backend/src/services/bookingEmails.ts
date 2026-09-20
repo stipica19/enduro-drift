@@ -1,6 +1,6 @@
 import { escapeHtml } from "./emailUtils.js";
 
-const siteUrl = "https://endurodriftbosnien.com";
+const siteUrl = "https://www.endurodriftbosnien.com";
 const CONTACT_EMAIL = "endurodriftbosnien@gmail.com";
 
 export interface BookingEmailData {

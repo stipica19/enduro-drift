@@ -1,6 +1,7 @@
 ---
 title: "Enduro Gear - What You Need for Your Bosnia Tour"
-description: "The most important enduro equipment for your tour in Bosnia: safety, comfort and fun."
+metaTitle: "Enduro Gear: What You Need in Bosnia | Enduro Drift Bosnien"
+description: "Helmet, protectors, boots, gloves and more: the most important enduro gear for your tour in Bosnia - for safety, comfort and riding fun."
 date: 2025-09-03
 tags:
   - "Enduro"
@@ -9,7 +10,7 @@ tags:
   - "Motorcycle Trip"
 ---
 
-An enduro tour in Bosnia is a unique adventure - but only with the right gear will it be safe and comfortable. Here's what you definitely need to bring.
+An [enduro tour in Bosnia](/en/tours/) is a unique adventure - but only with the right gear will it be safe and comfortable. Here's what you definitely need to bring.
 
 ## 1. Helmet
 A high-quality enduro or motocross helmet is a must. Make sure it has good ventilation and a clear visor or goggles for dusty trails.
@@ -34,4 +35,6 @@ A Camelbak or hydration backpack is worth gold on long rides in the mountains.
 
 With the right gear, you're perfectly prepared to master Bosnia's trails - safe, comfortable and full of fun.
 
-👉 Book your tour now with Enduro Drift Bosnia and experience an adventure you'll never forget!
+Protective gear is included on our tours - you'll find all the details on our [Equipment](/en/equipment/) page.
+
+👉 [Book your tour now](/en/booking/) with Enduro Drift Bosnia and experience an adventure you'll never forget!

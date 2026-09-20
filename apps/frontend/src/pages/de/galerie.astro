@@ -1,5 +1,6 @@
 ---
 import Layout from "@/layouts/Layout.astro";
+import TourCta from "@/components/ui/TourCta.astro";
 import { gallery } from "@/content/site/gallery";
 import { SERVER_API_URL } from "@/lib/serverApi";
 
@@ -12,12 +13,14 @@ const lang = "de" as const;
 const t = gallery[lang];
 
 const res = await fetch(`${SERVER_API_URL}/api/gallery`);
-const images: GalleryImage[] = res.ok ? await res.json() : [];
+// Bez ovoga bi API greška u buildu tiho objavila praznu stranicu (tanak sadržaj u indeksu) umjesto da deploy padne.
+if (!res.ok) throw new Error(`GET /api/gallery -> ${res.status}`);
+const images: GalleryImage[] = await res.json();
 ---
 
 <Layout
-  title={`${t.heading} | Enduro Drift Bosnien`}
-  description={t.intro}
+  title={t.metaTitle}
+  description={t.metaDescription}
   path="/de/galerie"
   lang={lang}
   alternates={{ de: "/de/galerie", en: "/en/gallery" }}
@@ -39,7 +42,7 @@ const images: GalleryImage[] = res.ok ? await res.json() : [];
             {images.map((img, i) => (
               <img
                 src={img.url}
-                alt={`Gallery image ${i + 1}`}
+                alt={`${t.altPrefix} ${i + 1}`}
                 loading={i < 8 ? "eager" : "lazy"}
                 class="mb-4 w-full break-inside-avoid rounded-xl bg-neutral-100 object-cover"
               />
@@ -47,6 +50,8 @@ const images: GalleryImage[] = res.ok ? await res.json() : [];
           </div>
         )
       }
+
+      <TourCta lang={lang} class="mt-12" />
     </div>
   </section>
 </Layout>

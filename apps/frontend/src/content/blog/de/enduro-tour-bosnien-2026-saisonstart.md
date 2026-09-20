@@ -1,5 +1,6 @@
 ---
 title: "Enduro Tour Bosnien 2026: Saisonstart mit neuen Trails, Bikes & Premium-Abenteuer"
+metaTitle: "Enduro Tour Bosnien 2026: Saisonstart | Enduro Drift Bosnien"
 description: "2026 wird unsere stärkste Saison: neue Offroad-Routen, verbesserte Bikes und ein echtes Premium-Enduro-Abenteuer in Bosnien. Begrenzte Plätze - jetzt buchen!"
 date: 2026-01-01
 tags:
@@ -39,7 +40,7 @@ Für 2026 sind unsere Tourtage besser strukturiert als je zuvor:
 ### 🏍️ Premium-Enduro-Erlebnis (Leihbike verfügbar)
 Du kannst mit deinem eigenen Bike anreisen - oder es dir einfach machen und alles uns überlassen:
 
-- Enduro-Leihbike auf Anfrage
+- [Enduro-Leihbike](/de/motorrader/) auf Anfrage
 - Technischer Support & Werkzeug
 - Unterstützung beim Setup von Fahrwerk, Reifen und Bedienelementen
 
@@ -70,7 +71,7 @@ Kurz gesagt: **Bosnien fühlt sich wie echtes Abenteuer an - ganz ohne Massentou
 
 ## Das bekommst du bei Enduro Drift Bosnien
 
-- 🔥 Professionell geführte Enduro-Touren mit lokalen Guides
+- 🔥 Professionell geführte [Enduro-Touren](/de/touren/) mit [lokalen Guides](/de/reisefuhrer/)
 - 🧩 Routen angepasst an dein Fahrlevel
 - 📍 Die besten Trails, Aussichtspunkte und versteckten Locations
 - 🛟 Support, Sicherheit und lokale Expertise
@@ -81,9 +82,9 @@ Kurz gesagt: **Bosnien fühlt sich wie echtes Abenteuer an - ganz ohne Massentou
 ## 2026: Begrenzte Plätze - sichere dir jetzt deinen Spot
 Wir halten unsere Gruppen bewusst klein, um höchste Qualität, Sicherheit und maximalen Fahrspaß zu garantieren.
 
-👉 **Tour ansehen & jetzt buchen:** https://www.endurodriftbosnien.com/de
+👉 **[Touren ansehen](/de/touren/) & [jetzt buchen](/de/anmeldung/)**
 
-Wenn du Fragen zu Fahrlevel, Bike, Anreise oder Ausrüstung hast, melde dich jederzeit - wir helfen dir gerne weiter.
+Wenn du Fragen zu Fahrlevel, Bike, Anreise oder [Ausrüstung](/de/blog/enduro-ausruestung-bosnien/) hast, melde dich jederzeit - wir helfen dir gerne weiter.
 
 **Wir sehen uns 2026 auf den Trails.**
 

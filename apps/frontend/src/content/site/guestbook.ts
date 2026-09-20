@@ -9,7 +9,7 @@ export interface GuestbookContent {
 
 export const guestbook: Record<"de" | "en", GuestbookContent> = {
   de: {
-    metaTitle: "Gästebuch | Enduro Drift Bosnien",
+    metaTitle: "Enduro Bosnien Erfahrungen - Gästebuch | Enduro Drift Bosnien",
     metaDescription:
       "Was unsere Gäste über ihre Enduro-Tour in Bosnien und Herzegowina sagen — echte Erfahrungsberichte aus dem Gästebuch.",
     heading: "Gästebuch",
@@ -19,7 +19,7 @@ export const guestbook: Record<"de" | "en", GuestbookContent> = {
     locale: "de-DE",
   },
   en: {
-    metaTitle: "Guestbook | Enduro Drift Bosnien",
+    metaTitle: "Enduro Bosnia Reviews - Guestbook | Enduro Drift Bosnien",
     metaDescription:
       "What our guests say about their enduro tour in Bosnia and Herzegovina — real stories from the guestbook.",
     heading: "Guestbook",

@@ -15,7 +15,9 @@ const lang = "en" as const;
 const t = guestbook[lang];
 
 const res = await fetch(`${SERVER_API_URL}/api/reviews`);
-const reviews: Review[] = res.ok ? await res.json() : [];
+// Bez ovoga bi API greška u buildu tiho objavila praznu stranicu (tanak sadržaj u indeksu) umjesto da deploy padne.
+if (!res.ok) throw new Error(`GET /api/reviews -> ${res.status}`);
+const reviews: Review[] = await res.json();
 
 function formatDate(iso: string) {
   return new Date(iso).toLocaleDateString(t.locale, {

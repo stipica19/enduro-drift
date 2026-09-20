@@ -86,7 +86,7 @@ const images = Object.values(
           <div class="overflow-hidden rounded-xl bg-white shadow-sm ring-1 ring-neutral-100">
             <Image
               src={img}
-              alt={content.bikes[i] ?? "Enduro"}
+              alt={`${content.fleetPhotoAlt} ${i + 1}`}
               class="aspect-3/2 w-full object-cover transition-transform duration-300 hover:scale-105"
               loading="lazy"
               widths={[300, 500]}

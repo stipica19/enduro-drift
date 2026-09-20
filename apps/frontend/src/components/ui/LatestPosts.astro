@@ -1,0 +1,68 @@
+---
+import { blogPath, getPosts, slugOf } from "@/lib/blog";
+import { latestPosts } from "@/content/site/blogArticle";
+
+interface Props {
+  lang?: "de" | "en";
+}
+
+const { lang = "de" } = Astro.props;
+const content = latestPosts[lang];
+const posts = (await getPosts(lang)).slice(0, 3);
+
+function formatDate(date: Date) {
+  return date.toLocaleDateString(lang === "de" ? "de-DE" : "en-GB", {
+    day: "2-digit",
+    month: "long",
+    year: "numeric",
+  });
+}
+---
+
+{
+  posts.length > 0 && (
+    <section class="bg-white py-16 lg:py-24">
+      <div class="mx-auto max-w-7xl px-4 lg:px-8">
+        <div class="text-center">
+          <h2 class="text-3xl font-bold text-neutral-900 lg:text-4xl">
+            <span class="underline decoration-red-500 decoration-4 underline-offset-8">
+              {content.heading}
+            </span>
+          </h2>
+          <p class="mx-auto mt-6 max-w-2xl text-neutral-600">{content.intro}</p>
+        </div>
+
+        <ul class="mt-12 grid grid-cols-1 gap-6 md:grid-cols-3">
+          {posts.map((post) => (
+            <li>
+              <a
+                href={blogPath(lang, slugOf(post))}
+                class="group flex h-full flex-col rounded-2xl bg-neutral-50 p-6 ring-1 ring-neutral-100 transition-shadow hover:shadow-md"
+              >
+                <time
+                  datetime={post.data.date.toISOString()}
+                  class="text-xs text-neutral-500"
+                >
+                  {formatDate(post.data.date)}
+                </time>
+                <h3 class="mt-2 text-lg font-bold text-neutral-900 group-hover:text-red-600">
+                  {post.data.title}
+                </h3>
+                <p class="mt-2 text-sm text-neutral-600">{post.data.description}</p>
+              </a>
+            </li>
+          ))}
+        </ul>
+
+        <div class="mt-10 text-center">
+          <a
+            href={content.allHref}
+            class="inline-block rounded-full border border-neutral-300 px-6 py-3 text-sm font-semibold text-neutral-900 transition-colors hover:border-red-500 hover:text-red-600"
+          >
+            {content.allLabel}
+          </a>
+        </div>
+      </div>
+    </section>
+  )
+}

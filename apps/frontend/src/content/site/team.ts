@@ -15,8 +15,9 @@ export interface TeamContent {
 
 export const team: Record<"de" | "en", TeamContent> = {
   de: {
-    metaTitle: "Unser Team | Enduro Drift Bosnien",
-    metaDescription: "Lernen Sie unser Team von erfahrenen Enduro-Guides in Bosnien kennen.",
+    metaTitle: "Unser Team: Enduro Guides in Bosnien | Enduro Drift Bosnien",
+    metaDescription:
+      "Lernen Sie unser Team kennen: erfahrene Enduro-Guides für Einsteiger und Profis auf den Trails rund um Gornji Vakuf-Uskoplje.",
     heading: "Unser",
     headingAccent: "Team",
     intro:
@@ -40,8 +41,9 @@ export const team: Record<"de" | "en", TeamContent> = {
     ],
   },
   en: {
-    metaTitle: "Our Team | Enduro Drift Bosnien",
-    metaDescription: "Meet our team of experienced enduro guides in Bosnia.",
+    metaTitle: "Our Team: Enduro Guides in Bosnia | Enduro Drift Bosnien",
+    metaDescription:
+      "Meet our team of experienced enduro guides for beginners and pros on the trails around Gornji Vakuf-Uskoplje.",
     heading: "Our",
     headingAccent: "Team",
     intro:

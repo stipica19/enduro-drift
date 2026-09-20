@@ -10,6 +10,7 @@ export interface HeroContent {
   reviewsSingular: string;
   reviewsPlural: string;
   highlights: string[];
+  imageAlt: string;
 }
 
 export const hero: Record<"de" | "en", HeroContent> = {
@@ -25,6 +26,7 @@ export const hero: Record<"de" | "en", HeroContent> = {
     secondaryCta: { label: "Touren & Preise entdecken", href: "/de/touren/" },
     reviewsSingular: "Bewertung",
     reviewsPlural: "Bewertungen",
+    imageAlt: "Enduro Fahrer im Gelände in Bosnien",
     highlights: [
       "Für Einsteiger & erfahrene Fahrer",
       "Legale, ausgewiesene Routen",
@@ -43,6 +45,7 @@ export const hero: Record<"de" | "en", HeroContent> = {
     secondaryCta: { label: "Explore tours & prices", href: "/en/tours/" },
     reviewsSingular: "review",
     reviewsPlural: "reviews",
+    imageAlt: "Enduro riders off-road in Bosnia",
     highlights: [
       "For beginners & experienced riders",
       "Legal, marked routes",

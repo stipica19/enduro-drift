@@ -1,5 +1,6 @@
 ---
 title: "Oida Style YouTuber besucht Enduro Drift Bosnien"
+metaTitle: "Oida Style YouTuber zu Gast bei Enduro Drift Bosnien"
 description: "Der beliebte österreichische YouTuber Oida Style war zu Gast bei uns und erlebte ein unvergessliches Enduro Abenteuer in Bosnien."
 date: 2025-10-01
 cover: "/blog/slider4.webp"
@@ -14,7 +15,7 @@ tags:
 **Video:** [Auf YouTube ansehen](https://www.youtube.com/watch?v=pxF5BB03uB4)
 
 Ein besonderer Tag für Enduro Drift Bosnien!
-Der bekannte YouTuber Oida Style hat uns besucht und gemeinsam mit unserem Team eine spektakuläre Enduro-Tour durch die bosnischen Berge unternommen.
+Der bekannte YouTuber Oida Style hat uns besucht und gemeinsam mit unserem [Team](/de/reisefuhrer/) eine spektakuläre [Enduro-Tour durch die bosnischen Berge](/de/touren/) unternommen.
 
 Oida Style ist einer der beliebtesten Motovlogger auf YouTube mit über 100.000 Abonnenten. Seine authentischen Videos und seine Leidenschaft für Motorräder haben ihn zu einer echten Größe in der deutschsprachigen Motorrad-Community gemacht.
 
@@ -26,4 +27,4 @@ Der Besuch von Oida Style war für uns nicht nur eine große Ehre, sondern auch 
 
 🎬 Folgt Oida Style auf YouTube: @oida_style
 
-👉 Möchtet ihr auch ein solches Abenteuer erleben? Bucht jetzt eure Tour bei Enduro Drift Bosnien!
+👉 Möchtet ihr auch ein solches Abenteuer erleben? [Bucht jetzt eure Tour](/de/anmeldung/) bei Enduro Drift Bosnien!

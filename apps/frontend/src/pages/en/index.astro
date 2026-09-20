@@ -10,27 +10,31 @@ import AccommodationSection from "@/components/ui/AccommodationSection.astro";
 import MotorcyclesSection from "@/components/ui/MotorcyclesSection.astro";
 import TourRulesSection from "@/components/ui/TourRulesSection.astro";
 import FaqSection from "@/components/ui/FaqSection.astro";
+import LatestPosts from "@/components/ui/LatestPosts.astro";
 import { organizationSchema } from "@/content/site/organizationSchema";
+import { toSliderImages } from "@/lib/sliderImages";
 
 const schema = organizationSchema("en");
 
-const galleryImages = Object.values(
+const galleryImages = toSliderImages(
   import.meta.glob<{ default: ImageMetadata }>(
     "../../assets/gallerySlider/*.{jpg,jpeg,png,webp}",
     { eager: true },
   ),
-).map((mod) => mod.default);
+  "en",
+);
 
-const natureImages = Object.values(
+const natureImages = toSliderImages(
   import.meta.glob<{ default: ImageMetadata }>(
     "../../assets/naturSlider/*.{jpg,jpeg,png,webp}",
     { eager: true },
   ),
-).map((mod) => mod.default);
+  "en",
+);
 ---
 
 <Layout
-  title="Enduro Tours in Bosnia | Enduro Drift Bosnia"
+  title="Enduro Tours in Bosnia | Enduro Drift Bosnien"
   description="Guided enduro tours in Bosnia and Herzegovina for beginners and experienced riders. Legal routes, small groups, personal support - request your tour today."
   path="/en"
   lang="en"
@@ -52,4 +56,5 @@ const natureImages = Object.values(
   <div class="defer-render"><MotorcyclesSection lang="en" /></div>
   <div class="defer-render"><TourRulesSection lang="en" /></div>
   <div class="defer-render"><FaqSection lang="en" /></div>
+  <div class="defer-render"><LatestPosts lang="en" /></div>
 </Layout>

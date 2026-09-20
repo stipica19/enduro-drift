@@ -1,6 +1,6 @@
 import { escapeHtml } from "./emailUtils.js";
 
-const siteUrl = "https://endurodriftbosnien.com";
+const siteUrl = "https://www.endurodriftbosnien.com";
 
 export function buildNotificationEmail(params: { name: string; email: string; message: string }) {
   const name = escapeHtml(params.name);

@@ -1,5 +1,6 @@
 ---
 import Layout from "@/layouts/Layout.astro";
+import TourCta from "@/components/ui/TourCta.astro";
 import { HardHat, Footprints, Hand, Shield } from "lucide-astro";
 import { motorcycles } from "@/content/site/motorcycles";
 
@@ -46,6 +47,15 @@ const equipmentIcons = [HardHat, Footprints, Hand, Shield];
           })
         }
       </ul>
+
+      <p class="mt-8 text-neutral-600">
+        {t.equipmentGuide.text}
+        <a href={t.equipmentGuide.href} class="font-semibold text-red-600 hover:underline">
+          {t.equipmentGuide.label}
+        </a>
+      </p>
+
+      <TourCta lang={lang} class="mt-12" />
     </div>
   </section>
 </Layout>

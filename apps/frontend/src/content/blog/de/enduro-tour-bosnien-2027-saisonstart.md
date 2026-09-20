@@ -1,5 +1,6 @@
 ---
 title: "Enduro Tour Bosnien 2027: Die Saison ist offen - Jetzt buchen!"
+metaTitle: "Enduro Tour Bosnien 2027: Jetzt buchen | Enduro Drift Bosnien"
 description: "Die Buchungen für die Enduro-Saison 2027 sind jetzt geöffnet! Termine von Mai bis Juni 2027, jeweils samstags. Begrenzte Plätze - sichere dir jetzt deinen Spot."
 date: 2026-05-23
 tags:
@@ -12,13 +13,13 @@ tags:
   - "Adventure"
 ---
 
-Große Neuigkeit aus dem Enduro Drift Bosnien Hauptquartier: **Die Saison 2027 ist offiziell eröffnet!** Ab sofort kannst du deinen Platz für eine unvergessliche Enduro-Tour durch Bosnien sichern.
+Große Neuigkeit aus dem Enduro Drift Bosnien Hauptquartier: **Die Saison 2027 ist offiziell eröffnet!** Ab sofort kannst du deinen Platz für eine unvergessliche [Enduro-Tour durch Bosnien](/de/touren/) sichern.
 
 ---
 
 ## Unsere Termine für 2027
 
-Alle Touren starten und enden **samstags** - perfekt planbar für deinen Urlaub.
+Alle Touren starten und enden **samstags** - perfekt planbar für deinen Urlaub. Die aktuellen Termine findest du auf der Seite [Termine](/de/termine/).
 
 **Plätze sind begrenzt.** Wer früh bucht, sichert sich seinen Wunschtermin.
 
@@ -32,7 +33,7 @@ Nach zwei außergewöhnlichen Saisons haben wir Routen, Logistik und das gesamte
 Von technischen Waldpassagen über alpine Panoramastrecken bis hin zu schnellen Schotterpisten - Bosnien bietet Offroad-Erlebnisse, die du in Mitteleuropa einfach nicht findest.
 
 ### 🏍️ Dein Bike oder unseres
-Bring deine eigene Enduro mit oder leih dir eines direkt vor Ort. Unser Team kümmert sich um Setup, Wartung und technischen Support.
+Bring deine eigene Enduro mit oder leih dir eines direkt vor Ort - [hier findest du unsere Motorräder](/de/motorrader/). Unser Team kümmert sich um Setup, Wartung und technischen Support.
 
 ### 🤝 Kleine Gruppen, großer Spaß
 Wir halten die Gruppen bewusst klein - für maximale Sicherheit, individuelle Betreuung und echten Team-Spirit.
@@ -48,15 +49,15 @@ Nach dem Fahren warten gemütliche Unterkünfte und die herzhafte bosnische Küc
 - ✅ Fortgeschrittene, die echte Offroad-Trails suchen
 - ✅ Erfahrene Fahrer, die Bosniens Natur tief erleben möchten
 
-Unser lokales Guide-Team passt Route und Tempo an dein Fahrlevel an - niemand wird abgehängt.
+Unser lokales [Guide-Team](/de/reisefuhrer/) passt Route und Tempo an dein Fahrlevel an - niemand wird abgehängt.
 
 ---
 
 ## Jetzt Platz sichern
 
-👉 Geh auf unsere Anmeldungsseite und wähl deinen Wunschtermin direkt aus.
+👉 Geh auf unsere [Anmeldungsseite](/de/anmeldung/) und wähl deinen Wunschtermin direkt aus.
 
-Bei Fragen zu Anreise, Ausrüstung oder Fahrlevel - schreib uns einfach. Wir antworten schnell und helfen gerne weiter.
+Bei Fragen zu Anreise, [Ausrüstung](/de/blog/enduro-ausruestung-bosnien/) oder Fahrlevel - schreib uns einfach. Wir antworten schnell und helfen gerne weiter.
 
 **Wir sehen uns 2027 auf den Trails.**
 

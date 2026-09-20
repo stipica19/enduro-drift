@@ -1,6 +1,7 @@
 ---
 title: "Enduro Ausrüstung - Was du für deine Bosnien Tour brauchst"
-description: "Die wichtigste Enduro Ausrüstung für deine Tour in Bosnien: Sicherheit, Komfort und Fahrspaß."
+metaTitle: "Enduro Ausrüstung: Was du brauchst | Enduro Drift Bosnien"
+description: "Helm, Protektoren, Stiefel, Handschuhe & Co.: Die wichtigste Enduro-Ausrüstung für deine Tour in Bosnien - für Sicherheit, Komfort und Fahrspaß."
 date: 2025-09-03
 tags:
   - "Enduro"
@@ -9,7 +10,7 @@ tags:
   - "Motorradreise"
 ---
 
-Eine Enduro Tour in Bosnien ist ein einzigartiges Abenteuer - aber nur mit der richtigen Ausrüstung wird es auch sicher und komfortabel. Hier erfährst du, was du unbedingt dabei haben solltest.
+Eine [Enduro Tour in Bosnien](/de/touren/) ist ein einzigartiges Abenteuer - aber nur mit der richtigen Ausrüstung wird es auch sicher und komfortabel. Hier erfährst du, was du unbedingt dabei haben solltest.
 
 ## 1. Helm
 Ein hochwertiger Enduro- oder Cross-Helm ist Pflicht. Achte auf gute Belüftung und ein klares Visier oder Brille für staubige Strecken.
@@ -34,4 +35,6 @@ Ein Camelbak oder Trinkrucksack ist Gold wert bei langen Fahrten in den Bergen.
 
 Mit der richtigen Ausrüstung bist du bestens vorbereitet, um Bosniens Trails zu meistern - sicher, komfortabel und voller Fahrspaß.
 
-👉 Buche jetzt deine Tour bei Enduro Drift Bosnien und erlebe ein Abenteuer, das du nie vergisst!
+Bei unseren Touren ist die Schutzausrüstung inklusive - alle Details findest du auf der Seite [Ausrüstung](/de/ausruestung/).
+
+👉 [Buche jetzt deine Tour](/de/anmeldung/) bei Enduro Drift Bosnien und erlebe ein Abenteuer, das du nie vergisst!

@@ -10,10 +10,15 @@ import advancedPhoto from "@/assets/tours/tura22-map.webp";
 
 interface Props {
   lang?: "de" | "en";
+  /** Na /touren je ova sekcija glavni sadržaj stranice pa nosi H1; na homepageu (H1 je u Hero-u) ostaje H2. */
+  asPageHeading?: boolean;
 }
 
-const { lang = "de" } = Astro.props;
+const { lang = "de", asPageHeading = false } = Astro.props;
 const content = tourPricing[lang];
+const Heading = asPageHeading ? "h1" : "h2";
+const heading = asPageHeading ? content.pageHeading : content.heading;
+const headingAccent = asPageHeading ? content.pageHeadingAccent : content.headingAccent;
 const images = [mapBeginner, mapIntermediate, advancedPhoto];
 ---
 
@@ -24,9 +29,9 @@ const images = [mapBeginner, mapIntermediate, advancedPhoto];
     >
       <Bike class="h-4 w-4" /> {content.badge}
     </span>
-    <h2 class="mt-6 text-3xl font-bold text-white lg:text-4xl">
-      {content.heading} <span class="text-red-500">{content.headingAccent}</span>
-    </h2>
+    <Heading class="mt-6 text-3xl font-bold text-white lg:text-4xl">
+      {heading} <span class="text-red-500">{headingAccent}</span>
+    </Heading>
     <p class="mx-auto mt-4 max-w-2xl text-neutral-400">
       {content.subheading}
     </p>
@@ -39,6 +44,7 @@ const images = [mapBeginner, mapIntermediate, advancedPhoto];
         title={card.title}
         badge={card.badge}
         image={images[i]}
+        imageAlt={card.imageAlt}
         ownBikePrice={card.ownBikePrice}
         rentalBikePrice={card.rentalBikePrice}
         included={card.included}

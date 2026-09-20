@@ -1,5 +1,6 @@
 ---
 title: "Enduro Tour Bosnia 2027: Season Is Open - Book Now!"
+metaTitle: "Enduro Tour Bosnia 2027: Season Open | Enduro Drift Bosnien"
 description: "Bookings for the 2027 enduro season are now open! Tours run from May to June 2027, every Saturday. Limited spots - secure yours today."
 date: 2026-05-23
 tags:
@@ -12,13 +13,13 @@ tags:
   - "Adventure"
 ---
 
-Big news from Enduro Drift Bosnia: **The 2027 season is officially open!** You can now secure your spot for an unforgettable enduro adventure through the mountains of Bosnia.
+Big news from Enduro Drift Bosnia: **The 2027 season is officially open!** You can now secure your spot for an unforgettable [enduro adventure through the mountains of Bosnia](/en/tours/).
 
 ---
 
 ## Our 2027 Tour Dates
 
-All tours start and finish on **Saturdays** - easy to fit into your holiday plans.
+All tours start and finish on **Saturdays** - easy to fit into your holiday plans. You can find the current dates on our [Dates](/en/dates/) page.
 
 **Spots are limited.** Book early to get your preferred date.
 
@@ -32,7 +33,7 @@ After two exceptional seasons, we've pushed our routes, logistics and overall ex
 From technical forest sections to alpine panoramic routes and fast gravel tracks - Bosnia delivers off-road riding you simply won't find in Central Europe.
 
 ### 🏍️ Your Bike or Ours
-Bring your own enduro or rent one on site. Our team handles setup, maintenance and technical support.
+Bring your own enduro or rent one on site ([see our motorcycles](/en/motorcycles/)). Our team handles setup, maintenance and technical support.
 
 ### 🤝 Small Groups, Big Fun
 We keep groups intentionally small - for maximum safety, personal attention and real team spirit.
@@ -48,15 +49,15 @@ After a full day on the trails, cozy accommodation and hearty Bosnian food await
 - ✅ Intermediate riders looking for real off-road trails
 - ✅ Experienced riders who want to explore Bosnia's nature in depth
 
-Our local guide team adapts the route and pace to your skill level - no one gets left behind.
+Our local [guide team](/en/guide/) adapts the route and pace to your skill level - no one gets left behind.
 
 ---
 
 ## Secure Your Spot Now
 
-👉 Head to our booking page and choose your preferred date directly.
+👉 Head to our [booking page](/en/booking/) and choose your preferred date directly.
 
-Got questions about travel, gear or skill level? Just reach out - we reply fast and are happy to help.
+Got questions about travel, [gear](/en/blog/enduro-ausruestung-bosnien/) or skill level? Just reach out - we reply fast and are happy to help.
 
 **See you on the trails in 2027.**
 

@@ -1,6 +1,7 @@
 ---
 import GallerySlider from "@/components/ui/GallerySlider.astro";
 import { accommodation } from "@/content/site/accommodation";
+import { toSliderImages } from "@/lib/sliderImages";
 
 interface Props {
   lang?: "de" | "en";
@@ -9,12 +10,13 @@ interface Props {
 const { lang = "de" } = Astro.props;
 const content = accommodation[lang];
 
-const images = Object.values(
+const images = toSliderImages(
   import.meta.glob<{ default: ImageMetadata }>(
     "../../assets/unterkunft/*.{jpg,jpeg,png,webp}",
     { eager: true },
   ),
-).map((mod) => mod.default);
+  lang,
+);
 ---
 
 <section class="bg-white py-16 lg:py-24">

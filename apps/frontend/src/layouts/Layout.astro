@@ -4,6 +4,7 @@ import Header from "../components/ui/Header.astro";
 import Footer from "../components/ui/Footer.astro";
 import WhatsappWidget from "../components/ui/WhatsappWidget.astro";
 import defaultOgSource from "../assets/hero-bild.webp";
+import { siteUrl } from "../lib/site";
 import "../styles/global.css";
 
 interface Props {
@@ -14,6 +15,9 @@ interface Props {
   alternates?: { de?: string; en?: string };
   noindex?: boolean;
   image?: ImageMetadata;
+  ogType?: "website" | "article";
+  /** ISO datum objave, ide u article:published_time (samo za ogType="article"). */
+  publishedTime?: string;
 }
 
 const {
@@ -24,9 +28,9 @@ const {
   alternates,
   noindex = false,
   image = defaultOgSource,
+  ogType = "website",
+  publishedTime,
 } = Astro.props;
-
-const siteUrl = "https://endurodriftbosnien.com";
 
 // Stranice se serviraju kao /de/kontakt/ (folder + index.html), a nginx /de/kontakt preusmjerava
 // na /de/kontakt/. Canonical, og:url i hreflang moraju pokazivati na URL sa kosom crtom (isti kao
@@ -52,6 +56,7 @@ const ogLocale = lang === "de" ? "de_DE" : "en_US";
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" type="image/png" sizes="144x144" href="/logo.png" />
     <title>{title}</title>
     <meta name="description" content={description} />
     {noindex && <meta name="robots" content="noindex" />}
@@ -84,12 +89,18 @@ const ogLocale = lang === "de" ? "de_DE" : "en_US";
       )
     }
 
-    <meta property="og:type" content="website" />
+    <meta property="og:type" content={ogType} />
     <meta property="og:site_name" content="Enduro Drift Bosnien" />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:url" content={`${siteUrl}${canonicalPath}`} />
     <meta property="og:locale" content={ogLocale} />
+    {pageAlternates?.de && pageAlternates?.en && (
+      <meta property="og:locale:alternate" content={lang === "de" ? "en_US" : "de_DE"} />
+    )}
+    {ogType === "article" && publishedTime && (
+      <meta property="article:published_time" content={publishedTime} />
+    )}
     <meta property="og:image" content={ogImageUrl} />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />

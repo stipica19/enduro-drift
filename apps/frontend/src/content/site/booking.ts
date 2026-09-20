@@ -11,7 +11,7 @@ export interface BookingContent {
 
 export const booking: Record<"de" | "en", BookingContent> = {
   de: {
-    metaTitle: "Anmeldung | Enduro Drift Bosnien",
+    metaTitle: "Enduro Tour Bosnien buchen | Enduro Drift Bosnien",
     metaDescription:
       "Melde dich für deine Enduro-Tour in Bosnien und Herzegowina an. Wähle deine Tour und deinen Wunschtermin und sende uns deine Reservierungsanfrage.",
     heading: "Enduro Tour Bosnien —",
@@ -28,7 +28,7 @@ export const booking: Record<"de" | "en", BookingContent> = {
     locale: "de-DE",
   },
   en: {
-    metaTitle: "Booking | Enduro Drift Bosnien",
+    metaTitle: "Book an Enduro Tour in Bosnia | Enduro Drift Bosnien",
     metaDescription:
       "Book your enduro tour in Bosnia and Herzegovina. Choose your tour and preferred date and send us your booking request.",
     heading: "Enduro Tour Bosnia —",
