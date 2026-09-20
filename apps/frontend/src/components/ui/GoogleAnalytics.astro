@@ -1,0 +1,24 @@
+---
+import { gaMeasurementId } from "@/lib/site";
+---
+
+<!-- Google Analytics 4. Učitava se tek nakon "load" (kao lazyOnload u staroj Next.js aplikaciji),
+     da ne utječe na LCP i PageSpeed. -->
+<script is:inline define:vars={{ id: gaMeasurementId }}>
+  function loadAnalytics() {
+    window.dataLayer = window.dataLayer || [];
+    function gtag() {
+      window.dataLayer.push(arguments);
+    }
+    gtag("js", new Date());
+    gtag("config", id);
+
+    var script = document.createElement("script");
+    script.async = true;
+    script.src = "https://www.googletagmanager.com/gtag/js?id=" + id;
+    document.head.appendChild(script);
+  }
+
+  if (document.readyState === "complete") loadAnalytics();
+  else window.addEventListener("load", loadAnalytics);
+</script>

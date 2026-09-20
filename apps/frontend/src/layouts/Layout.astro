@@ -3,6 +3,7 @@ import { getImage } from "astro:assets";
 import Header from "../components/ui/Header.astro";
 import Footer from "../components/ui/Footer.astro";
 import WhatsappWidget from "../components/ui/WhatsappWidget.astro";
+import GoogleAnalytics from "../components/ui/GoogleAnalytics.astro";
 import defaultOgSource from "../assets/hero-bild.webp";
 import { siteUrl } from "../lib/site";
 import "../styles/global.css";
@@ -118,5 +119,6 @@ const ogLocale = lang === "de" ? "de_DE" : "en_US";
     </main>
     <Footer lang={lang} />
     {!noindex && <WhatsappWidget lang={lang} />}
+    {!noindex && <GoogleAnalytics />}
   </body>
 </html>
