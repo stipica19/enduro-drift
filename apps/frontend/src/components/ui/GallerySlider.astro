@@ -9,38 +9,47 @@ interface Props {
 const { images } = Astro.props;
 ---
 
-<div class="gallery-slider relative mx-auto mt-8 max-w-7xl px-4 lg:px-8">
-  <div
-    class="gallery-track no-scrollbar flex snap-x snap-mandatory gap-4 overflow-x-auto scroll-smooth"
-  >
-    {
-      images.map((img) => (
-        <div class="w-[95vw] shrink-0 snap-start sm:w-[calc((100%-1rem)/2)] lg:w-[calc((100%-2rem)/3)]">
-          <Image
-            src={img}
-            alt=""
-            class="aspect-4/3 w-full rounded-sm object-cover"
-            loading="lazy"
-            widths={[600, 800, 1000]}
-            sizes="(min-width: 1024px) 400px, (min-width: 640px) 45vw, 85vw"
-          />
-        </div>
-      ))
-    }
+<div class="gallery-slider mx-auto mt-8 max-w-7xl">
+  <div class="relative px-4 lg:px-8">
+    <div
+      class="gallery-track no-scrollbar flex snap-x snap-mandatory gap-4 overflow-x-auto scroll-smooth"
+    >
+      {
+        images.map((img) => (
+          <div class="w-[95vw] shrink-0 snap-start sm:w-[calc((100%-1rem)/2)] lg:w-[calc((100%-2rem)/3)]">
+            <Image
+              src={img}
+              alt=""
+              class="aspect-4/3 w-full rounded-sm object-cover"
+              loading="lazy"
+              widths={[600, 800, 1000]}
+              sizes="(min-width: 1024px) 400px, (min-width: 640px) 45vw, 85vw"
+            />
+          </div>
+        ))
+      }
+    </div>
+
+    <button
+      class="gallery-prev absolute top-1/2 left-0 hidden -translate-y-1/2 rounded-full bg-white/90 p-2 text-neutral-900 shadow lg:flex"
+      aria-label="Zurück"
+    >
+      <ChevronLeft class="h-5 w-5" />
+    </button>
+    <button
+      class="gallery-next absolute top-1/2 right-0 hidden -translate-y-1/2 rounded-full bg-white/90 p-2 text-neutral-900 shadow lg:flex"
+      aria-label="Weiter"
+    >
+      <ChevronRight class="h-5 w-5" />
+    </button>
   </div>
 
-  <button
-    class="gallery-prev absolute top-1/2 left-0 hidden -translate-y-1/2 rounded-full bg-white/90 p-2 text-neutral-900 shadow lg:flex"
-    aria-label="Zurück"
+  <div
+    class="gallery-dots mt-4 flex min-h-6 flex-wrap items-center justify-center px-4"
+    role="group"
+    aria-label="Galerie-Navigation"
   >
-    <ChevronLeft class="h-5 w-5" />
-  </button>
-  <button
-    class="gallery-next absolute top-1/2 right-0 hidden -translate-y-1/2 rounded-full bg-white/90 p-2 text-neutral-900 shadow lg:flex"
-    aria-label="Weiter"
-  >
-    <ChevronRight class="h-5 w-5" />
-  </button>
+  </div>
 </div>
 
 <script>
@@ -48,6 +57,7 @@ const { images } = Astro.props;
     const track = root.querySelector<HTMLElement>(".gallery-track");
     const prev = root.querySelector<HTMLElement>(".gallery-prev");
     const next = root.querySelector<HTMLElement>(".gallery-next");
+    const dots = root.querySelector<HTMLElement>(".gallery-dots");
 
     function scrollByCard(direction: number) {
       if (!track) return;
@@ -68,6 +78,103 @@ const { images } = Astro.props;
 
       track.scrollBy({ left: distance * direction, behavior: "smooth" });
     }
+
+    // Razmak između početaka dvije susjedne kartice (širina kartice + gap).
+    function getStep() {
+      const cards = track?.children;
+      if (!cards?.length) return 1;
+      const first = cards[0] as HTMLElement;
+      const second = cards[1] as HTMLElement | undefined;
+      return second ? second.offsetLeft - first.offsetLeft : first.clientWidth;
+    }
+
+    function getMaxScroll() {
+      return track ? track.scrollWidth - track.clientWidth : 0;
+    }
+
+    // Broj pozicija na koje slider stvarno može stati (ne broj slika,
+    // jer je na desktopu vidljivo više kartica odjednom).
+    function getPageCount() {
+      if (getMaxScroll() <= 5) return 1;
+      return Math.round(getMaxScroll() / getStep()) + 1;
+    }
+
+    function createDot(index: number, total: number) {
+      const dot = document.createElement("button");
+      dot.type = "button";
+      dot.dataset.index = String(index);
+      dot.className = "group flex h-6 items-center px-1";
+      dot.setAttribute("aria-label", `Bild ${index + 1} von ${total}`);
+
+      const mark = document.createElement("span");
+      mark.className =
+        "block h-2 w-2 rounded-full bg-neutral-500/50 transition-all duration-300 group-aria-[current=true]:w-6 group-aria-[current=true]:bg-orange-600";
+      dot.append(mark);
+
+      return dot;
+    }
+
+    function updateActiveDot() {
+      if (!track || !dots) return;
+
+      const count = dots.children.length;
+      if (!count) return;
+
+      const atEnd = track.scrollLeft >= getMaxScroll() - 5;
+      const active = atEnd
+        ? count - 1
+        : Math.min(count - 1, Math.round(track.scrollLeft / getStep()));
+
+      Array.from(dots.children).forEach((dot, i) => {
+        if (i === active) dot.setAttribute("aria-current", "true");
+        else dot.removeAttribute("aria-current");
+      });
+    }
+
+    function renderDots() {
+      if (!dots) return;
+
+      const pages = getPageCount();
+      const count = pages > 1 ? pages : 0;
+
+      if (dots.children.length !== count) {
+        dots.replaceChildren(
+          ...Array.from({ length: count }, (_, i) => createDot(i, count)),
+        );
+      }
+
+      updateActiveDot();
+    }
+
+    dots?.addEventListener("click", (event) => {
+      const dot = (event.target as HTMLElement).closest<HTMLElement>(
+        "button[data-index]",
+      );
+      if (!dot || !track) return;
+
+      const index = Number(dot.dataset.index);
+      track.scrollTo({
+        left: Math.min(index * getStep(), getMaxScroll()),
+        behavior: "smooth",
+      });
+    });
+
+    let ticking = false;
+    track?.addEventListener(
+      "scroll",
+      () => {
+        if (ticking) return;
+        ticking = true;
+        requestAnimationFrame(() => {
+          ticking = false;
+          updateActiveDot();
+        });
+      },
+      { passive: true },
+    );
+
+    // Pokriva i prvi render i promjenu širine (rotacija ekrana, resize).
+    if (track) new ResizeObserver(renderDots).observe(track);
 
     prev?.addEventListener("click", () => scrollByCard(-1));
     next?.addEventListener("click", () => scrollByCard(1));
