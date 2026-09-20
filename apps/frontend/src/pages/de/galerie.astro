@@ -1,6 +1,6 @@
 ---
 import Layout from "@/layouts/Layout.astro";
-import TourCta from "@/components/ui/TourCta.astro";
+import CtaButtons from "@/components/ui/CtaButtons.astro";
 import { gallery } from "@/content/site/gallery";
 import { SERVER_API_URL } from "@/lib/serverApi";
 
@@ -27,23 +27,34 @@ const images: GalleryImage[] = await res.json();
 >
   <section class="bg-white py-16 lg:py-24">
     <div class="mx-auto max-w-7xl px-4 lg:px-8">
-      <h1 class="text-3xl font-bold text-neutral-900 lg:text-4xl">
-        {t.heading}
-      </h1>
-      <p class="mt-4 text-neutral-600">{t.intro}</p>
+      <div class="max-w-3xl">
+        <h1 class="text-3xl font-bold text-neutral-900 lg:text-4xl">
+          {t.heading}
+        </h1>
+        <p class="mt-4 text-neutral-600">{t.intro}</p>
+
+        {
+          t.sections.map((section) => (
+            <>
+              <h2 class="mt-12 text-2xl font-bold text-neutral-900">{section.heading}</h2>
+              <p class="mt-4 text-neutral-600">{section.text}</p>
+            </>
+          ))
+        }
+      </div>
 
       {
         images.length === 0 ? (
-          <p class="mt-10 rounded-xl bg-neutral-100 p-6 text-center text-neutral-600">
+          <p class="mt-12 rounded-xl bg-neutral-100 p-6 text-center text-neutral-600">
             {t.empty}
           </p>
         ) : (
-          <div class="mt-10 columns-1 gap-4 sm:columns-2 lg:columns-4">
+          <div class="mt-12 columns-1 gap-4 sm:columns-2 lg:columns-4">
             {images.map((img, i) => (
               <img
                 src={img.url}
                 alt={`${t.altPrefix} ${i + 1}`}
-                loading={i < 8 ? "eager" : "lazy"}
+                loading="lazy"
                 class="mb-4 w-full break-inside-avoid rounded-xl bg-neutral-100 object-cover"
               />
             ))}
@@ -51,7 +62,10 @@ const images: GalleryImage[] = await res.json();
         )
       }
 
-      <TourCta lang={lang} class="mt-12" />
+      <div class="mt-14 max-w-3xl">
+        <p class="text-lg font-semibold text-neutral-900">{t.ctaText}</p>
+        <CtaButtons primary={t.ctaPrimary} secondary={t.ctaSecondary} class="mt-4" />
+      </div>
     </div>
   </section>
 </Layout>

@@ -11,7 +11,9 @@ const { lang = "de" } = Astro.props;
 const t = tourDatesTable[lang];
 
 const res = await fetch(`${SERVER_API_URL}/api/tour-dates`);
-const tourDates: TourDateItem[] = res.ok ? await res.json() : [];
+// Bez ovoga bi API greška u buildu tiho objavila praznu tablicu termina umjesto da deploy padne.
+if (!res.ok) throw new Error(`GET /api/tour-dates -> ${res.status}`);
+const tourDates: TourDateItem[] = await res.json();
 
 const bySeason = tourDates.reduce<Record<string, TourDateItem[]>>((acc, td) => {
   (acc[td.season] ??= []).push(td);

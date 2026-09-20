@@ -1,0 +1,34 @@
+---
+interface Link {
+  label: string;
+  href: string;
+}
+
+interface Props {
+  primary: Link;
+  secondary?: Link;
+  class?: string;
+}
+
+// Završni linkovi na svijetloj pozadini (za tamni CTA blok vidi TourCta.astro).
+const { primary, secondary, class: className } = Astro.props;
+---
+
+<div class:list={["flex flex-col gap-3 sm:flex-row", className]}>
+  <a
+    href={primary.href}
+    class="inline-flex min-h-12 items-center justify-center rounded-xl bg-red-600 px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-red-700 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-red-600"
+  >
+    {primary.label}
+  </a>
+  {
+    secondary && (
+      <a
+        href={secondary.href}
+        class="inline-flex min-h-12 items-center justify-center rounded-xl border border-neutral-300 px-6 py-3 text-sm font-semibold text-neutral-900 transition-colors hover:border-red-500 hover:text-red-600 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-red-600"
+      >
+        {secondary.label}
+      </a>
+    )
+  }
+</div>

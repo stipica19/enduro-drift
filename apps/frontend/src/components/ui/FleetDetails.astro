@@ -1,0 +1,98 @@
+---
+import { Image } from "astro:assets";
+import CtaButtons from "@/components/ui/CtaButtons.astro";
+import { motorcycles } from "@/content/site/motorcycles";
+
+interface Props {
+  lang: "de" | "en";
+}
+
+const { lang } = Astro.props;
+const t = motorcycles[lang];
+const p = t.page;
+
+const images = Object.values(
+  import.meta.glob<{ default: ImageMetadata }>(
+    "../../assets/motorrader/*.{jpg,jpeg,png,webp}",
+    { eager: true },
+  ),
+).map((mod) => mod.default);
+---
+
+<section class="bg-neutral-950 py-16 text-neutral-100 lg:py-24">
+  <div class="mx-auto max-w-3xl px-4 text-center lg:px-8">
+    <h1 class="text-3xl font-bold lg:text-4xl">
+      {p.heading} <span class="text-red-500">{p.headingAccent}</span>
+    </h1>
+    <p class="mt-4 text-neutral-400">{p.intro}</p>
+    <span
+      class="mt-4 inline-flex items-center gap-2 rounded-full border border-red-500/40 bg-red-500/10 px-4 py-1.5 text-sm font-semibold text-red-400"
+    >
+      {t.readyToRace}
+    </span>
+  </div>
+</section>
+
+<section class="bg-white py-16 lg:py-24">
+  <div class="mx-auto max-w-4xl px-4 lg:px-8">
+    <h2 class="text-2xl font-bold text-neutral-900">{p.fleetHeading}</h2>
+
+    <!-- Na mobitelu se redovi slažu kao kartice (naslovi kolona su sr-only), od sm nadalje je prava tablica. -->
+    <div class="mt-6 overflow-hidden rounded-xl ring-1 ring-neutral-200">
+      <table class="w-full border-collapse text-left text-sm">
+        <caption class="sr-only">{p.fleetHeading}</caption>
+        <thead class="sr-only bg-neutral-100 text-neutral-700 sm:not-sr-only sm:table-header-group">
+          <tr>
+            <th scope="col" class="px-4 py-3 font-semibold">{p.columns.model}</th>
+            <th scope="col" class="px-4 py-3 font-semibold">{p.columns.engine}</th>
+            <th scope="col" class="px-4 py-3 font-semibold">{p.columns.idealFor}</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-neutral-100">
+          {
+            p.fleet.map((row) => (
+              <tr class="block px-4 py-3 sm:table-row sm:px-0 sm:py-0">
+                <th
+                  scope="row"
+                  class="block text-left font-semibold text-neutral-900 sm:table-cell sm:px-4 sm:py-3"
+                >
+                  {row.model}
+                </th>
+                <td class="block text-neutral-600 sm:table-cell sm:px-4 sm:py-3">{row.engine}</td>
+                <td class="block text-neutral-600 sm:table-cell sm:px-4 sm:py-3">{row.idealFor}</td>
+              </tr>
+            ))
+          }
+        </tbody>
+      </table>
+    </div>
+
+    <div class="mt-10 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+      {
+        images.map((img, i) => (
+          <div class="overflow-hidden rounded-xl bg-neutral-50 shadow-sm ring-1 ring-neutral-100">
+            <Image
+              src={img}
+              alt={`${t.fleetPhotoAlt} ${i + 1}`}
+              class="aspect-3/2 w-full object-cover transition-transform duration-300 hover:scale-105"
+              loading="lazy"
+              widths={[300, 500]}
+              sizes="(min-width: 1024px) 220px, 45vw"
+            />
+          </div>
+        ))
+      }
+    </div>
+
+    <h2 class="mt-14 text-2xl font-bold text-neutral-900">{p.matchHeading}</h2>
+    <p class="mt-4 text-neutral-600">{p.matchText}</p>
+
+    <h2 class="mt-12 text-2xl font-bold text-neutral-900">{p.priceHeading}</h2>
+    <p class="mt-4 text-neutral-600">{p.priceText}</p>
+
+    <h2 class="mt-12 text-2xl font-bold text-neutral-900">{p.spareHeading}</h2>
+    <p class="mt-4 text-neutral-600">{p.spareText}</p>
+
+    <CtaButtons primary={p.ctaPrimary} secondary={p.ctaSecondary} class="mt-12" />
+  </div>
+</section>

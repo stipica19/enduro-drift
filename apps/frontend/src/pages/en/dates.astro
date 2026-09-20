@@ -1,13 +1,11 @@
 ---
 import Layout from "@/layouts/Layout.astro";
 import TourDatesTable from "@/components/ui/TourDatesTable.astro";
-import { Info } from "lucide-astro";
+import CtaButtons from "@/components/ui/CtaButtons.astro";
 import { dates } from "@/content/site/dates";
-import { arrivalNotice } from "@/content/site/arrivalNotice";
 
 const lang = "en" as const;
 const t = dates[lang];
-const notice = arrivalNotice[lang];
 ---
 
 <Layout
@@ -19,30 +17,36 @@ const notice = arrivalNotice[lang];
 >
   <section class="bg-white py-16 lg:py-24">
     <div class="mx-auto max-w-5xl px-4 lg:px-8">
-      <h1 class="text-3xl font-bold text-neutral-900 lg:text-4xl">{t.heading}</h1>
-      <p class="mt-4 text-neutral-600">
-        {t.intro}
-      </p>
+      <div class="max-w-3xl">
+        <h1 class="text-3xl font-bold text-neutral-900 lg:text-4xl">{t.heading}</h1>
+        <p class="mt-4 text-neutral-600">{t.intro}</p>
 
-      <div
-        class="mt-8 flex items-start gap-3 rounded-xl border border-sky-200 bg-sky-50 p-5"
-      >
-        <Info class="mt-0.5 h-5 w-5 shrink-0 text-sky-600" />
-        <div class="text-sm text-neutral-700">
-          <p class="font-semibold text-neutral-900">
-            {notice.title}
-          </p>
-          <p class="mt-1">
-            {notice.intro}
-          </p>
-          <ul class="mt-2 list-disc space-y-1 pl-5">
-            {notice.items.map((item) => <li>{item}</li>)}
-          </ul>
-        </div>
+        <h2 class="mt-12 text-2xl font-bold text-neutral-900">{t.arrivalHeading}</h2>
+        <p class="mt-4 text-neutral-600">{t.arrivalIntro}</p>
+        <ul class="mt-4 list-disc space-y-2 pl-5 text-neutral-600 marker:text-red-500">
+          {
+            t.tours.map((tour) => (
+              <li>
+                <strong class="font-semibold text-neutral-900">{tour.title}</strong> {tour.text}
+              </li>
+            ))
+          }
+        </ul>
+        <p class="mt-4 text-neutral-600">{t.transfer}</p>
       </div>
 
-      <div class="mt-10">
+      <div class="mt-12">
         <TourDatesTable lang={lang} />
+      </div>
+
+      <div class="mt-14 max-w-3xl">
+        <h2 class="text-2xl font-bold text-neutral-900">{t.seasonHeading}</h2>
+        <p class="mt-4 text-neutral-600">{t.seasonText}</p>
+
+        <h2 class="mt-12 text-2xl font-bold text-neutral-900">{t.groupHeading}</h2>
+        <p class="mt-4 text-neutral-600">{t.groupText}</p>
+
+        <CtaButtons primary={t.cta} class="mt-10" />
       </div>
     </div>
   </section>

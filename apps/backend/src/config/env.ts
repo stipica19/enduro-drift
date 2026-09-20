@@ -9,7 +9,7 @@ export const env = {
   frontendOrigin: process.env.FRONTEND_ORIGIN || "http://localhost:4321",
   resendApiKey: process.env.RESEND_API_KEY || "",
   contactEmailTo: process.env.CONTACT_EMAIL_TO || "endurodriftbosnien@gmail.com",
-  contactEmailFrom: process.env.CONTACT_EMAIL_FROM || "onboarding@resend.dev",
+  contactEmailFrom: process.env.CONTACT_EMAIL_FROM || "info@endurodriftbosnien.com",
   oldMongoDbName: process.env.OLD_MONGODB_DB_NAME || "",
   recaptchaSecretKey: process.env.RECAPTCHA_SECRET_KEY || "",
 };
