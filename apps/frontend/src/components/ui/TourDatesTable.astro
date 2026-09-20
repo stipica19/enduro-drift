@@ -1,27 +1,19 @@
 ---
 import { tourDatesTable } from "@/content/site/tourDatesTable";
 import { SERVER_API_URL } from "@/lib/serverApi";
+import { formatShortDate, type TourDateItem } from "@/lib/tourDates";
 
 interface Props {
   lang?: "de" | "en";
-}
-
-interface TourDate {
-  _id: string;
-  number: number;
-  season: string;
-  startDate: string;
-  endDate: string;
-  available: boolean;
 }
 
 const { lang = "de" } = Astro.props;
 const t = tourDatesTable[lang];
 
 const res = await fetch(`${SERVER_API_URL}/api/tour-dates`);
-const tourDates: TourDate[] = res.ok ? await res.json() : [];
+const tourDates: TourDateItem[] = res.ok ? await res.json() : [];
 
-const bySeason = tourDates.reduce<Record<string, TourDate[]>>((acc, td) => {
+const bySeason = tourDates.reduce<Record<string, TourDateItem[]>>((acc, td) => {
   (acc[td.season] ??= []).push(td);
   return acc;
 }, {});
@@ -29,14 +21,15 @@ const bySeason = tourDates.reduce<Record<string, TourDate[]>>((acc, td) => {
 const seasons = Object.keys(bySeason).sort();
 
 function formatDate(iso: string) {
-  return new Date(iso).toLocaleDateString(t.locale, {
-    day: "2-digit",
-    month: "2-digit",
-    year: "2-digit",
-  });
+  return formatShortDate(iso, t.locale);
 }
 ---
 
+<div
+  data-tour-dates
+  data-available-label={t.available}
+  data-unavailable-label={t.unavailable}
+>
 {
   seasons.length === 0 && (
     <p class="rounded-xl bg-neutral-100 p-6 text-center text-neutral-600">
@@ -75,6 +68,7 @@ function formatDate(iso: string) {
                 </td>
                 <td class="px-2 py-3">
                   <span
+                    data-tour-date-id={td._id}
                     class={`rounded-full px-3 py-1 text-xs font-semibold ${
                       td.available
                         ? "bg-green-100 text-green-700"
@@ -92,3 +86,36 @@ function formatDate(iso: string) {
     </div>
   ))
 }
+</div>
+
+<script>
+  import { fetchTourDates } from "../../lib/tourDates";
+
+  // Stranica je statična: "Verfügbar/Nicht verfügbar" iz builda zastarije čim se netko
+  // prijavi. Pri učitavanju se stanje osvježi iz API-ja; ako API ne odgovori, ostaje ono
+  // iz builda. Novi termini (redovi) i dalje traže rebuild — ovdje se mijenjaju samo oznake.
+  const roots = document.querySelectorAll<HTMLElement>("[data-tour-dates]");
+
+  if (roots.length > 0) {
+    fetchTourDates().then((list) => {
+      if (!list) return;
+
+      const availableById = new Map(list.map((d) => [d._id, d.available]));
+
+      roots.forEach((root) => {
+        root.querySelectorAll<HTMLElement>("[data-tour-date-id]").forEach((badge) => {
+          const available = availableById.get(badge.dataset.tourDateId ?? "");
+          if (available === undefined) return;
+
+          badge.textContent = available
+            ? (root.dataset.availableLabel ?? badge.textContent)
+            : (root.dataset.unavailableLabel ?? badge.textContent);
+          badge.classList.toggle("bg-green-100", available);
+          badge.classList.toggle("text-green-700", available);
+          badge.classList.toggle("bg-red-100", !available);
+          badge.classList.toggle("text-red-700", !available);
+        });
+      });
+    });
+  }
+</script>

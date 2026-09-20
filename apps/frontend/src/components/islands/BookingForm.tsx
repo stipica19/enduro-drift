@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { apiFetch } from "../../lib/apiClient";
 import { bookingForm } from "../../content/site/bookingForm";
+import { fetchTourDates, formatTourDateLabel } from "../../lib/tourDates";
 
 interface TourDateOption {
   id: string;
@@ -10,6 +11,9 @@ interface TourDateOption {
 interface Props {
   tours: string[];
   tourDates: TourDateOption[];
+  // Trebaju za sastavljanje oznaka termina kad se popis osvježi u browseru
+  dateLabelPrefix: string;
+  dateLocale: string;
   initialTour?: string;
   lang?: "de" | "en";
 }
@@ -40,8 +44,16 @@ const initialState: FormState = {
   message: "",
 };
 
-export default function BookingForm({ tours, tourDates, initialTour, lang = "de" }: Props) {
+export default function BookingForm({
+  tours,
+  tourDates,
+  dateLabelPrefix,
+  dateLocale,
+  initialTour,
+  lang = "de",
+}: Props) {
   const t = bookingForm[lang];
+  const [dateOptions, setDateOptions] = useState(tourDates);
   const [form, setForm] = useState<FormState>({
     ...initialState,
     tourId: initialTour && tours.includes(initialTour) ? initialTour : "",
@@ -58,6 +70,30 @@ export default function BookingForm({ tours, tourDates, initialTour, lang = "de"
       setForm((prev) => ({ ...prev, tourId: tourFromUrl }));
     }
   }, [tours]);
+
+  // Popis termina iz builda je zastario čim se netko prijavi (stranica je statična),
+  // pa se pri učitavanju osvježi iz API-ja. Ako API ne odgovori, ostaje popis iz builda.
+  useEffect(() => {
+    let cancelled = false;
+
+    fetchTourDates().then((list) => {
+      if (cancelled || !list) return;
+
+      const options = list
+        .filter((d) => d.available)
+        .map((d) => ({ id: d._id, label: formatTourDateLabel(d, dateLabelPrefix, dateLocale) }));
+
+      setDateOptions(options);
+      // Ako je odabrani termin u međuvremenu postao pun, ne ostavljaj ga odabranog
+      setForm((prev) =>
+        options.some((o) => o.id === prev.tourDateId) ? prev : { ...prev, tourDateId: "" },
+      );
+    });
+
+    return () => {
+      cancelled = true;
+    };
+  }, [dateLabelPrefix, dateLocale]);
 
   function handleChange(
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>,
@@ -170,7 +206,7 @@ export default function BookingForm({ tours, tourDates, initialTour, lang = "de"
             className={inputClass}
           >
             <option value="">{t.choosePlaceholder}</option>
-            {tourDates.map((d) => (
+            {dateOptions.map((d) => (
               <option key={d.id} value={d.id}>
                 {d.label}
               </option>

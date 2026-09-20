@@ -12,9 +12,9 @@ interface Props {
 
 const { lang = "de", alternates } = Astro.props;
 const navItems = nav[lang];
-const homeHref = lang === "en" ? "/en" : "/de";
-const deHref = alternates?.de ?? "/de";
-const enHref = alternates?.en ?? "/en";
+const homeHref = lang === "en" ? "/en/" : "/de/";
+const deHref = alternates?.de ?? "/de/";
+const enHref = alternates?.en ?? "/en/";
 ---
 
 <header

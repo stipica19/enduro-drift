@@ -35,7 +35,7 @@ function formatDate(date: Date) {
         <div class="mt-10 grid grid-cols-1 gap-6 sm:grid-cols-2">
           {posts.map((post) => (
             <a
-              href={`/en/blog/${slugOf(post.id)}`}
+              href={`/en/blog/${slugOf(post.id)}/`}
               class="group overflow-hidden rounded-2xl bg-neutral-50 ring-1 ring-neutral-100 transition-shadow hover:shadow-md"
             >
               {post.data.cover && (

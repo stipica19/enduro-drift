@@ -2,7 +2,6 @@
 title: "Enduro Tour Bosnia 2027: Season Is Open - Book Now!"
 description: "Bookings for the 2027 enduro season are now open! Tours run from May to June 2027, every Saturday. Limited spots - secure yours today."
 date: 2026-05-23
-cover: "https://www.endurodriftbosnien.com/_next/image?url=%2Fprokosko.png&w=640&q=75"
 tags:
   - "Enduro Tour"
   - "Bosnia"
@@ -30,19 +29,15 @@ All tours start and finish on **Saturdays** - easy to fit into your holiday plan
 After two exceptional seasons, we've pushed our routes, logistics and overall experience to a new level. Here's what's waiting for you:
 
 ### 🧭 Bosnia's Best Trails
-
 From technical forest sections to alpine panoramic routes and fast gravel tracks - Bosnia delivers off-road riding you simply won't find in Central Europe.
 
 ### 🏍️ Your Bike or Ours
-
 Bring your own enduro or rent one on site. Our team handles setup, maintenance and technical support.
 
 ### 🤝 Small Groups, Big Fun
-
 We keep groups intentionally small - for maximum safety, personal attention and real team spirit.
 
 ### 🍖 Accommodation & Bosnian Food
-
 After a full day on the trails, cozy accommodation and hearty Bosnian food await: Ćevapi, pita, fresh dairy and more.
 
 ---

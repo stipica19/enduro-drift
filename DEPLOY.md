@@ -183,6 +183,23 @@ sudo nginx -t                                  # provjeri sintaksu PRIJE reloada
 sudo systemctl reload nginx
 ```
 
+### Test domena: zabrani Googleu indeksiranje
+
+`dev.skin-glow.beauty` je javno dostupna kopija sajta. Stranice imaju `canonical` na
+`endurodriftbosnien.com`, pa ih Google u pravilu neće indeksirati kao zasebne, ali to nije
+zajamčeno. Sigurno je dodati header samo u `server` blok **test domene**:
+
+```nginx
+    add_header X-Robots-Tag "noindex, nofollow" always;
+```
+
+> **UPOZORENJE — ovo NE smije završiti u produkcijskom bloku.** Header govori Googleu da
+> ne indeksira ništa na toj domeni. Na `endurodriftbosnien.com` bi uklonio cijeli sajt iz
+> pretrage, uključujući blogove. Pri produkcijskom deployu pravi se **novi** `server` blok
+> za `endurodriftbosnien.com` (ne kopira se ovaj), a ovaj header ostaje samo uz test domenu.
+> Provjera na produkciji: `curl -sI https://endurodriftbosnien.com/de/ | grep -i x-robots`
+> **ne smije** ništa ispisati.
+
 ### HTTPS
 
 **Što radimo:** certbot izdaje certifikat i sam prepisuje nginx konfiguraciju.

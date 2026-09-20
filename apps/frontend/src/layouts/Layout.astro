@@ -28,6 +28,16 @@ const {
 
 const siteUrl = "https://endurodriftbosnien.com";
 
+// Stranice se serviraju kao /de/kontakt/ (folder + index.html), a nginx /de/kontakt preusmjerava
+// na /de/kontakt/. Canonical, og:url i hreflang moraju pokazivati na URL sa kosom crtom (isti kao
+// u sitemapu), inače canonical pokazuje na URL koji sam radi redirect pa ga Google može ignorirati.
+const withSlash = (p: string) => (p.endsWith("/") ? p : `${p}/`);
+const canonicalPath = withSlash(path);
+const pageAlternates = alternates && {
+  de: alternates.de && withSlash(alternates.de),
+  en: alternates.en && withSlash(alternates.en),
+};
+
 const ogImage = await getImage({
   src: image,
   width: 1200,
@@ -45,31 +55,31 @@ const ogLocale = lang === "de" ? "de_DE" : "en_US";
     <title>{title}</title>
     <meta name="description" content={description} />
     {noindex && <meta name="robots" content="noindex" />}
-    <link rel="canonical" href={`${siteUrl}${path}`} />
+    <link rel="canonical" href={`${siteUrl}${canonicalPath}`} />
     {
-      alternates?.de && (
+      pageAlternates?.de && (
         <link
           rel="alternate"
           hreflang="de"
-          href={`${siteUrl}${alternates.de}`}
+          href={`${siteUrl}${pageAlternates.de}`}
         />
       )
     }
     {
-      alternates?.en && (
+      pageAlternates?.en && (
         <link
           rel="alternate"
           hreflang="en"
-          href={`${siteUrl}${alternates.en}`}
+          href={`${siteUrl}${pageAlternates.en}`}
         />
       )
     }
     {
-      alternates?.de && alternates?.en && (
+      pageAlternates?.de && pageAlternates?.en && (
         <link
           rel="alternate"
           hreflang="x-default"
-          href={`${siteUrl}${alternates.de}`}
+          href={`${siteUrl}${pageAlternates.de}`}
         />
       )
     }
@@ -78,7 +88,7 @@ const ogLocale = lang === "de" ? "de_DE" : "en_US";
     <meta property="og:site_name" content="Enduro Drift Bosnien" />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
-    <meta property="og:url" content={`${siteUrl}${path}`} />
+    <meta property="og:url" content={`${siteUrl}${canonicalPath}`} />
     <meta property="og:locale" content={ogLocale} />
     <meta property="og:image" content={ogImageUrl} />
     <meta property="og:image:width" content="1200" />
@@ -91,7 +101,7 @@ const ogLocale = lang === "de" ? "de_DE" : "en_US";
     <slot name="head" />
   </head>
   <body class="bg-neutral-100 text-neutral-100">
-    <Header lang={lang} alternates={alternates} />
+    <Header lang={lang} alternates={pageAlternates} />
     <main>
       <slot />
     </main>

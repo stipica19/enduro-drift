@@ -19,8 +19,8 @@ export const topEnduro: Record<"de" | "en", TopEnduroContent> = {
       "Für Anfänger bis Profi - Route angepasst an dein Level",
       "Deutsch- & englischsprachige Guides",
     ],
-    pricesCta: { label: "Preise ansehen", href: "/de/touren" },
-    bookCta: { label: "Tour anfragen", href: "/de/anmeldung" },
+    pricesCta: { label: "Preise ansehen", href: "/de/touren/" },
+    bookCta: { label: "Tour anfragen", href: "/de/anmeldung/" },
   },
   en: {
     heading: "TOP ENDURO HOLIDAY",
@@ -33,7 +33,7 @@ export const topEnduro: Record<"de" | "en", TopEnduroContent> = {
       "For beginners to pros - routes matched to your level",
       "German- & English-speaking guides",
     ],
-    pricesCta: { label: "View prices", href: "/en/tours" },
-    bookCta: { label: "Request a tour", href: "/en/booking" },
+    pricesCta: { label: "View prices", href: "/en/tours/" },
+    bookCta: { label: "Request a tour", href: "/en/booking/" },
   },
 };

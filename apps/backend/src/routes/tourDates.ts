@@ -1,4 +1,5 @@
 import type { FastifyPluginAsync } from "fastify";
+import { isTourDateAvailable } from "../services/bookingService.js";
 
 const tourDatesRoutes: FastifyPluginAsync = async (fastify) => {
   fastify.get("/api/tour-dates", async () => {
@@ -15,7 +16,7 @@ const tourDatesRoutes: FastifyPluginAsync = async (fastify) => {
       season: td.season,
       startDate: td.startDate,
       endDate: td.endDate,
-      available: td.capacity > td.bookedCount,
+      available: isTourDateAvailable(td.capacity, td.bookedCount),
     }));
   });
 };

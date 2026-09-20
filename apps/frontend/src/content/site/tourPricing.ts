@@ -44,7 +44,7 @@ export const tourPricing: Record<"de" | "en", TourPricingContent> = {
         included: ["3 Tage geführtes Endurofahren", "4 Übernachtungen, Frühstück, Guide"],
         arrival: "Samstag",
         departure: "Mittwoch",
-        ctaHref: "/de/anmeldung?tour=Tour%201",
+        ctaHref: "/de/anmeldung/?tour=Tour%201",
       },
       {
         title: "Unser Bestseller - perfekt für Fortgeschrittene",
@@ -54,7 +54,7 @@ export const tourPricing: Record<"de" | "en", TourPricingContent> = {
         included: ["4 Tage geführtes Endurofahren", "5 Übernachtungen, Frühstück, Guide"],
         arrival: "Samstag",
         departure: "Freitag",
-        ctaHref: "/de/anmeldung?tour=Tour%202",
+        ctaHref: "/de/anmeldung/?tour=Tour%202",
       },
       {
         title: "Maximale Herausforderung für erfahrene Fahrer",
@@ -63,7 +63,7 @@ export const tourPricing: Record<"de" | "en", TourPricingContent> = {
         included: ["5 Tage geführtes Endurofahren", "7 Übernachtungen, Frühstück, Guide"],
         arrival: "Samstag",
         departure: "Samstag",
-        ctaHref: "/de/anmeldung?tour=Tour%203",
+        ctaHref: "/de/anmeldung/?tour=Tour%203",
       },
     ],
     hardEnduro: {
@@ -75,7 +75,7 @@ export const tourPricing: Record<"de" | "en", TourPricingContent> = {
       text: "Längere, landschaftlich reizvolle Strecken mit gemischtem Schwierigkeitsgrad - 80-100 km pro Tag",
     },
     helpText: "Nicht sicher, welche Tour für Sie geeignet ist?",
-    helpCta: { label: "Kontaktieren Sie uns für Beratung", href: "/de/kontakt" },
+    helpCta: { label: "Kontaktieren Sie uns für Beratung", href: "/de/kontakt/" },
   },
   en: {
     badge: "Suggested Enduro Bosnia Tours",
@@ -97,7 +97,7 @@ export const tourPricing: Record<"de" | "en", TourPricingContent> = {
         included: ["3 days guided enduro riding", "4 nights, breakfast, guide"],
         arrival: "Saturday",
         departure: "Wednesday",
-        ctaHref: "/en/booking?tour=Tour%201",
+        ctaHref: "/en/booking/?tour=Tour%201",
       },
       {
         title: "Our Bestseller - Perfect for Intermediates",
@@ -107,7 +107,7 @@ export const tourPricing: Record<"de" | "en", TourPricingContent> = {
         included: ["4 days guided enduro riding", "5 nights, breakfast, guide"],
         arrival: "Saturday",
         departure: "Friday",
-        ctaHref: "/en/booking?tour=Tour%202",
+        ctaHref: "/en/booking/?tour=Tour%202",
       },
       {
         title: "Maximum Challenge for Experienced Riders",
@@ -116,7 +116,7 @@ export const tourPricing: Record<"de" | "en", TourPricingContent> = {
         included: ["5 days guided enduro riding", "7 nights, breakfast, guide"],
         arrival: "Saturday",
         departure: "Saturday",
-        ctaHref: "/en/booking?tour=Tour%203",
+        ctaHref: "/en/booking/?tour=Tour%203",
       },
     ],
     hardEnduro: {
@@ -128,6 +128,6 @@ export const tourPricing: Record<"de" | "en", TourPricingContent> = {
       text: "Longer, scenic mixed-difficulty routes - 80-100 km per day",
     },
     helpText: "Not sure which tour suits you?",
-    helpCta: { label: "Contact us for advice", href: "/en/contact" },
+    helpCta: { label: "Contact us for advice", href: "/en/contact/" },
   },
 };

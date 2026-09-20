@@ -29,14 +29,14 @@ function formatDate(date: Date) {
 }
 
 const siteUrl = "https://endurodriftbosnien.com";
-const postPath = `/en/blog/${post.id.replace(/^en\//, "")}`;
+const postPath = `/en/blog/${post.id.replace(/^en\//, "")}/`;
 
 const breadcrumbSchema = {
   "@context": "https://schema.org",
   "@type": "BreadcrumbList",
   itemListElement: [
-    { "@type": "ListItem", position: 1, name: "Home", item: `${siteUrl}/en` },
-    { "@type": "ListItem", position: 2, name: "Blog", item: `${siteUrl}/en/blog` },
+    { "@type": "ListItem", position: 1, name: "Home", item: `${siteUrl}/en/` },
+    { "@type": "ListItem", position: 2, name: "Blog", item: `${siteUrl}/en/blog/` },
     { "@type": "ListItem", position: 3, name: post.data.title, item: `${siteUrl}${postPath}` },
   ],
 };
@@ -47,7 +47,9 @@ const articleSchema = {
   headline: post.data.title,
   description: post.data.description,
   datePublished: post.data.date.toISOString(),
-  ...(post.data.cover && { image: post.data.cover }),
+  ...(post.data.cover && {
+    image: post.data.cover.startsWith("http") ? post.data.cover : `${siteUrl}${post.data.cover}`,
+  }),
 };
 ---
 

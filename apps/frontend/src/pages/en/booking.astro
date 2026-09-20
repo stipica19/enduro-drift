@@ -8,6 +8,7 @@ import coverImage from "@/assets/hero-bild.webp";
 import { booking } from "@/content/site/booking";
 import { arrivalNotice } from "@/content/site/arrivalNotice";
 import { SERVER_API_URL } from "@/lib/serverApi";
+import { formatTourDateLabel, type TourDateItem } from "@/lib/tourDates";
 
 const lang = "en" as const;
 const t = booking[lang];
@@ -16,33 +17,17 @@ const notice = arrivalNotice[lang];
 const tours = ["Tour 1", "Tour 2", "Tour 3"];
 const preselectedTour = Astro.url.searchParams.get("tour") ?? "";
 
-interface TourDateApiItem {
-  _id: string;
-  number: number;
-  startDate: string;
-  endDate: string;
-  available: boolean;
-}
-
 const [tourDatesRes] = await Promise.all([fetch(`${SERVER_API_URL}/api/tour-dates`)]);
 
-const rawTourDates: TourDateApiItem[] = tourDatesRes.ok
+const rawTourDates: TourDateItem[] = tourDatesRes.ok
   ? await tourDatesRes.json()
   : [];
-
-function formatDate(iso: string) {
-  return new Date(iso).toLocaleDateString(t.locale, {
-    day: "2-digit",
-    month: "2-digit",
-    year: "2-digit",
-  });
-}
 
 const tourDates = rawTourDates
   .filter((d) => d.available)
   .map((d) => ({
     id: d._id,
-    label: `${t.dateOptionPrefix} ${d.number}: ${formatDate(d.startDate)} - ${formatDate(d.endDate)}`,
+    label: formatTourDateLabel(d, t.dateOptionPrefix, t.locale),
   }));
 ---
 
@@ -127,6 +112,8 @@ const tourDates = rawTourDates
           lang={lang}
           tours={tours}
           tourDates={tourDates}
+          dateLabelPrefix={t.dateOptionPrefix}
+          dateLocale={t.locale}
           initialTour={preselectedTour}
         />
       </div>

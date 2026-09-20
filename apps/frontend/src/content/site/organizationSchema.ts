@@ -7,7 +7,7 @@ export function organizationSchema(lang: "de" | "en") {
     name: "Enduro Drift Bosnien",
     image: `${siteUrl}/logo.png`,
     logo: `${siteUrl}/logo.png`,
-    url: `${siteUrl}/${lang}`,
+    url: `${siteUrl}/${lang}/`,
     telephone: "+38763136095",
     email: "endurodriftbosnien@gmail.com",
     address: {

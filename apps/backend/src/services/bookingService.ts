@@ -1,3 +1,10 @@
+// Termin je dostupan dok ima slobodnih mjesta; kad je bookedCount jednak ili veći od
+// capacity, nije. Nedostajući bookedCount znači 0 (isto kao u rezervaciji u bookings.ts),
+// a nedostajući capacity znači da termin nema mjesta.
+export function isTourDateAvailable(capacity: unknown, bookedCount: unknown) {
+  return (Number(bookedCount) || 0) < (Number(capacity) || 0);
+}
+
 // Broj noćenja po vrsti ture (isto kao na starom sajtu i u arrivalNotice.ts na frontendu)
 export const NIGHTS_BY_TOUR_TYPE: Record<string, number> = {
   "Tour 1": 4,

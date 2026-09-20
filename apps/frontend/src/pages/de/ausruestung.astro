@@ -18,7 +18,8 @@ const equipmentIcons = [HardHat, Footprints, Hand, Shield];
   <section class="bg-neutral-950 py-16 text-neutral-100 lg:py-24">
     <div class="mx-auto max-w-3xl px-4 text-center lg:px-8">
       <h1 class="text-3xl font-bold lg:text-4xl">
-        {t.equipmentHeading} <span class="text-red-500">{t.equipmentAccent}</span>
+        {t.equipmentHeading}
+        <span class="text-red-500">{t.equipmentAccent}</span>
       </h1>
       <p class="mt-4 text-neutral-400">{t.equipmentIntro}</p>
       <span
@@ -40,7 +41,9 @@ const equipmentIcons = [HardHat, Footprints, Hand, Shield];
                 <span class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-red-50 text-red-500">
                   <Icon class="h-5 w-5" />
                 </span>
-                <span class="text-sm font-medium text-neutral-900">{label}</span>
+                <span class="min-w-0 flex-1 wrap-break-words text-sm font-medium text-neutral-900">
+                  {label}
+                </span>
               </li>
             );
           })
