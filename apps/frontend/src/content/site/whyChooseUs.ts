@@ -18,7 +18,7 @@ export const whyChooseUs: Record<"de" | "en", WhyChooseUsContent> = {
     features: [
       {
         title: "Premium Motorräder",
-        text: "Neueste BETA-Modelle 2023 - BETA 300 RR und BETA 300 XTRAINER, bereit für jede Herausforderung",
+        text: "Neueste BETA-Modelle 2023 - BETA 300 RR und BETA 300 XTRAINER,  bereit für jede Herausforderung",
       },
       {
         title: "Einzigartige Lage",
