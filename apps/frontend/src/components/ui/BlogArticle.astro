@@ -8,6 +8,7 @@ import { siteUrl } from "@/lib/site";
 import { blogAlternates, blogPath, getPosts, slugOf } from "@/lib/blog";
 import type { BlogPost, Lang } from "@/lib/blog";
 import { blogArticle } from "@/content/site/blogArticle";
+import { blogPostingSchema } from "@/lib/structuredData";
 
 interface Props {
   lang: Lang;
@@ -40,43 +41,21 @@ function formatDate(date: Date) {
 }
 
 // Title tag: opcionalni metaTitle (cijeli naslov, s brendom) ili naslov objave + brend.
-const title = post.data.metaTitle ?? `${post.data.title} | Enduro Drift Bosnien`;
+const title =
+  post.data.metaTitle ?? `${post.data.title} | Enduro Drift Bosnien`;
 
 // Objave bez covera koriste isti podrazumijevani OG kadar kao Layout.
-const fallbackImage = await getImage({ src: defaultOgSource, width: 1200, height: 630, format: "jpg" });
+const fallbackImage = await getImage({
+  src: defaultOgSource,
+  width: 1200,
+  height: 630,
+  format: "jpg",
+});
 const cover = post.data.cover
   ? post.data.cover.startsWith("http")
     ? post.data.cover
     : `${siteUrl}${post.data.cover}`
   : `${siteUrl}${fallbackImage.src}`;
-
-const breadcrumbSchema = {
-  "@context": "https://schema.org",
-  "@type": "BreadcrumbList",
-  itemListElement: [
-    { "@type": "ListItem", position: 1, name: labels.breadcrumbHome, item: `${siteUrl}/${lang}/` },
-    { "@type": "ListItem", position: 2, name: labels.breadcrumbBlog, item: `${siteUrl}/${lang}/blog/` },
-    { "@type": "ListItem", position: 3, name: post.data.title, item: `${siteUrl}${postPath}` },
-  ],
-};
-
-const articleSchema = {
-  "@context": "https://schema.org",
-  "@type": "Article",
-  headline: post.data.title,
-  description: post.data.description,
-  inLanguage: lang,
-  image: cover,
-  datePublished: post.data.date.toISOString(),
-  ...(post.data.updated && { dateModified: post.data.updated.toISOString() }),
-  author: { "@type": "Organization", name: "Enduro Drift Bosnien", url: `${siteUrl}/${lang}/` },
-  publisher: {
-    "@type": "Organization",
-    name: "Enduro Drift Bosnien",
-    logo: { "@type": "ImageObject", url: `${siteUrl}/logo.png` },
-  },
-  mainEntityOfPage: { "@type": "WebPage", "@id": `${siteUrl}${postPath}` },
-};
 ---
 
 <Layout
@@ -87,19 +66,9 @@ const articleSchema = {
   alternates={alternates}
   ogType="article"
   publishedTime={post.data.date.toISOString()}
+  schema={[blogPostingSchema(lang, post, postPath, cover)]}
+  breadcrumbName={post.data.title}
 >
-  <script
-    type="application/ld+json"
-    slot="head"
-    is:inline
-    set:html={JSON.stringify(breadcrumbSchema)}
-  />
-  <script
-    type="application/ld+json"
-    slot="head"
-    is:inline
-    set:html={JSON.stringify(articleSchema)}
-  />
   <article class="bg-white py-16 lg:py-24">
     <div class="mx-auto max-w-3xl px-4 lg:px-8">
       <p class="text-sm text-neutral-500">{formatDate(post.data.date)}</p>
@@ -140,7 +109,9 @@ const articleSchema = {
       {
         related.length > 0 && (
           <section class="mt-14 border-t border-neutral-200 pt-10">
-            <h2 class="text-xl font-bold text-neutral-900">{labels.relatedHeading}</h2>
+            <h2 class="text-xl font-bold text-neutral-900">
+              {labels.relatedHeading}
+            </h2>
             <ul class="mt-6 space-y-5">
               {related.map((item) => (
                 <li>

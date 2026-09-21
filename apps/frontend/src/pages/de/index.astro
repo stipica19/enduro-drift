@@ -11,10 +11,9 @@ import MotorcyclesSection from "@/components/ui/MotorcyclesSection.astro";
 import TourRulesSection from "@/components/ui/TourRulesSection.astro";
 import FaqSection from "@/components/ui/FaqSection.astro";
 import LatestPosts from "@/components/ui/LatestPosts.astro";
-import { organizationSchema } from "@/content/site/organizationSchema";
+import { faqSchema } from "@/lib/structuredData";
+import { faq } from "@/content/site/faq";
 import { toSliderImages } from "@/lib/sliderImages";
-
-const schema = organizationSchema("de");
 
 const galleryImages = toSliderImages(
   import.meta.glob<{ default: ImageMetadata }>(
@@ -34,13 +33,13 @@ const natureImages = toSliderImages(
 ---
 
 <Layout
-  title="Enduro Touren in Bosnien | Enduro Drift Bosnien"
+  title="Geführte Enduro Touren Bosnien & Enduro Urlaub | Enduro Drift"
   description="Geführte Enduro-Touren in Bosnien und Herzegowina für Einsteiger und erfahrene Fahrer. Legale Routen, kleine Gruppen, persönliche Betreuung - jetzt anfragen."
   path="/de"
   lang="de"
   alternates={{ de: "/de", en: "/en" }}
+  schema={[faqSchema(faq.de.items)]}
 >
-  <script type="application/ld+json" slot="head" is:inline set:html={JSON.stringify(schema)} />
   <Hero lang="de" />
   <TopEnduroSection lang="de" />
   <section class="defer-render bg-white py-16 lg:py-24">

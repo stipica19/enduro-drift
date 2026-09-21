@@ -11,10 +11,9 @@ import MotorcyclesSection from "@/components/ui/MotorcyclesSection.astro";
 import TourRulesSection from "@/components/ui/TourRulesSection.astro";
 import FaqSection from "@/components/ui/FaqSection.astro";
 import LatestPosts from "@/components/ui/LatestPosts.astro";
-import { organizationSchema } from "@/content/site/organizationSchema";
+import { faqSchema } from "@/lib/structuredData";
+import { faq } from "@/content/site/faq";
 import { toSliderImages } from "@/lib/sliderImages";
-
-const schema = organizationSchema("en");
 
 const galleryImages = toSliderImages(
   import.meta.glob<{ default: ImageMetadata }>(
@@ -39,8 +38,8 @@ const natureImages = toSliderImages(
   path="/en"
   lang="en"
   alternates={{ de: "/de", en: "/en" }}
+  schema={[faqSchema(faq.en.items)]}
 >
-  <script type="application/ld+json" slot="head" is:inline set:html={JSON.stringify(schema)} />
   <Hero lang="en" />
   <TopEnduroSection lang="en" />
   <section class="defer-render bg-white py-16 lg:py-24">

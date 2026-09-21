@@ -1,18 +1,12 @@
 export interface BlogArticleContent {
-  breadcrumbHome: string;
-  breadcrumbBlog: string;
   relatedHeading: string;
 }
 
 export const blogArticle: Record<"de" | "en", BlogArticleContent> = {
   de: {
-    breadcrumbHome: "Startseite",
-    breadcrumbBlog: "Blog",
     relatedHeading: "Weitere Beiträge",
   },
   en: {
-    breadcrumbHome: "Home",
-    breadcrumbBlog: "Blog",
     relatedHeading: "More from the blog",
   },
 };

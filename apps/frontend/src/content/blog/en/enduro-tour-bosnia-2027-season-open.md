@@ -49,7 +49,7 @@ After a full day on the trails, cozy accommodation and hearty Bosnian food await
 - ✅ Intermediate riders looking for real off-road trails
 - ✅ Experienced riders who want to explore Bosnia's nature in depth
 
-Our local [guide team](/en/guide/) adapts the route and pace to your skill level - no one gets left behind.
+Our local [guide team](/en/team/) adapts the route and pace to your skill level - no one gets left behind.
 
 ---
 

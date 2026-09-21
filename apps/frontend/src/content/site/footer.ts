@@ -8,9 +8,9 @@ export const footer: Record<"de" | "en", FooterContent> = {
   de: {
     nav: [
       { href: "/de/touren/", label: "Touren" },
-      { href: "/de/motorrader/", label: "Motorräder" },
+      { href: "/de/motorraeder/", label: "Motorräder" },
       { href: "/de/ausruestung/", label: "Ausrüstung" },
-      { href: "/de/reisefuhrer/", label: "Team" },
+      { href: "/de/team/", label: "Team" },
       { href: "/de/kontakt/", label: "Kontakt" },
       { href: "/de/privacy/", label: "Datenschutz" },
     ],
@@ -22,7 +22,7 @@ export const footer: Record<"de" | "en", FooterContent> = {
       { href: "/en/tours/", label: "Tours" },
       { href: "/en/motorcycles/", label: "Motorcycles" },
       { href: "/en/equipment/", label: "Equipment" },
-      { href: "/en/guide/", label: "Team" },
+      { href: "/en/team/", label: "Team" },
       { href: "/en/contact/", label: "Contact" },
       { href: "/en/privacy/", label: "Privacy" },
     ],

@@ -67,7 +67,7 @@ export const motorcycles: Record<"de" | "en", MotorcyclesContent> = {
     equipmentItems: ["Helme", "Stiefel", "Handschuhe", "Brust- und Ellbogenschützer"],
     freeBadge: "Kostenlos inklusive für alle Gäste",
     fleetPhotoAlt: "Rotes BETA Enduro-Motorrad aus unserer Flotte - Foto",
-    // Sadržaj stranice /motorrader (H1 + tijelo). Homepage sekcija koristi heading/intro iznad.
+    // Sadržaj stranice /motorraeder (H1 + tijelo). Homepage sekcija koristi heading/intro iznad.
     page: {
       heading: "Unsere",
       headingAccent: "Enduro-Motorräder",

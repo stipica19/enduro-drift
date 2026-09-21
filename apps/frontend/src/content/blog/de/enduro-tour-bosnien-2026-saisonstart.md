@@ -40,7 +40,7 @@ Für 2026 sind unsere Tourtage besser strukturiert als je zuvor:
 ### 🏍️ Premium-Enduro-Erlebnis (Leihbike verfügbar)
 Du kannst mit deinem eigenen Bike anreisen - oder es dir einfach machen und alles uns überlassen:
 
-- [Enduro-Leihbike](/de/motorrader/) auf Anfrage
+- [Enduro-Leihbike](/de/motorraeder/) auf Anfrage
 - Technischer Support & Werkzeug
 - Unterstützung beim Setup von Fahrwerk, Reifen und Bedienelementen
 
@@ -71,7 +71,7 @@ Kurz gesagt: **Bosnien fühlt sich wie echtes Abenteuer an - ganz ohne Massentou
 
 ## Das bekommst du bei Enduro Drift Bosnien
 
-- 🔥 Professionell geführte [Enduro-Touren](/de/touren/) mit [lokalen Guides](/de/reisefuhrer/)
+- 🔥 Professionell geführte [Enduro-Touren](/de/touren/) mit [lokalen Guides](/de/team/)
 - 🧩 Routen angepasst an dein Fahrlevel
 - 📍 Die besten Trails, Aussichtspunkte und versteckten Locations
 - 🛟 Support, Sicherheit und lokale Expertise

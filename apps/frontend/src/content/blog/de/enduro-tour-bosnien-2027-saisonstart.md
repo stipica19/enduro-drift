@@ -33,7 +33,7 @@ Nach zwei außergewöhnlichen Saisons haben wir Routen, Logistik und das gesamte
 Von technischen Waldpassagen über alpine Panoramastrecken bis hin zu schnellen Schotterpisten - Bosnien bietet Offroad-Erlebnisse, die du in Mitteleuropa einfach nicht findest.
 
 ### 🏍️ Dein Bike oder unseres
-Bring deine eigene Enduro mit oder leih dir eines direkt vor Ort - [hier findest du unsere Motorräder](/de/motorrader/). Unser Team kümmert sich um Setup, Wartung und technischen Support.
+Bring deine eigene Enduro mit oder leih dir eines direkt vor Ort - [hier findest du unsere Motorräder](/de/motorraeder/). Unser Team kümmert sich um Setup, Wartung und technischen Support.
 
 ### 🤝 Kleine Gruppen, großer Spaß
 Wir halten die Gruppen bewusst klein - für maximale Sicherheit, individuelle Betreuung und echten Team-Spirit.
@@ -49,7 +49,7 @@ Nach dem Fahren warten gemütliche Unterkünfte und die herzhafte bosnische Küc
 - ✅ Fortgeschrittene, die echte Offroad-Trails suchen
 - ✅ Erfahrene Fahrer, die Bosniens Natur tief erleben möchten
 
-Unser lokales [Guide-Team](/de/reisefuhrer/) passt Route und Tempo an dein Fahrlevel an - niemand wird abgehängt.
+Unser lokales [Guide-Team](/de/team/) passt Route und Tempo an dein Fahrlevel an - niemand wird abgehängt.
 
 ---
 

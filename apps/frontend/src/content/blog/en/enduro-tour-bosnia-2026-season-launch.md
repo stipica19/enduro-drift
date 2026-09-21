@@ -71,7 +71,7 @@ In short: **Bosnia feels like real adventure - without mass tourism.**
 
 ## What you get with Enduro Drift Bosnia
 
-- 🔥 Professionally guided [enduro tours](/en/tours/) with [local guides](/en/guide/)
+- 🔥 Professionally guided [enduro tours](/en/tours/) with [local guides](/en/team/)
 - 🧩 Routes adapted to your riding level
 - 📍 The best trails, viewpoints and hidden locations
 - 🛟 Support, safety and local expertise

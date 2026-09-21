@@ -1,6 +1,7 @@
 ---
 import Layout from "@/layouts/Layout.astro";
 import TourPricingSection from "@/components/ui/TourPricingSection.astro";
+import { touristTripSchemas } from "@/lib/structuredData";
 ---
 
 <Layout
@@ -9,6 +10,7 @@ import TourPricingSection from "@/components/ui/TourPricingSection.astro";
   path="/en/tours"
   lang="en"
   alternates={{ de: "/de/touren", en: "/en/tours" }}
+  schema={touristTripSchemas("en")}
 >
   <TourPricingSection lang="en" asPageHeading />
 </Layout>

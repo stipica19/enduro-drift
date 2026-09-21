@@ -15,7 +15,7 @@ tags:
 **Video:** [Auf YouTube ansehen](https://www.youtube.com/watch?v=pxF5BB03uB4)
 
 Ein besonderer Tag für Enduro Drift Bosnien!
-Der bekannte YouTuber Oida Style hat uns besucht und gemeinsam mit unserem [Team](/de/reisefuhrer/) eine spektakuläre [Enduro-Tour durch die bosnischen Berge](/de/touren/) unternommen.
+Der bekannte YouTuber Oida Style hat uns besucht und gemeinsam mit unserem [Team](/de/team/) eine spektakuläre [Enduro-Tour durch die bosnischen Berge](/de/touren/) unternommen.
 
 Oida Style ist einer der beliebtesten Motovlogger auf YouTube mit über 100.000 Abonnenten. Seine authentischen Videos und seine Leidenschaft für Motorräder haben ihn zu einer echten Größe in der deutschsprachigen Motorrad-Community gemacht.
 

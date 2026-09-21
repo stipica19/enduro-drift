@@ -10,7 +10,7 @@ export const createBookingSchema = z.object({
     address: z.string().optional(),
     country: z.string().optional(),
   }),
-  participants: z.number().int().min(3),
+  participants: z.number().int().min(2),
   arrivalMethod: z.string().optional(),
   rentBike: z.boolean().optional(),
   message: z.string().optional(),

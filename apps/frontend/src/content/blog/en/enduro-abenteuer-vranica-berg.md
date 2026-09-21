@@ -14,7 +14,7 @@ tags:
 **Video:** [Watch on YouTube](https://www.youtube.com/watch?v=pxF5BB03uB4)
 
 A special day for Enduro Drift Bosnia!
-The famous YouTuber Oida Style visited us and, together with our [team](/en/guide/), completed a spectacular [enduro tour through the Bosnian mountains](/en/tours/).
+The famous YouTuber Oida Style visited us and, together with our [team](/en/team/), completed a spectacular [enduro tour through the Bosnian mountains](/en/tours/).
 
 Oida Style is one of the most popular motovloggers on YouTube with over 100,000 subscribers. His authentic videos and passion for motorcycles have made him a well-known figure in the German-speaking motorcycle community.
 

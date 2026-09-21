@@ -1,10 +1,17 @@
+export type TourId = "einsteiger" | "bestseller" | "hardEnduro";
+
 export interface TourPricingCard {
+  /** Ključ za slug (src/content/tourSlugs.mjs) i tekst detalj-stranice (tourDetails.ts). */
+  id: TourId;
   title: string;
   badge?: string;
-  // Opisuje trenutnu (privremenu) sliku — mijenjati zajedno sa slikom u TourPricingSection.astro.
+  // Opisuje trenutnu (privremenu) sliku — mijenjati zajedno sa slikom u src/lib/tours.ts (tourImages).
   imageAlt: string;
   ownBikePrice: number;
   rentalBikePrice: number;
+  // Brojke za detalj-stranicu i FAQ — držati usklađeno s tekstom u `included`.
+  ridingDays: number;
+  nights: number;
   included: string[];
   arrival: string;
   departure: string;
@@ -45,9 +52,12 @@ export const tourPricing: Record<"de" | "en", TourPricingContent> = {
     excluded: ["Abendessen in der Stadt", "Vignette: 25 €/Monat (eigenes Motorrad)"],
     cards: [
       {
+        id: "einsteiger",
         title: "Ideal für Einsteiger & Genussfahrer",
         ownBikePrice: 490,
         rentalBikePrice: 790,
+        ridingDays: 3,
+        nights: 4,
         included: ["3 Tage geführtes Endurofahren", "4 Übernachtungen, Frühstück, Guide"],
         arrival: "Samstag",
         departure: "Mittwoch",
@@ -55,20 +65,26 @@ export const tourPricing: Record<"de" | "en", TourPricingContent> = {
         ctaHref: "/de/anmeldung/?tour=Tour%201",
       },
       {
+        id: "bestseller",
         title: "Unser Bestseller - perfekt für Fortgeschrittene",
         badge: "Beliebt",
         ownBikePrice: 590,
         rentalBikePrice: 890,
+        ridingDays: 4,
+        nights: 5,
         included: ["4 Tage geführtes Endurofahren", "5 Übernachtungen, Frühstück, Guide"],
         arrival: "Samstag",
-        departure: "Freitag",
+        departure: "Donnerstag",
         imageAlt: "Routenkarte der Fortgeschrittenen-Tour rund um Gornji Vakuf-Uskoplje",
         ctaHref: "/de/anmeldung/?tour=Tour%202",
       },
       {
+        id: "hardEnduro",
         title: "Maximale Herausforderung für erfahrene Fahrer",
         ownBikePrice: 790,
         rentalBikePrice: 1190,
+        ridingDays: 5,
+        nights: 7,
         included: ["5 Tage geführtes Endurofahren", "7 Übernachtungen, Frühstück, Guide"],
         arrival: "Samstag",
         departure: "Samstag",
@@ -103,9 +119,12 @@ export const tourPricing: Record<"de" | "en", TourPricingContent> = {
     excluded: ["Dinner in town", "Road tax: €25/month (own motorcycle)"],
     cards: [
       {
+        id: "einsteiger",
         title: "Ideal for Beginners & Leisure Riders",
         ownBikePrice: 490,
         rentalBikePrice: 790,
+        ridingDays: 3,
+        nights: 4,
         included: ["3 days guided enduro riding", "4 nights, breakfast, guide"],
         arrival: "Saturday",
         departure: "Wednesday",
@@ -113,20 +132,26 @@ export const tourPricing: Record<"de" | "en", TourPricingContent> = {
         ctaHref: "/en/booking/?tour=Tour%201",
       },
       {
+        id: "bestseller",
         title: "Our Bestseller - Perfect for Intermediates",
         badge: "Popular",
         ownBikePrice: 590,
         rentalBikePrice: 890,
+        ridingDays: 4,
+        nights: 5,
         included: ["4 days guided enduro riding", "5 nights, breakfast, guide"],
         arrival: "Saturday",
-        departure: "Friday",
+        departure: "Thursday",
         imageAlt: "Route map of the intermediate tour around Gornji Vakuf-Uskoplje",
         ctaHref: "/en/booking/?tour=Tour%202",
       },
       {
+        id: "hardEnduro",
         title: "Maximum Challenge for Experienced Riders",
         ownBikePrice: 790,
         rentalBikePrice: 1190,
+        ridingDays: 5,
+        nights: 7,
         included: ["5 days guided enduro riding", "7 nights, breakfast, guide"],
         arrival: "Saturday",
         departure: "Saturday",

@@ -1,8 +1,10 @@
+import { readdirSync, readFileSync } from "node:fs";
 import { defineConfig } from "astro/config";
 import react from "@astrojs/react";
 import sitemap from "@astrojs/sitemap";
 import tailwindcss from "@tailwindcss/vite";
 import { blogTranslations } from "./src/content/blogTranslations.mjs";
+import { tourSlugs } from "./src/content/tourSlugs.mjs";
 
 // www je kanonski host (stari sajt rangira na www) — isto u src/lib/site.ts i robots.txt.
 const siteUrl = "https://www.endurodriftbosnien.com";
@@ -24,11 +26,14 @@ const translatedSlugPairs = {
   "/de/galerie": "/en/gallery",
   "/de/gastebuch": "/en/guestbook",
   "/de/kontakt": "/en/contact",
-  "/de/motorrader": "/en/motorcycles",
+  "/de/motorraeder": "/en/motorcycles",
   "/de/privacy": "/en/privacy",
-  "/de/reisefuhrer": "/en/guide",
+  "/de/team": "/en/team",
   "/de/termine": "/en/dates",
   "/de/touren": "/en/tours",
+  ...Object.fromEntries(
+    Object.values(tourSlugs).map(({ de, en }) => [`/de/touren/${de}`, `/en/tours/${en}`]),
+  ),
   ...Object.fromEntries(
     Object.entries(blogTranslations).map(([de, en]) => [`/de/blog/${de}`, `/en/blog/${en}`]),
   ),
@@ -37,6 +42,30 @@ const translatedSlugPairs = {
 const dePathByEnPath = Object.fromEntries(
   Object.entries(translatedSlugPairs).map(([de, en]) => [en, de]),
 );
+
+// <lastmod> samo gdje postoji stvaran datum izmjene: blog objava (updated ?? date iz frontmattera)
+// i blog index (najnovija objava tog jezika). Ostale stranice ga namjerno nemaju — build datum na
+// svakom URL-u bio bi netačan, a Google tada prestaje vjerovati lastmod-u za cijeli sajt.
+// Frontmatter se čita direktno jer astro:content nije dostupan u configu.
+function blogLastmods() {
+  const lastmods = {};
+  for (const lang of ["de", "en"]) {
+    const dir = new URL(`./src/content/blog/${lang}/`, import.meta.url);
+    for (const file of readdirSync(dir).filter((name) => name.endsWith(".md"))) {
+      const frontmatter = readFileSync(new URL(file, dir), "utf8").split("---")[1] ?? "";
+      const field = (key) => frontmatter.match(new RegExp(`^${key}:\\s*["']?(\\d{4}-\\d{2}-\\d{2})`, "m"))?.[1];
+      const lastmod = field("updated") ?? field("date");
+      if (!lastmod) continue;
+
+      lastmods[`/${lang}/blog/${file.replace(/\.md$/, "")}`] = lastmod;
+      const indexPath = `/${lang}/blog`;
+      if (!lastmods[indexPath] || lastmod > lastmods[indexPath]) lastmods[indexPath] = lastmod;
+    }
+  }
+  return lastmods;
+}
+
+const lastmodByPath = blogLastmods();
 
 function stripTrailingSlash(pathname) {
   return pathname.length > 1 && pathname.endsWith("/") ? pathname.slice(0, -1) : pathname;
@@ -69,6 +98,8 @@ export default defineConfig({
             { lang: "x-default", url: `${siteUrl}${dePath}/` },
           ];
         }
+
+        if (lastmodByPath[path]) item.lastmod = lastmodByPath[path];
 
         return item;
       },

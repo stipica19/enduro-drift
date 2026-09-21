@@ -1,0 +1,28 @@
+---
+import { breadcrumbSchema, businessSchema } from "@/lib/structuredData";
+import type { SchemaNode } from "@/lib/structuredData";
+
+interface Props {
+  lang: "de" | "en";
+  /** Kanonska putanja sa završnom kosom crtom, npr. "/de/touren/". */
+  path: string;
+  /** Naziv zadnjeg breadcrumba kad ga nema u navigaciji (npr. naslov blog objave). */
+  breadcrumbName?: string;
+  /** Čvorovi specifični za stranicu (FAQPage, TouristTrip, BlogPosting). */
+  nodes?: SchemaNode[];
+}
+
+const { lang, path, breadcrumbName, nodes = [] } = Astro.props;
+
+// Firma (TravelAgency) kao puni čvor samo na homepageu; ostale stranice je referenciraju preko @id.
+const isHome = path === `/${lang}/`;
+const breadcrumbs = isHome ? undefined : breadcrumbSchema(lang, path, breadcrumbName);
+const graph = [...(isHome ? [businessSchema(lang)] : []), ...(breadcrumbs ? [breadcrumbs] : []), ...nodes];
+
+// "<" escapiran da tekst iz sadržaja (npr. "</script>" u naslovu) ne može zatvoriti script tag.
+const json =
+  graph.length > 0 &&
+  JSON.stringify({ "@context": "https://schema.org", "@graph": graph }).replace(/</g, "\\u003c");
+---
+
+{json && <script type="application/ld+json" is:inline set:html={json} />}

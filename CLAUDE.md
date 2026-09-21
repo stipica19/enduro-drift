@@ -61,10 +61,10 @@ docker compose -f docker-compose.dev.yml up   # lokalni full-stack dev
 `/de`, `/de/anmeldung`, `/de/galerie`, `/de/blog`, `/de/blog/[slug]`, `/de/kontakt`, `/de/termine`, `/de/gastebuch`, `/de/privacy`
 
 **Repurposed (URL zadržan, sadržaj promijenjen):**
-`/de/reisefuhrer` → postaje pravi travel-guide o Bosni (viza, sezona, kako doći). Bio vodiča (Mladen, Dario, Anel) je preseljen na `/de/team`, ne ostaje ovdje.
+`/de/reisefuhrer` → postaje pravi travel-guide o Bosni (viza, sezona, kako doći). Bio vodiča (Mladen, Dario, Anel) je preseljen na `/de/team`, ne ostaje ovdje. **Stanje od 2026-09-21:** travel-guide još ne postoji, pa `/de/reisefuhrer` i `/en/guide` trenutno rade 301 na `/de/team` / `/en/team` (`apps/frontend/nginx.conf`) — kad se guide napravi, ukloniti ta dva redirecta.
 
 **Novo:**
-`/de/touren`, `/de/touren/[slug]` (×3 postojeće ture dobijaju svoj URL), `/de/team`, `/de/motorrader`, `/de/ausruestung`
+`/de/touren`, `/de/touren/[slug]` (×3 postojeće ture dobijaju svoj URL), `/de/team`, `/de/motorraeder` (umlaut kao "ae"; stari `/de/motorrader` → 301), `/de/ausruestung`
 
 EN mirror: `/en/tours`, `/en/booking`, `/en/gallery`, `/en/contact`, `/en/dates`, `/en/guide`, `/en/team`, `/en/motorcycles`, `/en/equipment`, `/en/privacy`.
 

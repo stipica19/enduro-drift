@@ -31,8 +31,6 @@ export const dates: Record<"de" | "en", DatesContent> = {
         title: "Tour 1 – Einsteiger:",
         text: "3 Fahrtage, 4 Übernachtungen, Abreise am Mittwoch",
       },
-      // TODO: kartice tura (tourPricing.ts, homepage i /touren) kažu za Tour 2 odlazak u petak — uskladiti.
-      // 5 noćenja od subote = četvrtak, a arrivalNotice.ts (booking stranica) već kaže četvrtak.
       {
         title: "Tour 2 – Fortgeschrittene:",
         text: "4 Fahrtage, 5 Übernachtungen, Abreise am Donnerstag",
@@ -68,8 +66,6 @@ export const dates: Record<"de" | "en", DatesContent> = {
         title: "Tour 1 – Beginner:",
         text: "3 riding days, 4 nights, departure on Wednesday",
       },
-      // TODO: the tour cards (tourPricing.ts, homepage and /tours) say Friday for Tour 2 — align.
-      // 5 nights from Saturday = Thursday, and arrivalNotice.ts (booking page) already says Thursday.
       {
         title: "Tour 2 – Intermediate:",
         text: "4 riding days, 5 nights, departure on Thursday",

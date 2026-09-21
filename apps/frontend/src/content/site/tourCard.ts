@@ -7,6 +7,8 @@ export interface TourCardLabels {
   arrival: string;
   departure: string;
   cta: string;
+  /** Link na detalj-stranicu; {name} = kratki naziv ture (tourDetails.ts). */
+  details: string;
 }
 
 export const tourCardLabels: Record<"de" | "en", TourCardLabels> = {
@@ -19,6 +21,7 @@ export const tourCardLabels: Record<"de" | "en", TourCardLabels> = {
     arrival: "Anreise",
     departure: "Abreise",
     cta: "Buche jetzt!",
+    details: "Mehr zur {name}",
   },
   en: {
     ownBike: "With your own motorcycle",
@@ -29,5 +32,6 @@ export const tourCardLabels: Record<"de" | "en", TourCardLabels> = {
     arrival: "Arrival",
     departure: "Departure",
     cta: "Book now!",
+    details: "More about the {name}",
   },
 };

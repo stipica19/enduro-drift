@@ -4,8 +4,10 @@ import Header from "../components/ui/Header.astro";
 import Footer from "../components/ui/Footer.astro";
 import WhatsappWidget from "../components/ui/WhatsappWidget.astro";
 import GoogleAnalytics from "../components/ui/GoogleAnalytics.astro";
+import StructuredData from "../components/ui/StructuredData.astro";
 import defaultOgSource from "../assets/hero-bild.webp";
 import { siteUrl } from "../lib/site";
+import type { SchemaNode } from "../lib/structuredData";
 import "../styles/global.css";
 
 interface Props {
@@ -19,6 +21,10 @@ interface Props {
   ogType?: "website" | "article";
   /** ISO datum objave, ide u article:published_time (samo za ogType="article"). */
   publishedTime?: string;
+  /** JSON-LD čvorovi ove stranice; firma i BreadcrumbList dodaju se automatski (StructuredData.astro). */
+  schema?: SchemaNode[];
+  /** Naziv stranice u BreadcrumbList kad ga nema u navigaciji/footeru. */
+  breadcrumbName?: string;
 }
 
 const {
@@ -31,6 +37,8 @@ const {
   image = defaultOgSource,
   ogType = "website",
   publishedTime,
+  schema,
+  breadcrumbName,
 } = Astro.props;
 
 // Stranice se serviraju kao /de/kontakt/ (folder + index.html), a nginx /de/kontakt preusmjerava
@@ -110,6 +118,9 @@ const ogLocale = lang === "de" ? "de_DE" : "en_US";
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={ogImageUrl} />
 
+    {!noindex && (
+      <StructuredData lang={lang} path={canonicalPath} breadcrumbName={breadcrumbName} nodes={schema} />
+    )}
     <slot name="head" />
   </head>
   <body class="bg-neutral-100 text-neutral-100">

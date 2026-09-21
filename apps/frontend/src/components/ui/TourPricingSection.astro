@@ -2,11 +2,8 @@
 import TourCard from "@/components/ui/TourCard.astro";
 import { Bike, Flame, Zap } from "lucide-astro";
 import { tourPricing } from "@/content/site/tourPricing";
-
-// TODO: zamijeni sa stvarnim fotografijama/mapama tura kad budu spremne
-import mapBeginner from "@/assets/tours/tura1-map.webp";
-import mapIntermediate from "@/assets/tours/tura2-map.webp";
-import advancedPhoto from "@/assets/tours/tura22-map.webp";
+import { tourCardLabels } from "@/content/site/tourCard";
+import { getTour, tourImages, tourPath } from "@/lib/tours";
 
 interface Props {
   lang?: "de" | "en";
@@ -19,7 +16,8 @@ const content = tourPricing[lang];
 const Heading = asPageHeading ? "h1" : "h2";
 const heading = asPageHeading ? content.pageHeading : content.heading;
 const headingAccent = asPageHeading ? content.pageHeadingAccent : content.headingAccent;
-const images = [mapBeginner, mapIntermediate, advancedPhoto];
+const detailLabel = (id: (typeof content.cards)[number]["id"]) =>
+  tourCardLabels[lang].details.replace("{name}", getTour(lang, id).detail.name);
 ---
 
 <section class="bg-neutral-950 py-16 lg:py-24">
@@ -38,12 +36,12 @@ const images = [mapBeginner, mapIntermediate, advancedPhoto];
   </div>
 
   <div class="mx-auto mt-12 grid max-w-7xl grid-cols-1 gap-6 px-4 lg:grid-cols-3 lg:px-8">
-    {content.cards.map((card, i) => (
+    {content.cards.map((card) => (
       <TourCard
         lang={lang}
         title={card.title}
         badge={card.badge}
-        image={images[i]}
+        image={tourImages[card.id]}
         imageAlt={card.imageAlt}
         ownBikePrice={card.ownBikePrice}
         rentalBikePrice={card.rentalBikePrice}
@@ -53,6 +51,8 @@ const images = [mapBeginner, mapIntermediate, advancedPhoto];
         arrival={card.arrival}
         departure={card.departure}
         ctaHref={card.ctaHref}
+        detailHref={tourPath(lang, card.id)}
+        detailLabel={detailLabel(card.id)}
       />
     ))}
   </div>

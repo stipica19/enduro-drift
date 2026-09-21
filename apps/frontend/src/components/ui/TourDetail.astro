@@ -1,0 +1,299 @@
+---
+import { Image } from "astro:assets";
+import { ArrowRight, Bike, CalendarDays, Check, Flame, Info, MapPin, Moon, X, Zap } from "lucide-astro";
+import Layout from "@/layouts/Layout.astro";
+import FaqSection from "@/components/ui/FaqSection.astro";
+import { blogPath, getPosts, slugOf } from "@/lib/blog";
+import { faqSchema, touristTripSchema } from "@/lib/structuredData";
+import { getTour, tourIds, tourPath, toursIndexPath } from "@/lib/tours";
+import type { Lang } from "@/lib/tours";
+import { tourCardLabels } from "@/content/site/tourCard";
+import { tourDetailLabels } from "@/content/site/tourDetails";
+import { tourPricing } from "@/content/site/tourPricing";
+import type { TourId } from "@/content/site/tourPricing";
+
+interface Props {
+  lang: Lang;
+  id: TourId;
+}
+
+const { lang, id } = Astro.props;
+const tour = getTour(lang, id);
+const { card, detail } = tour;
+const labels = tourDetailLabels[lang];
+const cardLabels = tourCardLabels[lang];
+const pricing = tourPricing[lang];
+const terrain = detail.terrain === "hard" ? pricing.hardEnduro : pricing.mediumEnduro;
+const TerrainIcon = detail.terrain === "hard" ? Flame : Zap;
+
+const facts = [
+  { icon: Bike, label: labels.facts.ridingDays, value: card.ridingDays },
+  { icon: Moon, label: labels.facts.nights, value: card.nights },
+  { icon: MapPin, label: labels.facts.arrival, value: card.arrival },
+  { icon: CalendarDays, label: labels.facts.departure, value: card.departure },
+];
+
+const costGroups = [
+  { icon: Check, iconClass: "text-green-600", label: cardLabels.included, items: card.included },
+  { icon: Info, iconClass: "text-sky-600", label: cardLabels.additionalCosts, items: pricing.additionalCosts },
+  { icon: X, iconClass: "text-red-600", label: cardLabels.excluded, items: pricing.excluded },
+];
+
+const otherTours = tourIds.filter((other) => other !== id).map((other) => getTour(lang, other));
+
+const posts = await getPosts(lang);
+const relatedPosts = detail.relatedPosts.flatMap((slug) => posts.filter((post) => slugOf(post) === slug));
+---
+
+<Layout
+  title={detail.metaTitle}
+  description={detail.metaDescription}
+  path={tour.path}
+  lang={lang}
+  alternates={{ de: tourPath("de", id), en: tourPath("en", id) }}
+  image={tour.image}
+  schema={[touristTripSchema(lang, id), faqSchema(tour.faq)]}
+  breadcrumbName={detail.name}
+>
+  <section class="bg-neutral-950 py-12 text-neutral-100 lg:py-20">
+    <div class="mx-auto max-w-6xl px-4 lg:px-8">
+      <nav aria-label="Breadcrumb" class="text-sm text-neutral-400">
+        <ol class="flex flex-wrap items-center gap-2">
+          <li><a href={`/${lang}/`} class="hover:text-white">{labels.home}</a></li>
+          <li aria-hidden="true">/</li>
+          <li><a href={toursIndexPath(lang)} class="hover:text-white">{labels.tours}</a></li>
+          <li aria-hidden="true">/</li>
+          <li aria-current="page" class="text-neutral-200">{detail.name}</li>
+        </ol>
+      </nav>
+
+      <div class="mt-8 grid gap-10 lg:grid-cols-[1fr_22rem] lg:items-start">
+        <div>
+          <span
+            class="inline-flex items-center gap-2 rounded-full border border-red-500/30 bg-red-600/10 px-4 py-1.5 text-sm font-medium text-red-400"
+          >
+            <TerrainIcon class="h-4 w-4" /> {detail.level} · {terrain.title}
+          </span>
+          <h1 class="mt-5 text-3xl font-bold text-white lg:text-5xl">
+            {detail.heading} <span class="text-red-500">{detail.headingAccent}</span>
+          </h1>
+          <p class="mt-5 max-w-2xl text-lg leading-relaxed text-neutral-300">{detail.intro}</p>
+
+          <dl class="mt-8 grid grid-cols-2 gap-3 sm:grid-cols-4">
+            {
+              facts.map(({ icon: Icon, label, value }) => (
+                <div class="rounded-xl bg-neutral-900 p-4 ring-1 ring-neutral-800">
+                  <dt class="flex items-center gap-2 text-sm text-neutral-400">
+                    <Icon class="h-4 w-4 text-red-500" /> {label}
+                  </dt>
+                  <dd class="mt-1 text-lg font-bold text-white">{value}</dd>
+                </div>
+              ))
+            }
+          </dl>
+        </div>
+
+        <aside class="rounded-2xl bg-neutral-900 p-6 ring-1 ring-neutral-800">
+          <p class="text-sm font-semibold tracking-wide text-neutral-400 uppercase">{labels.priceHeading}</p>
+          <div class="mt-4 flex items-center justify-between border-b border-neutral-800 pb-3">
+            <span class="text-neutral-400">{cardLabels.ownBike}</span>
+            <span class="text-xl font-bold text-white">{card.ownBikePrice} €</span>
+          </div>
+          <div class="flex items-center justify-between py-3">
+            <span class="text-neutral-400">{cardLabels.rentalBike}</span>
+            <span class="text-xl font-bold text-red-500">{card.rentalBikePrice} €</span>
+          </div>
+          <a
+            href={card.ctaHref}
+            class="mt-4 flex min-h-12 items-center justify-center rounded-xl bg-red-600 px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-red-700 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white"
+          >
+            {labels.ctaBook}
+          </a>
+          <a
+            href={labels.datesLink.href}
+            class="mt-3 flex min-h-12 items-center justify-center rounded-xl border border-white/30 px-6 py-3 text-sm font-semibold text-white transition-colors hover:border-white/60 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white"
+          >
+            {labels.datesLink.label}
+          </a>
+          <p class="mt-4 text-sm text-neutral-400">{labels.depositNote}</p>
+        </aside>
+      </div>
+    </div>
+  </section>
+
+  <section class="bg-white py-16 text-neutral-900 lg:py-24">
+    <div class="mx-auto grid max-w-6xl gap-12 px-4 lg:grid-cols-[1fr_22rem] lg:px-8">
+      <div class="space-y-14">
+        <div>
+          <h2 class="text-2xl font-bold lg:text-3xl">{labels.audienceHeading}</h2>
+          <ul class="mt-6 space-y-3">
+            {
+              detail.audience.map((item) => (
+                <li class="flex items-start gap-3 text-neutral-700">
+                  <Check class="mt-0.5 h-5 w-5 shrink-0 text-red-600" strokeWidth={3} />
+                  {item}
+                </li>
+              ))
+            }
+          </ul>
+        </div>
+
+        <div>
+          <h2 class="text-2xl font-bold lg:text-3xl">{labels.routeHeading}</h2>
+          <p class="mt-4 leading-relaxed text-neutral-700">{detail.routeText}</p>
+          <div class="mt-6 flex items-start gap-3 rounded-xl bg-neutral-100 p-4">
+            <TerrainIcon class="mt-0.5 h-5 w-5 shrink-0 text-red-600" />
+            <p class="text-neutral-700">
+              <strong class="font-semibold text-neutral-900">{terrain.title}:</strong>
+              {terrain.text}
+            </p>
+          </div>
+          <Image
+            src={tour.image}
+            alt={card.imageAlt}
+            class="mt-6 aspect-video w-full rounded-2xl object-cover"
+            loading="lazy"
+            widths={[480, 800, 1200]}
+            sizes="(min-width: 1024px) 720px, 92vw"
+          />
+        </div>
+
+        <div>
+          <h2 class="text-2xl font-bold lg:text-3xl">{labels.scheduleHeading}</h2>
+          <ol class="mt-6 space-y-6 border-l-2 border-red-600/30 pl-6">
+            {
+              tour.schedule.map((step) => (
+                <li class="relative">
+                  <span class="absolute top-1.5 -left-[1.95rem] h-3 w-3 rounded-full bg-red-600" aria-hidden="true" />
+                  <h3 class="font-semibold text-neutral-900">{step.title}</h3>
+                  <p class="mt-1 text-neutral-700">{step.text}</p>
+                </li>
+              ))
+            }
+          </ol>
+        </div>
+
+        <div>
+          <h2 class="text-2xl font-bold lg:text-3xl">{labels.bikesHeading}</h2>
+          <p class="mt-4 leading-relaxed text-neutral-700">{detail.bikesText}</p>
+          <div class="mt-4 flex flex-wrap gap-x-6 gap-y-2">
+            {
+              [labels.bikesLink, labels.equipmentLink].map((link) => (
+                <a href={link.href} class="inline-flex items-center gap-1 font-semibold text-red-600 hover:text-red-700">
+                  {link.label} <ArrowRight class="h-4 w-4" />
+                </a>
+              ))
+            }
+          </div>
+        </div>
+
+        <div>
+          <h2 class="text-2xl font-bold lg:text-3xl">{labels.guidesHeading}</h2>
+          <p class="mt-4 leading-relaxed text-neutral-700">{detail.guidesText}</p>
+          <a
+            href={labels.guidesLink.href}
+            class="mt-4 inline-flex items-center gap-1 font-semibold text-red-600 hover:text-red-700"
+          >
+            {labels.guidesLink.label} <ArrowRight class="h-4 w-4" />
+          </a>
+        </div>
+      </div>
+
+      <aside class="self-start rounded-2xl bg-neutral-50 p-6 ring-1 ring-neutral-200 lg:sticky lg:top-28">
+        <h2 class="text-xl font-bold">{labels.includedHeading}</h2>
+        {
+          costGroups.map(({ icon: Icon, iconClass, label, items }) => (
+            <div class="mt-5">
+              <p class="flex items-center gap-2 font-semibold">
+                <Icon class:list={["h-4 w-4", iconClass]} strokeWidth={3} /> {label}
+              </p>
+              <ul class="mt-2 space-y-1.5 text-sm text-neutral-700">
+                {items.map((item) => (
+                  <li class="ml-6 list-disc marker:text-neutral-400">{item}</li>
+                ))}
+              </ul>
+            </div>
+          ))
+        }
+        <a
+          href={card.ctaHref}
+          class="mt-6 flex min-h-12 items-center justify-center rounded-xl bg-red-600 px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-red-700 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-red-600"
+        >
+          {labels.ctaBook}
+        </a>
+      </aside>
+    </div>
+  </section>
+
+  <FaqSection lang={lang} items={tour.faq} heading={labels.faqHeading} headingAccent={detail.name} />
+
+  <section class="bg-white py-16 text-neutral-900 lg:py-24">
+    <div class="mx-auto grid max-w-6xl gap-12 px-4 lg:grid-cols-2 lg:px-8">
+      <div>
+        <h2 class="text-2xl font-bold">{labels.otherToursHeading}</h2>
+        <ul class="mt-6 space-y-4">
+          {
+            otherTours.map((other) => (
+              <li>
+                <a
+                  href={other.path}
+                  class="group block rounded-xl p-4 ring-1 ring-neutral-200 transition-colors hover:ring-red-300"
+                >
+                  <span class="font-semibold group-hover:text-red-600">{other.detail.name}</span>
+                  <span class="mt-1 block text-sm text-neutral-600">
+                    {other.detail.level} · {other.meta}
+                  </span>
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+        <a
+          href={labels.compareLink.href}
+          class="mt-4 inline-flex items-center gap-1 font-semibold text-red-600 hover:text-red-700"
+        >
+          {labels.compareLink.label} <ArrowRight class="h-4 w-4" />
+        </a>
+      </div>
+
+      {
+        relatedPosts.length > 0 && (
+          <div>
+            <h2 class="text-2xl font-bold">{labels.blogHeading}</h2>
+            <ul class="mt-6 space-y-5">
+              {relatedPosts.map((post) => (
+                <li>
+                  <a href={blogPath(lang, slugOf(post))} class="group block">
+                    <span class="font-semibold group-hover:text-red-600">{post.data.title}</span>
+                    <span class="mt-1 block text-sm text-neutral-600">{post.data.description}</span>
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+        )
+      }
+    </div>
+
+    <div class="mx-auto mt-16 max-w-6xl px-4 lg:px-8">
+      <aside class="rounded-2xl bg-neutral-950 p-6 text-white lg:p-10">
+        <h2 class="text-2xl font-bold lg:text-3xl">{tour.ctaHeading}</h2>
+        <p class="mt-3 max-w-2xl text-neutral-300">{labels.ctaText}</p>
+        <div class="mt-6 flex flex-col gap-3 sm:flex-row">
+          <a
+            href={card.ctaHref}
+            class="inline-flex min-h-12 items-center justify-center rounded-xl bg-red-600 px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-red-700 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white"
+          >
+            {labels.ctaBook}
+          </a>
+          <a
+            href={labels.contactLink.href}
+            class="inline-flex min-h-12 items-center justify-center rounded-xl border border-white/30 px-6 py-3 text-sm font-semibold text-white transition-colors hover:border-white/60 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white"
+          >
+            {labels.contactLink.label}
+          </a>
+        </div>
+      </aside>
+    </div>
+  </section>
+</Layout>

@@ -21,6 +21,6 @@ You can bring your own enduro or [rent a motorcycle locally](/en/motorcycles/). 
 We offer cozy accommodations with half board. After a day full of action you will enjoy Bosnian specialties.
 
 ## Safety & Guides
-Our local [guides](/en/guide/) know the best routes and ensure your safety. We also provide technical support in case of breakdowns.
+Our local [guides](/en/team/) know the best routes and ensure your safety. We also provide technical support in case of breakdowns.
 
 An enduro holiday in the Balkans is the perfect mix of adventure, nature and culture. With the right preparation it will be an experience you will never forget.

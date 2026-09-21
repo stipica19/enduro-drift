@@ -277,7 +277,7 @@ export default function BookingForm({
             id="booking-participants"
             type="number"
             name="participants"
-            min={3}
+            min={2}
             step={1}
             value={form.participants}
             onChange={handleChange}

@@ -1,8 +1,18 @@
 ---
-// Owner decided (2026-09-18): the 3 tours do NOT get individual detail pages.
-// TourCard/TourPricingSection link straight to the booking form instead. Empty
-// getStaticPaths means this route intentionally generates no pages.
+import TourDetail from "@/components/ui/TourDetail.astro";
+import { tourIds, tourSlug } from "@/lib/tours";
+import type { TourId } from "@/content/site/tourPricing";
+
+// Slugovi su u src/content/tourSlugs.mjs (isti izvor kao sitemap).
 export function getStaticPaths() {
-  return [];
+  return tourIds.map((id) => ({ params: { slug: tourSlug("en", id) }, props: { id } }));
 }
+
+interface Props {
+  id: TourId;
+}
+
+const { id } = Astro.props;
 ---
+
+<TourDetail lang="en" id={id} />
