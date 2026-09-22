@@ -38,7 +38,7 @@ const initialState: FormState = {
   email: "",
   phone: "",
   address: "",
-  participants: "3",
+  participants: "2",
   arrivalMethod: "",
   rentBike: "nein",
   message: "",
