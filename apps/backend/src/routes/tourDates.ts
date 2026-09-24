@@ -3,9 +3,11 @@ import { isTourDateAvailable } from "../services/bookingService.js";
 
 const tourDatesRoutes: FastifyPluginAsync = async (fastify) => {
   fastify.get("/api/tour-dates", async () => {
+    // Termin nestaje čim tura krene — tura koja je u toku se više ne nudi, a onaj koji
+    // kreće ove sedmice ostaje vidljiv do svog polaska.
     const tourDates = await fastify.mongo.db
         .collection("tourDates")
-        .find({ endDate: { $gte: new Date() } })
+        .find({ startDate: { $gte: new Date() } })
         .sort({ startDate: 1 })
         .toArray();
 

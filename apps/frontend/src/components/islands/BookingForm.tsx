@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { apiFetch } from "../../lib/apiClient";
 import { bookingForm } from "../../content/site/bookingForm";
 import { fetchTourDates, formatTourDateLabel } from "../../lib/tourDates";
+import { getRecaptchaToken, recaptchaConfigured } from "../../lib/recaptcha";
 
 interface TourDateOption {
   id: string;
@@ -29,6 +30,8 @@ interface FormState {
   arrivalMethod: string;
   rentBike: string;
   message: string;
+  /** Skriveno polje-zamka za botove — pravi korisnik ga ne vidi i ostaje prazno. */
+  honeypot: string;
 }
 
 const initialState: FormState = {
@@ -38,10 +41,11 @@ const initialState: FormState = {
   email: "",
   phone: "",
   address: "",
-  participants: "2",
+  participants: "1",
   arrivalMethod: "",
   rentBike: "nein",
   message: "",
+  honeypot: "",
 };
 
 export default function BookingForm({
@@ -104,30 +108,60 @@ export default function BookingForm({
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
+
+    // Honeypot: botovi popune skriveno polje, ljudi ga ne vide — ako je popunjeno, tiho odustani
+    if (form.honeypot) return;
+
     setStatus("loading");
 
-    const res = await apiFetch("/api/bookings", {
-      method: "POST",
-      body: JSON.stringify({
-        tourId: form.tourId,
-        tourDateId: form.tourDateId,
-        customer: {
-          name: form.name,
-          email: form.email,
-          phone: form.phone || undefined,
-          address: form.address || undefined,
-        },
-        participants: Number(form.participants),
-        arrivalMethod: form.arrivalMethod || undefined,
-        rentBike: form.rentBike === "ja",
-        message: form.message || undefined,
-        lang,
-      }),
-    });
+    const recaptchaToken = await getRecaptchaToken("booking");
+
+    // Bez tokena backend odbija prijavu; najčešći uzrok je blokator reklama, pa korisnik
+    // dobije jasnu poruku i alternativu umjesto opće greške.
+    if (recaptchaConfigured && !recaptchaToken) {
+      setErrorMessage(t.recaptchaError);
+      setStatus("error");
+      return;
+    }
+
+    let res: Response;
+    try {
+      res = await apiFetch("/api/bookings", {
+        method: "POST",
+        body: JSON.stringify({
+          tourId: form.tourId,
+          tourDateId: form.tourDateId,
+          customer: {
+            name: form.name,
+            email: form.email,
+            phone: form.phone || undefined,
+            address: form.address || undefined,
+          },
+          participants: Number(form.participants),
+          arrivalMethod: form.arrivalMethod || undefined,
+          rentBike: form.rentBike === "ja",
+          message: form.message || undefined,
+          lang,
+          honeypot: form.honeypot,
+          recaptchaToken,
+        }),
+      });
+    } catch {
+      // Prekinuta mreža: bez ovoga bi forma zauvijek ostala u stanju "šalje se…".
+      setErrorMessage(t.error);
+      setStatus("error");
+      return;
+    }
 
     if (!res.ok) {
       const data = await res.json().catch(() => null);
-      setErrorMessage(data?.code === "NOT_ENOUGH_SPOTS" ? t.notEnoughSpots : t.error);
+      const message =
+        data?.code === "NOT_ENOUGH_SPOTS"
+          ? t.notEnoughSpots
+          : data?.code === "RECAPTCHA_FAILED"
+            ? t.recaptchaError
+            : t.error;
+      setErrorMessage(message);
       setStatus("error");
       return;
     }
@@ -162,6 +196,18 @@ export default function BookingForm({
       className=" bg-white p-3  sm:p-8"
       aria-busy={status === "loading"}
     >
+      {/* Zamka za botove: skriveno i izvan reda tabulatora, pravi korisnik ga ne popuni. */}
+      <input
+        type="text"
+        name="honeypot"
+        value={form.honeypot}
+        onChange={handleChange}
+        className="hidden"
+        tabIndex={-1}
+        autoComplete="off"
+        aria-hidden="true"
+      />
+
       <div className="mb-8">
         <h2 className="text-2xl font-semibold tracking-tight text-neutral-900">
           {t.heading}
@@ -224,6 +270,7 @@ export default function BookingForm({
             id="booking-name"
             type="text"
             name="name"
+            maxLength={100}
             autoComplete="name"
             value={form.name}
             onChange={handleChange}
@@ -241,6 +288,7 @@ export default function BookingForm({
             id="booking-email"
             type="email"
             name="email"
+            maxLength={254}
             autoComplete="email"
             value={form.email}
             onChange={handleChange}
@@ -258,6 +306,7 @@ export default function BookingForm({
             id="booking-phone"
             type="tel"
             name="phone"
+            maxLength={30}
             autoComplete="tel"
             value={form.phone}
             onChange={handleChange}
@@ -277,7 +326,8 @@ export default function BookingForm({
             id="booking-participants"
             type="number"
             name="participants"
-            min={2}
+            min={1}
+            max={20}
             step={1}
             value={form.participants}
             onChange={handleChange}
@@ -294,6 +344,7 @@ export default function BookingForm({
             id="booking-address"
             type="text"
             name="address"
+            maxLength={200}
             autoComplete="street-address"
             value={form.address}
             onChange={handleChange}
@@ -374,6 +425,7 @@ export default function BookingForm({
           <textarea
             id="booking-message"
             name="message"
+            maxLength={2000}
             value={form.message}
             onChange={handleChange}
             rows={4}

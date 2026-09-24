@@ -1,5 +1,6 @@
 import Fastify from "fastify";
 import cookie from "@fastify/cookie";
+import rateLimit from "@fastify/rate-limit";
 import {
   serializerCompiler,
   validatorCompiler,
@@ -32,6 +33,13 @@ export function buildApp() {
 
   const app = Fastify({
     logger: true,
+    // Fastify po defaultu prima 1 MB. Najveći legitiman zahtjev ovdje je kontakt forma s
+    // reCAPTCHA tokenom (nekoliko KB), pa ogroman body odbijamo prije parsiranja i validacije.
+    bodyLimit: 64 * 1024,
+    // Backend je iza nginxa na hostu (vidi DEPLOY.md), pa bi bez ovoga svaki zahtjev imao
+    // request.ip = 127.0.0.1: ograničenje prijava bi vrijedilo za sve zajedno, a reCAPTCHA bi
+    // dobijala pogrešan remoteip. Vjerujemo X-Forwarded-For samo s loopbacka, tj. od tog nginxa.
+    trustProxy: "127.0.0.1",
   }).withTypeProvider<ZodTypeProvider>();
 
   app.setValidatorCompiler(validatorCompiler);
@@ -41,6 +49,11 @@ export function buildApp() {
     origin:env.frontendOrigin,
     credentials:true
   })
+
+  // global: false — ograničenje se uključuje po ruti (za sada samo admin prijava, vidi
+  // routes/admin/auth.ts). Brojači su u memoriji procesa; dovoljno je dok je jedan kontejner,
+  // a restart ih resetira. Za više instanci trebao bi zajednički store (Redis).
+  app.register(rateLimit, { global: false });
 
   app.register(cookie, { secret: env.sessionSecret });
   app.register(mongoPlugin);

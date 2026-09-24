@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { apiFetch } from "../../lib/apiClient";
-import { getRecaptchaToken } from "../../lib/recaptcha";
+import { getRecaptchaToken, recaptchaConfigured } from "../../lib/recaptcha";
 import { kontaktForm } from "../../content/site/kontaktForm";
 
 interface FormState {
@@ -20,6 +20,7 @@ export default function KontaktForm({ lang = "de" }: Props) {
   const t = kontaktForm[lang];
   const [form, setForm] = useState<FormState>(initialState);
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
+  const [errorMessage, setErrorMessage] = useState(t.error);
 
   function handleChange(e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -35,19 +36,35 @@ export default function KontaktForm({ lang = "de" }: Props) {
 
     const recaptchaToken = await getRecaptchaToken("contact");
 
-    const res = await apiFetch("/api/contact", {
-      method: "POST",
-      body: JSON.stringify({
-        name: form.name,
-        email: form.email,
-        message: form.message,
-        honeypot: form.honeypot,
-        lang,
-        recaptchaToken,
-      }),
-    });
+    // Bez tokena bi backend svejedno vratio grešku, ali bez objašnjenja. Najčešći uzrok je
+    // blokator reklama, pa korisnik dobije jasnu poruku i email adresu kao alternativu.
+    if (recaptchaConfigured && !recaptchaToken) {
+      setErrorMessage(t.recaptchaError);
+      setStatus("error");
+      return;
+    }
 
-    if (!res.ok) {
+    try {
+      const res = await apiFetch("/api/contact", {
+        method: "POST",
+        body: JSON.stringify({
+          name: form.name,
+          email: form.email,
+          message: form.message,
+          honeypot: form.honeypot,
+          lang,
+          recaptchaToken,
+        }),
+      });
+
+      if (!res.ok) {
+        setErrorMessage(res.status === 400 ? t.recaptchaError : t.error);
+        setStatus("error");
+        return;
+      }
+    } catch {
+      // Prekinuta mreža: bez ovoga bi forma zauvijek ostala u stanju "šalje se…".
+      setErrorMessage(t.error);
       setStatus("error");
       return;
     }
@@ -71,6 +88,7 @@ export default function KontaktForm({ lang = "de" }: Props) {
       <input
         type="text"
         name="name"
+        maxLength={100}
         placeholder={t.namePlaceholder}
         value={form.name}
         onChange={handleChange}
@@ -81,6 +99,7 @@ export default function KontaktForm({ lang = "de" }: Props) {
       <input
         type="email"
         name="email"
+        maxLength={254}
         placeholder={t.emailPlaceholder}
         value={form.email}
         onChange={handleChange}
@@ -90,6 +109,7 @@ export default function KontaktForm({ lang = "de" }: Props) {
 
       <textarea
         name="message"
+        maxLength={2000}
         placeholder={t.messagePlaceholder}
         value={form.message}
         onChange={handleChange}
@@ -110,7 +130,7 @@ export default function KontaktForm({ lang = "de" }: Props) {
         <p className="text-sm text-green-600">{t.success}</p>
       )}
       {status === "error" && (
-        <p className="text-sm text-red-600">{t.error}</p>
+        <p className="text-sm text-red-600">{errorMessage}</p>
       )}
     </form>
   );

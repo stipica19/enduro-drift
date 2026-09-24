@@ -28,6 +28,8 @@ export interface BookingFormContent {
   submitting: string;
   success: string;
   error: string;
+  /** Kad reCAPTCHA ne prođe ili je skripta blokirana — bez alternative bi upit bio izgubljen. */
+  recaptchaError: string;
   notEnoughSpots: string;
 }
 
@@ -45,7 +47,7 @@ export const bookingForm: Record<"de" | "en", BookingFormContent> = {
     phoneLabel: "Telefonnummer",
     phonePlaceholder: "+49 123 456 789",
     participantsLabel: "Anzahl Personen",
-    participantsHint: "(min. 2)",
+    participantsHint: "",
     addressLabel: "Adresse",
     addressPlaceholder: "Straße, Hausnummer, PLZ und Ort",
     arrivalLabel: "Wie reisen Sie an?",
@@ -62,6 +64,8 @@ export const bookingForm: Record<"de" | "en", BookingFormContent> = {
     submitting: "Wird gesendet…",
     success: "Vielen Dank! Ihre Anmeldung wurde erfolgreich gesendet. Wir melden uns per E-Mail mit allen Details.",
     error: "Fehler beim Senden. Bitte versuchen Sie es erneut oder kontaktieren Sie uns direkt.",
+    recaptchaError:
+      "Die Sicherheitsprüfung konnte nicht geladen werden - oft blockiert ein Ad-Blocker reCAPTCHA. Bitte deaktivieren Sie ihn kurz und versuchen Sie es erneut, oder schreiben Sie uns direkt an endurodriftbosnien@gmail.com.",
     notEnoughSpots:
       "Für diesen Termin sind nicht genügend Plätze für Ihre Gruppengröße frei. Bitte wählen Sie einen anderen Termin oder kontaktieren Sie uns.",
   },
@@ -78,7 +82,7 @@ export const bookingForm: Record<"de" | "en", BookingFormContent> = {
     phoneLabel: "Phone number",
     phonePlaceholder: "+44 20 1234 5678",
     participantsLabel: "Number of people",
-    participantsHint: "(min. 2)",
+    participantsHint: "",
     addressLabel: "Address",
     addressPlaceholder: "Street, number, postcode and city",
     arrivalLabel: "How are you arriving?",
@@ -95,6 +99,8 @@ export const bookingForm: Record<"de" | "en", BookingFormContent> = {
     submitting: "Sending…",
     success: "Thank you! Your booking request was sent successfully. We'll email you with all the details.",
     error: "Something went wrong. Please try again or contact us directly.",
+    recaptchaError:
+      "The security check could not be loaded - an ad blocker often blocks reCAPTCHA. Please disable it briefly and try again, or email us directly at endurodriftbosnien@gmail.com.",
     notEnoughSpots:
       "There aren't enough places left on this date for your group size. Please choose another date or contact us.",
   },

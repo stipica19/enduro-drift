@@ -31,6 +31,12 @@ export default function AdminLogin() {
       return;
     }
 
+    // Backend dozvoljava 10 pokušaja u 15 minuta po IP-u (zaštita od pogađanja lozinke)
+    if (res.status === 429) {
+      setError("Previše pokušaja prijave. Pričekaj 15 minuta pa pokušaj ponovo.");
+      return;
+    }
+
     // Sve osim 401 nije problem s lozinkom (npr. 500 kad backendu fali SESSION_SECRET)
     if (!res.ok) {
       setError(`Greška na serveru (HTTP ${res.status}). Provjeri logove backenda.`);

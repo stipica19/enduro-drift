@@ -10,6 +10,7 @@ import {
 } from "../services/bookingEmails.js";
 import { fromWithName } from "../services/emailUtils.js";
 import { getResend } from "../services/resend.js";
+import { verifyRecaptcha } from "../services/recaptcha.js";
 
 interface EmailPayload {
   from: string;
@@ -35,8 +36,24 @@ const bookingRoutes: FastifyPluginAsync = async (fastify) => {
     "/api/bookings",
     { schema: { body: createBookingSchema } },
     async (request, reply) => {
+      // honeypot i recaptchaToken su samo provjera — ne idu u bazu, zato ostatak ide odvojeno.
+      const { honeypot, recaptchaToken, ...bookingInput } = request.body;
       const { tourId, tourDateId, customer, participants, arrivalMethod, message, lang } =
-        request.body;
+        bookingInput;
+
+      // Honeypot: botovi popune skriveno polje koje ljudi ne vide — tiho "uspjeh", bez
+      // zauzimanja mjesta na terminu, upisa u bazu i slanja emaila.
+      if (honeypot) {
+        reply.code(201);
+        return { id: "" };
+      }
+
+      const recaptcha = await verifyRecaptcha(recaptchaToken, request.ip);
+      if (!recaptcha.ok) {
+        return reply
+          .code(400)
+          .send({ error: "reCAPTCHA-Überprüfung fehlgeschlagen.", code: "RECAPTCHA_FAILED" });
+      }
 
       if (!ObjectId.isValid(tourDateId)) {
         return reply.code(400).send({ error: "Ungültiger Termin.", code: "INVALID_TOUR_DATE" });
@@ -74,7 +91,7 @@ const bookingRoutes: FastifyPluginAsync = async (fastify) => {
       }
 
       const booking = {
-        ...request.body,
+        ...bookingInput,
         tourType: tourId,
         tourNumber: tourDate.number ?? null,
         checkInDate: stay.checkInDate,
@@ -106,7 +123,7 @@ const bookingRoutes: FastifyPluginAsync = async (fastify) => {
         checkOutDate: stay.checkOutDate,
         nights: stay.nights,
         arrivalMethod,
-        rentBike: request.body.rentBike ?? false,
+        rentBike: bookingInput.rentBike ?? false,
         message,
         lang,
       };
