@@ -13,3 +13,22 @@ import AdminBookingsList from "../../components/islands/AdminBookingsList";
     <AdminBookingsList client:load />
   </div>
 </Layout>
+<style is:global>
+  @media print {
+    @page {
+      size: A4;
+      margin: 15mm;
+    }
+    body > header,
+    body > footer {
+      display: none !important;
+    }
+    body {
+      background: #fff !important;
+    }
+    main > div {
+      padding: 0 !important;
+      max-width: none !important;
+    }
+  }
+</style>

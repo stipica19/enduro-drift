@@ -11,10 +11,12 @@ interface Booking {
     name: string;
     email: string;
     address?: string;
+    phone?: string;
   };
   participants: number;
   arrivalMethod?: string;
   rentBike?: boolean;
+  message?: string;
   checkInDate?: string;
   checkOutDate?: string;
   createdAt: string;
@@ -130,9 +132,96 @@ function DetailItem({
   return (
     <div className="min-w-0">
       <dt className="text-xs font-medium text-slate-500">{label}</dt>
-      <dd className="mt-1.5 break-words text-sm font-medium leading-6 text-slate-900">
+      <dd className="mt-1.5 wrap-break-word text-sm font-medium leading-6 text-slate-900">
         {children}
       </dd>
+    </div>
+  );
+}
+
+function PrintField({ label, children }: { label: string; children: ReactNode }) {
+  return (
+    <div>
+      <dt className="text-[9pt] uppercase tracking-wide text-neutral-500">{label}</dt>
+      <dd className="font-medium">{children}</dd>
+    </div>
+  );
+}
+
+function PrintReport({ bookings, query }: { bookings: Booking[]; query: string }) {
+  const groups = new Map<string, Booking[]>();
+  for (const b of bookings) {
+    const key = b.tourNumber == null ? "-" : String(b.tourNumber);
+    groups.set(key, [...(groups.get(key) ?? []), b]);
+  }
+  const sortedGroups = [...groups.entries()].sort(
+    ([a], [b]) => (Number(a) || Infinity) - (Number(b) || Infinity),
+  );
+  const total = bookings.reduce((sum, b) => sum + b.participants, 0);
+
+  return (
+    <div className="hidden text-[10.5pt] text-black print:block">
+      <header className="mb-6 border-b-2 border-black pb-3">
+        <h1 className="text-2xl font-bold">Enduro Drift Bosnien — Prijave</h1>
+        <p className="mt-1 text-sm">
+          Izvještaj od {formatDate(new Date().toISOString())} · {bookings.length} prijava ·{" "}
+          {total} sudionika
+          {query && <> · Pretraga: „{query}"</>}
+        </p>
+      </header>
+
+      {sortedGroups.map(([tour, items]) => (
+        <section key={tour} className="mb-8">
+          <h2 className="mb-3 break-after-avoid border-b border-neutral-400 pb-1 text-lg font-bold">
+            Tura #{tour}
+            {items[0].tourType && ` — ${items[0].tourType}`}
+            <span className="ml-2 text-sm font-normal">
+              ({items.length} prijava, {items.reduce((s, b) => s + b.participants, 0)} osoba)
+            </span>
+          </h2>
+
+          <div className="space-y-3">
+            {items.map((b) => (
+              <article key={b._id} className="break-inside-avoid rounded border border-neutral-300 p-3">
+                <div className="flex justify-between gap-4">
+                  <div>
+                    <p className="font-semibold">{b.customer.name}</p>
+                    <p className="text-sm">{b.customer.email}</p>
+                    {b.customer.phone && <p className="text-sm">{b.customer.phone}</p>}
+
+                  </div>
+                  <p className="text-sm text-neutral-600">
+                    Prijava: {formatDate(b.createdAt)} {formatTime(b.createdAt)}
+                  </p>
+                </div>
+
+                <dl className="mt-3 grid grid-cols-3 gap-x-4 gap-y-2 text-sm">
+                  <PrintField label="Dolazak">{formatDate(b.checkInDate)}</PrintField>
+                  <PrintField label="Odlazak">{formatDate(b.checkOutDate)}</PrintField>
+                  <PrintField label="Noćenja">
+                    {computeNights(b.checkInDate, b.checkOutDate) ?? "-"}
+                  </PrintField>
+                  <PrintField label="Osobe">{b.participants}</PrintField>
+                  <PrintField label="Najam motora">
+                    {b.rentBike == null ? "-" : b.rentBike ? "Da" : "Ne"}
+                  </PrintField>
+                  <PrintField label="Način dolaska">{b.arrivalMethod || "-"}</PrintField>
+                  <div className="col-span-3">
+                    <PrintField label="Adresa">{b.customer.address || "-"}</PrintField>
+                  </div>
+                </dl>
+
+                {b.message?.trim() && (
+                  <div className="mt-3 border-t border-neutral-300 pt-2">
+                    <p className="text-[9pt] uppercase tracking-wide text-neutral-500">Poruka</p>
+                    <p className="mt-1 whitespace-pre-line text-sm">{b.message}</p>
+                  </div>
+                )}
+              </article>
+            ))}
+          </div>
+        </section>
+      ))}
     </div>
   );
 }
@@ -206,6 +295,20 @@ export default function AdminBookingsList() {
     };
   }, [selected]);
 
+  function handlePrint() {
+    const previousTitle = document.title;
+    // Preglednik uzima document.title kao ime PDF datoteke
+    document.title = `prijave-${new Date().toISOString().slice(0, 10)}`;
+    window.addEventListener(
+      "afterprint",
+      () => {
+        document.title = previousTitle;
+      },
+      { once: true },
+    );
+    window.print();
+  }
+
   async function handleLogout() {
     setLoggingOut(true);
     setLogoutError(null);
@@ -255,8 +358,8 @@ export default function AdminBookingsList() {
     : null;
 
   return (
-    <div className="min-h-screen  bg-slate-50 px-4 py-6 text-slate-900 sm:px-6 lg:px-8 lg:py-10">
-      <div className="mx-auto max-w-7xl">
+    <div className="min-h-screen  bg-slate-50 px-4 py-6 text-slate-900 sm:px-6 lg:px-8 lg:py-10 print:min-h-0 print:bg-white print:p-0">
+      <div className="mx-auto max-w-7xl print:hidden">
         {/* Header */}
         <header className="mb-8 flex flex-wrap items-start justify-between gap-4">
           <div>
@@ -274,15 +377,26 @@ export default function AdminBookingsList() {
             </p>
           </div>
 
-          <button
-            type="button"
-            onClick={handleLogout}
-            disabled={loggingOut}
-            className={`inline-flex items-center gap-2 rounded-xl border border-slate-200 bg-white px-4 py-2.5 text-sm font-medium text-slate-600 shadow-sm transition hover:border-slate-300 hover:bg-slate-100 disabled:cursor-wait disabled:opacity-60 ${focusClass}`}
-          >
-            <Icon name="logout" className="h-4 w-4" />
-            {loggingOut ? "Odjava..." : "Odjava"}
-          </button>
+          <div className="flex items-center gap-2">
+            <button
+              type="button"
+              onClick={handlePrint}
+              disabled={filteredBookings.length === 0}
+              className={`whitespace-nowrap rounded-xl border border-slate-200 bg-white px-4 py-2.5 text-sm font-medium text-slate-700 shadow-sm transition hover:bg-slate-100 disabled:opacity-50 ${focusClass}`}
+            >
+              PDF
+            </button>
+
+            <button
+              type="button"
+              onClick={handleLogout}
+              disabled={loggingOut}
+              className={`inline-flex items-center gap-2 rounded-xl border border-slate-200 bg-white px-4 py-2.5 text-sm font-medium text-slate-600 shadow-sm transition hover:border-slate-300 hover:bg-slate-100 disabled:cursor-wait disabled:opacity-60 ${focusClass}`}
+            >
+              <Icon name="logout" className="h-4 w-4" />
+              {loggingOut ? "Odjava..." : "Odjava"}
+            </button>
+          </div>
         </header>
 
         {logoutError && (
@@ -408,7 +522,7 @@ export default function AdminBookingsList() {
                     <div className="flex items-start gap-3">
                    
                       <div className="min-w-0 flex-1">
-                        <h3 className="wrap-break-words font-semibold">
+                        <h3 className="wrap-break-word font-semibold">
                           {booking.customer.name}
                         </h3>
                         <p className="mt-1 break-all text-xs text-slate-500">
@@ -549,6 +663,8 @@ export default function AdminBookingsList() {
         </section>
       </div>
 
+<PrintReport bookings={filteredBookings} query={search.trim()} />
+
       {/* Details dialog */}
       <dialog
         ref={dialogRef}
@@ -602,7 +718,7 @@ export default function AdminBookingsList() {
                 <div className="flex min-w-0 items-center gap-3">
                  
                   <div className="min-w-0">
-                    <h3 className="break-words text-lg font-semibold">
+                    <h3 className="wrap-break-word text-lg font-semibold">
                       {selected.customer.name}
                     </h3>
                     <a
@@ -652,13 +768,25 @@ export default function AdminBookingsList() {
                 <DetailItem label="Vrsta ture">
                   {selected.tourType || "-"}
                 </DetailItem>
+                <DetailItem label="Telefon">
+                  {selected.customer.phone ? (
+                    <a
+                      href={`tel:${selected.customer.phone}`}
+                      className={`rounded hover:text-red-700 hover:underline ${focusClass}`}
+                    >
+                      {selected.customer.phone}
+                    </a>
+                  ) : (
+                    "-"
+                  )}
+                </DetailItem>
                 <DetailItem label="Adresa">
                   {selected.customer.address || "-"}
                 </DetailItem>
                 <DetailItem label="Način dolaska">
                   {selected.arrivalMethod || "-"}
                 </DetailItem>
-                <DetailItem label="Najam bicikla">
+                <DetailItem label="Najam motora">
                   {selected.rentBike == null
                     ? "-"
                     : selected.rentBike
@@ -672,6 +800,15 @@ export default function AdminBookingsList() {
                   </span>
                 </DetailItem>
               </dl>
+
+              {selected.message?.trim() && (
+                <div className="rounded-2xl border border-slate-200 bg-slate-50 p-5">
+                  <p className="text-xs font-medium text-slate-500">Poruka</p>
+                  <p className="mt-2 whitespace-pre-line wrap-break-word text-sm leading-6 text-slate-900">
+                    {selected.message}
+                  </p>
+                </div>
+              )}
             </div>
 
             <div className="flex justify-end border-t border-slate-100 bg-slate-50 px-6 py-4 sm:px-8">
