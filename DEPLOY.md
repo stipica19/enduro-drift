@@ -2,14 +2,15 @@
 
 Uputa za deploy Enduro Drift Bosnien sajta na VPS.
 
-> **Test domena:** ovaj deploy ide na `dev.skin-glow.beauty` (testna domena u tvom
-> vlasništvu), ne na finalnu `www.endurodriftbosnien.com`. Zato su nginx/certbot koraci,
-> `.env` primjeri i GitHub secreti u ovom fajlu podešeni za `dev.skin-glow.beauty`.
+> **Staging domena:** ovaj deploy ide na `dev.endurodriftbosnien.com`, staging kopiju
+> sajta (zamijenila je raniju testnu `dev.skin-glow.beauty`), ne na finalnu
+> `www.endurodriftbosnien.com`. Zato su nginx/certbot koraci, `.env` primjeri i GitHub
+> secreti u ovom fajlu podešeni za `dev.endurodriftbosnien.com`.
 > Kanonski URL-ovi, hreflang i JSON-LD **unutar same aplikacije** (Layout.astro,
 > astro.config.mjs) su hardkodirani na `https://www.endurodriftbosnien.com` — to je
-> finalna SEO domena i namjerno se ne mijenja zbog test-deploya. Host je **`www`** jer
+> finalna SEO domena i namjerno se ne mijenja zbog staging deploya. Host je **`www`** jer
 > stari sajt rangira na njemu (apex `endurodriftbosnien.com` mu radi 301 na `www`).
-> Kad dođe vrijeme za pravi produkcijski deploy, zamijeni `dev.skin-glow.beauty` sa
+> Kad dođe vrijeme za pravi produkcijski deploy, zamijeni `dev.endurodriftbosnien.com` sa
 > `www.endurodriftbosnien.com` na mjestima označenim ispod i prati sekciju
 > _Produkcija: endurodriftbosnien.com_ u koraku 4.
 
@@ -28,14 +29,16 @@ nginx na hostu (80/443, Let's Encrypt)
 ```
 
 > **Portovi su podesivi (`BACKEND_HOST_PORT`/`FRONTEND_HOST_PORT` u `.env`,
-> default `3001`/`8080`).** Na VPS-u koji hostuje više aplikacija ovi portovi
-> mogu već biti zauzeti — provjeri prije prvog deploya:
+> default `3095`/`8095`).** Uobičajeni `3001`/`8080` se namjerno ne koriste jer ih na
+> staging VPS-u već zauzima druga aplikacija. Provjeri prije prvog deploya da su
+> odabrani portovi slobodni (naredba ne smije ništa ispisati):
 > ```bash
-> sudo ss -tlnp | grep -E ':(3001|8080)\b'
+> sudo ss -tlnp | grep -E ':(3095|8095)\b'
 > ```
 > Ako je nešto zauzeto, promijeni odgovarajuću vrijednost u `.env` (npr.
-> `BACKEND_HOST_PORT=3002`) i koristi taj broj u nginx `proxy_pass` (korak 4)
-> — mora se poklapati na oba mjesta.
+> `BACKEND_HOST_PORT=3096`) i koristi taj broj u nginx `proxy_pass` (korak 4)
+> — mora se poklapati na oba mjesta. Interni port backend kontejnera (`PORT=3001`)
+> se **ne** mijenja — on živi u mreži kontejnera i ne sudara se s hostom.
 
 **Astro je statički (SSG), bez SSR-a.** Važna posljedica: stranice `/de/anmeldung`,
 `/de/termine`, `/de/galerie` i `/de/gastebuch` povlače podatke iz API-ja **tokom
@@ -88,7 +91,7 @@ docker run --rm hello-world
 
 **Što radimo:** propuštamo samo SSH, HTTP i HTTPS.
 
-**Zašto:** portovi 3001 i 8080 se **ne otvaraju** — kontejneri su vezani na
+**Zašto:** portovi 3095 i 8095 se **ne otvaraju** — kontejneri su vezani na
 `127.0.0.1`, pa im pristupa samo nginx s istog servera. Port 80 mora ostati otvoren
 i nakon dobijanja certifikata jer certbot preko njega radi obnovu.
 
@@ -108,23 +111,23 @@ ufw status
 
 **Zašto:** certbot izdaje certifikat samo ako domena stvarno pokazuje na ovaj server.
 
-Kod registrara domene postavi:
+U DNS zoni domene `endurodriftbosnien.com` (kod onoga ko trenutno upravlja njenim DNS-om)
+dodaj:
 
 | Tip | Ime   | Vrijednost       |
 | --- | ----- | ---------------- |
 | A   | `dev` | `TVOJ_SERVER_IP` |
 
-(Ako `skin-glow.beauty` upravlja DNS-om kod istog registrara, `dev` je subdomain
-zapis. Ako je `dev.skin-glow.beauty` zasebno delegirana zona, koristi `@` umjesto
-`dev`.)
+> **Ne diraj zapise `@` i `www`** (ni `MX`/`TXT`) — na njima radi produkcija i email.
+> Za staging se dodaje samo `dev`.
 
 Provjera (čekaj da se propagira, može potrajati do nekoliko sati):
 
 ```bash
-dig +short dev.skin-glow.beauty
+dig +short dev.endurodriftbosnien.com
 ```
 
-Oba moraju vratiti IP servera. **Ne nastavljaj na korak 5 dok ovo ne prođe.**
+Mora vratiti IP servera. **Ne nastavljaj na certbot (korak 4, _HTTPS_) dok ovo ne prođe.**
 
 ---
 
@@ -136,7 +139,7 @@ frontendu.
 **Zašto:** frontend i backend su na istoj domeni, pa browser nema CORS problema i
 sesijski cookie za admin radi bez `SameSite` komplikacija.
 
-> Brojevi portova ispod (`3001`, `8080`) su **default** vrijednosti. Ako si ih
+> Brojevi portova ispod (`3095`, `8095`) su **default** vrijednosti. Ako si ih
 > morao promijeniti u `.env` zbog sudara s drugom aplikacijom na istom VPS-u,
 > ovdje upiši te ISTE brojeve — `proxy_pass` mora pogoditi tačan host port.
 
@@ -148,14 +151,17 @@ sudo nano /etc/nginx/sites-available/enduro
 server {
     listen 80;
     listen [::]:80;
-    server_name dev.skin-glow.beauty;
+    server_name dev.endurodriftbosnien.com;
 
     # certbot će ovaj blok prepisati i dodati TLS + redirect na 443
     client_max_body_size 2m;
 
+    # SAMO staging — vidi "Staging: zabrani Googleu indeksiranje" ispod
+    add_header X-Robots-Tag "noindex, nofollow" always;
+
     # Fastify API — port mora biti isti kao BACKEND_HOST_PORT u .env
     location /api/ {
-        proxy_pass http://127.0.0.1:3001;
+        proxy_pass http://127.0.0.1:3095;
         proxy_http_version 1.1;
         proxy_set_header Host              $host;
         proxy_set_header X-Real-IP         $remote_addr;
@@ -166,7 +172,7 @@ server {
 
     # Statički Astro sajt — port mora biti isti kao FRONTEND_HOST_PORT u .env
     location / {
-        proxy_pass http://127.0.0.1:8080;
+        proxy_pass http://127.0.0.1:8095;
         proxy_http_version 1.1;
         proxy_set_header Host              $host;
         proxy_set_header X-Real-IP         $remote_addr;
@@ -185,11 +191,12 @@ sudo nginx -t                                  # provjeri sintaksu PRIJE reloada
 sudo systemctl reload nginx
 ```
 
-### Test domena: zabrani Googleu indeksiranje
+### Staging: zabrani Googleu indeksiranje
 
-`dev.skin-glow.beauty` je javno dostupna kopija sajta. Stranice imaju `canonical` na
-`www.endurodriftbosnien.com`, pa ih Google u pravilu neće indeksirati kao zasebne, ali to nije
-zajamčeno. Sigurno je dodati header samo u `server` blok **test domene**:
+`dev.endurodriftbosnien.com` je javno dostupna kopija sajta na subdomeni prave domene.
+Stranice imaju `canonical` na `www.endurodriftbosnien.com`, pa ih Google u pravilu neće
+indeksirati kao zasebne, ali to nije zajamčeno — a duplikat na istoj domeni direktno se takmiči
+s produkcijom. Zato staging `server` blok gore ima:
 
 ```nginx
     add_header X-Robots-Tag "noindex, nofollow" always;
@@ -198,16 +205,16 @@ zajamčeno. Sigurno je dodati header samo u `server` blok **test domene**:
 > **UPOZORENJE — ovo NE smije završiti u produkcijskom bloku.** Header govori Googleu da
 > ne indeksira ništa na toj domeni. Na `www.endurodriftbosnien.com` bi uklonio cijeli sajt iz
 > pretrage, uključujući blogove. Pri produkcijskom deployu pravi se **novi** `server` blok
-> za `www.endurodriftbosnien.com` (ne kopira se ovaj), a ovaj header ostaje samo uz test domenu.
+> za `www.endurodriftbosnien.com` (ne kopira se ovaj), a ovaj header ostaje samo uz staging.
 > Provjera na produkciji: `curl -sI https://www.endurodriftbosnien.com/de/ | grep -i x-robots`
-> **ne smije** ništa ispisati.
+> **ne smije** ništa ispisati. Na stagingu **mora** ispisati `x-robots-tag: noindex, nofollow`.
 
 ### HTTPS
 
 **Što radimo:** certbot izdaje certifikat i sam prepisuje nginx konfiguraciju.
 
 ```bash
-sudo certbot --nginx -d dev.skin-glow.beauty
+sudo certbot --nginx -d dev.endurodriftbosnien.com
 ```
 
 Obnova je automatska (systemd timer). Provjera da obnova radi:
@@ -218,7 +225,7 @@ sudo certbot renew --dry-run
 
 ### Produkcija: endurodriftbosnien.com
 
-**Što radimo:** za pravi deploy pravimo **novi** nginx server blok (ne kopira se test blok
+**Što radimo:** za pravi deploy pravimo **novi** nginx server blok (ne kopira se staging blok
 zbog `X-Robots-Tag`) u kojem je `www.endurodriftbosnien.com` glavni host, a apex
 `endurodriftbosnien.com` samo preusmjerava na njega.
 
@@ -238,7 +245,7 @@ server {
     return 301 https://www.endurodriftbosnien.com$request_uri;
 }
 
-# Glavni host — isti location blokovi kao u test bloku gore (/api/ i /),
+# Glavni host — isti location blokovi kao u staging bloku gore (/api/ i /),
 # BEZ add_header X-Robots-Tag.
 server {
     listen 80;
@@ -304,7 +311,7 @@ GitHub ga sam daje.
 | -------------------- | --------------------------------------------------------------------- |
 | `MONGODB_URI`        | Atlas connection string                                               |
 | `MONGODB_DB_NAME`    | `endurodrift`                                                         |
-| `PUBLIC_API_URL`     | `https://dev.skin-glow.beauty` (ugrađuje se u klijentski JS)          |
+| `PUBLIC_API_URL`     | `https://dev.endurodriftbosnien.com` (ugrađuje se u klijentski JS)    |
 | `RECAPTCHA_SITE_KEY` | reCAPTCHA v3 site key (javan, ali ide kao secret radi jednostavnosti) |
 | `VPS_HOST`           | IP servera                                                            |
 | `VPS_USER`           | `deploy`                                                              |
@@ -356,9 +363,15 @@ Sadržaj `.env` na serveru — popuni po `.env.example` iz repoa:
 GHCR_OWNER=stipica19
 IMAGE_TAG=latest
 
+# Host portovi — moraju se poklapati s proxy_pass u nginxu (korak 4).
+# 3001/8080 na ovom VPS-u koristi druga aplikacija.
+FRONTEND_HOST_PORT=8095
+BACKEND_HOST_PORT=3095
+
+# Interni port u kontejneru — ostaje 3001
 PORT=3001
 NODE_ENV=production
-FRONTEND_ORIGIN=https://dev.skin-glow.beauty
+FRONTEND_ORIGIN=https://dev.endurodriftbosnien.com
 
 MONGODB_URI=mongodb+srv://<user>:<password>@<cluster>.mongodb.net/?retryWrites=true&w=majority
 MONGODB_DB_NAME=endurodrift
@@ -407,10 +420,11 @@ docker compose ps        # oba servisa moraju biti "Up", backend "healthy"
 Provjera slojeva, od unutra prema van:
 
 ```bash
-curl -fsS http://127.0.0.1:3001/api/health     # backend direktno
-curl -fsS -o /dev/null -w "%{http_code}\n" http://127.0.0.1:8080/de/   # frontend direktno
-curl -fsS https://dev.skin-glow.beauty/api/health                      # kroz nginx + TLS
-curl -sI https://dev.skin-glow.beauty/ | grep -iE "^(HTTP|location)"   # korijen → 301 na /de/
+curl -fsS http://127.0.0.1:3095/api/health     # backend direktno
+curl -fsS -o /dev/null -w "%{http_code}\n" http://127.0.0.1:8095/de/   # frontend direktno
+curl -fsS https://dev.endurodriftbosnien.com/api/health                      # kroz nginx + TLS
+curl -sI https://dev.endurodriftbosnien.com/ | grep -iE "^(HTTP|location)"   # korijen → 301 na /de/
+curl -sI https://dev.endurodriftbosnien.com/de/ | grep -i x-robots           # mora biti noindex, nofollow
 ```
 
 ### 7.4 Admin nalog
@@ -532,17 +546,26 @@ docker compose down        # nginx će vraćati 502
 
 ## 11. Česti problemi
 
-**`Bind for 0.0.0.0:3001 failed: port is already allocated`**
+**`Bind for 127.0.0.1:3095 failed: port is already allocated`**
 Nešto drugo na VPS-u (najčešće druga aplikacija) već koristi taj port —
 posebno vjerovatno na deljenom VPS-u sa više app-ova. Provjeri šta:
 ```bash
-sudo ss -tlnp | grep 3001
-docker ps -a --filter "publish=3001"
+sudo ss -tlnp | grep 3095
+docker ps -a --filter "publish=3095"
 ```
 Popravka: u `.env` promijeni `BACKEND_HOST_PORT` (ili `FRONTEND_HOST_PORT` za
-8080) na slobodan broj, ažuriraj `proxy_pass` u nginx configu (korak 4) na
+8095) na slobodan broj, ažuriraj `proxy_pass` u nginx configu (korak 4) na
 ISTI broj, pa `sudo nginx -t && sudo systemctl reload nginx` i
 `docker compose up -d`.
+
+**502 Bad Gateway, a `docker compose ps` pokazuje da oba kontejnera rade**
+`proxy_pass` u nginxu i `*_HOST_PORT` u `.env` se ne poklapaju — nginx tada šalje na port
+na kojem sluša druga aplikacija ili ništa. Usporedi:
+```bash
+grep -E '^(FRONTEND|BACKEND)_HOST_PORT' .env
+grep proxy_pass /etc/nginx/sites-available/enduro
+docker compose ps --format '{{.Name}} {{.Ports}}'
+```
 
 **`docker compose pull` → `denied` / `unauthorized`**
 Paketi su privatni i `docker login` korak u workflowu (7.2) nije uspio, ili paket
@@ -574,13 +597,16 @@ verifikovana, `CONTACT_EMAIL_FROM` mora ostati `onboarding@resend.dev`.
 **reCAPTCHA odbija svaki zahtjev**
 `RECAPTCHA_SECRET_KEY` (server) i `RECAPTCHA_SITE_KEY` (build) moraju biti iz **istog**
 reCAPTCHA para. Ako je secret prazan, provjera se preskače — forma radi, ali bez zaštite.
+Domena sajta mora biti i u listi domena tog ključa (reCAPTCHA admin konzola → Settings →
+Domains). `endurodriftbosnien.com` pokriva i `www` i `dev` subdomenu; bez toga browser javlja
+"Invalid domain for site key" i forma ne dobije token.
 
 **Promijenio sam podatke u bazi, sajt prikazuje stare**
 Očekivano kod statičkog sajta → **Run workflow** za rebuild.
 
 **Sve rute osim naslovnice vraćaju 404**
 Frontend image nije dobro izgrađen ili `try_files` ne radi. Provjera direktno u
-kontejneru: `curl -o /dev/null -w "%{http_code}" http://127.0.0.1:8080/de/kontakt/`.
+kontejneru: `curl -o /dev/null -w "%{http_code}" http://127.0.0.1:8095/de/kontakt/`.
 
 ---
 
@@ -604,7 +630,7 @@ curl -fsS http://127.0.0.1:3001/api/health
 # frontend (--network=host da build dođe do backenda)
 docker build -f apps/frontend/Dockerfile --network=host \
   --build-arg API_INTERNAL_URL=http://127.0.0.1:3001 \
-  --build-arg PUBLIC_API_URL=https://dev.skin-glow.beauty \
+  --build-arg PUBLIC_API_URL=https://dev.endurodriftbosnien.com \
   -t enduro-frontend:local .
 
 docker run -d --name enduro-fe-local -p 127.0.0.1:8080:80 enduro-frontend:local

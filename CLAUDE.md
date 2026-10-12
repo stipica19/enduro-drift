@@ -98,6 +98,8 @@ Tamna/zemljana paleta (ugljen/crna baza + rust-narandžasta ili blatno-zelena ak
 
 Push na `main` → GitHub Actions builda oba Docker image-a (`ghcr.io/OWNER/enduro-frontend`, `ghcr.io/OWNER/enduro-backend`) → push na GitHub Container Registry → SSH na VPS → `docker compose pull && docker compose up -d`. Vidi `.github/workflows/deploy.yml` i `docker-compose.yml`.
 
+**Okruženja (stanje 2026-10-12):** produkcija `www.endurodriftbosnien.com` (+ apex → 301 na www) već servira NOVI Astro sajt na jednom VPS-u. Staging `dev.endurodriftbosnien.com` se postavlja na drugom VPS-u (zamjenjuje `dev.skin-glow.beauty`), s `X-Robots-Tag: noindex` u host nginxu. Workflow trenutno deploya na **jedan** server (`VPS_*` secrets) — prebacivanje tih secreta na staging bi produkciju ostavilo bez deploya. Kanonski/hreflang/sitemap u kodu su uvijek `www`. Vidi `DEPLOY.md`.
+
 MongoDB: Atlas (managed) ili self-hosted docker servis na istom VPS-u — odluka još otvorena, provjeri `.env` na VPS-u za `MONGODB_URI` prije pretpostavljanja.
 
 ## Šta NE raditi (česte greške koje treba izbjeći)
