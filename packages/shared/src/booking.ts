@@ -13,6 +13,7 @@ export const createBookingSchema = z.object({
     address: z.string().max(200).optional(),
     country: z.string().max(60).optional(),
   }),
+  
   participants: z.number().int().min(1).max(20),
   arrivalMethod: z.string().max(50).optional(),
   rentBike: z.boolean().optional(),
