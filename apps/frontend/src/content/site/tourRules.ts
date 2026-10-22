@@ -30,7 +30,7 @@ export const tourRules: Record<"de" | "en", TourRulesContent> = {
       "Falls Sie sich nicht an unsere Unternehmensregeln halten, wird Ihnen jede benötigte Unterstützung extra in Rechnung gestellt.",
   },
   en: {
-    heading: "Tour",
+    heading: "Tour ",
     headingAccent: "Rules",
     rules: [
       "Make sure your motorcycle is ready for the tour",

@@ -3,7 +3,7 @@ import Layout from "../../layouts/Layout.astro";
 import Hero from "../../components/ui/Hero.astro";
 import TopEnduroSection from "@/components/ui/TopEnduroSection.astro";
 import GallerySlider from "@/components/ui/GallerySlider.astro";
-import TourPricingSection from "@/components/ui/TourPricingSection.astro";
+import TourTeaserSection from "@/components/ui/TourTeaserSection.astro";
 import LocationSection from "@/components/ui/LocationSection.astro";
 import WhyChooseUsSection from "@/components/ui/WhyChooseUsSection.astro";
 import AccommodationSection from "@/components/ui/AccommodationSection.astro";
@@ -33,8 +33,8 @@ const natureImages = toSliderImages(
 ---
 
 <Layout
-  title="Geführte Enduro Touren Bosnien & Enduro Urlaub | Enduro Drift"
-  description="Geführte Enduro-Touren in Bosnien und Herzegowina für Einsteiger und erfahrene Fahrer. Legale Routen, kleine Gruppen, persönliche Betreuung - jetzt anfragen."
+  title="Enduro Urlaub in Bosnien – geführte Touren | Enduro Drift"
+  description="Enduro Urlaub in Bosnien und Herzegowina: geführte Touren rund um Gornji Vakuf für Einsteiger bis Profis. Legale Routen, kleine Gruppen, Leihmotorräder vor Ort."
   path="/de"
   lang="de"
   alternates={{ de: "/de", en: "/en" }}
@@ -45,7 +45,7 @@ const natureImages = toSliderImages(
   <section class="defer-render bg-white py-16 lg:py-24">
     <GallerySlider images={galleryImages} />
   </section>
-  <div class="defer-render"><TourPricingSection lang="de" /></div>
+  <div class="defer-render"><TourTeaserSection lang="de" /></div>
   <div class="defer-render"><LocationSection lang="de" /></div>
   <div class="defer-render"><WhyChooseUsSection lang="de" /></div>
   <section class="defer-render bg-white py-16 lg:py-24">

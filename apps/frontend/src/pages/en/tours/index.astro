@@ -1,16 +1,23 @@
 ---
 import Layout from "@/layouts/Layout.astro";
 import TourPricingSection from "@/components/ui/TourPricingSection.astro";
-import { touristTripSchemas } from "@/lib/structuredData";
+import TourComparison from "@/components/ui/TourComparison.astro";
+import FaqSection from "@/components/ui/FaqSection.astro";
+import { faqSchema, touristTripSchemas } from "@/lib/structuredData";
+import { getToursPage } from "@/lib/tours";
+
+const page = getToursPage("en");
 ---
 
 <Layout
-  title="Enduro Tours & Prices | Enduro Drift Bosnien"
-  description="All our guided enduro tours in Bosnia at a glance - prices, what's included, and dates for beginners through experienced riders."
+  title={page.metaTitle}
+  description={page.metaDescription}
   path="/en/tours"
   lang="en"
   alternates={{ de: "/de/touren", en: "/en/tours" }}
-  schema={touristTripSchemas("en")}
+  schema={[...touristTripSchemas("en"), faqSchema(page.faq)]}
 >
-  <TourPricingSection lang="en" asPageHeading />
+  <TourPricingSection lang="en" />
+  <TourComparison lang="en" tours={page.tours} labels={page.comparison} />
+  <FaqSection lang="en" items={page.faq} heading={page.faqHeading} headingAccent={page.faqHeadingAccent} />
 </Layout>

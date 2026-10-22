@@ -2,6 +2,7 @@ import { tourSlugs } from "@/content/tourSlugs.mjs";
 import { tourPricing } from "@/content/site/tourPricing";
 import type { TourId, TourPricingCard } from "@/content/site/tourPricing";
 import { tourDetailLabels, tourDetails } from "@/content/site/tourDetails";
+import { toursPage } from "@/content/site/toursPage";
 import type { FaqItem } from "@/content/site/faq";
 
 // TODO: zamijeni sa stvarnim fotografijama/mapama tura kad budu spremne
@@ -78,3 +79,30 @@ export function getTour(lang: Lang, id: TourId) {
 }
 
 export type Tour = ReturnType<typeof getTour>;
+
+/** Sve ture + tekst stranice /touren s popunjenim {fromPrice}, {prices}, {levels} … (vidi toursPage.ts). */
+export function getToursPage(lang: Lang) {
+  const content = toursPage[lang];
+  const pricing = tourPricing[lang];
+  const tours = tourIds.map((id) => getTour(lang, id));
+  const perTour = (template: string) =>
+    tours
+      .map(({ card, detail }) =>
+        fillTourText(template.replaceAll("{name}", detail.name).replaceAll("{level}", detail.level), card),
+      )
+      .join("; ");
+  const fill = (text: string) =>
+    text
+      .replaceAll("{fromPrice}", String(Math.min(...tours.map(({ card }) => card.ownBikePrice))))
+      .replaceAll("{prices}", perTour(content.priceItem))
+      .replaceAll("{levels}", perTour(content.levelItem))
+      .replaceAll("{additionalCosts}", pricing.additionalCosts.join(", "))
+      .replaceAll("{excluded}", pricing.excluded.join(", "));
+
+  return {
+    ...content,
+    tours,
+    metaDescription: fill(content.metaDescription),
+    faq: content.faq.map((item) => ({ question: fill(item.question), answer: fill(item.answer) })),
+  };
+}

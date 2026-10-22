@@ -20,11 +20,9 @@ export interface TourPricingCard {
 
 export interface TourPricingContent {
   badge: string;
+  // H1 stranice /touren (homepage ima vlastiti naslov u tourTeaser.ts)
   heading: string;
   headingAccent: string;
-  // H1 kad se sekcija koristi kao glavni sadržaj stranice /touren (na homepageu ostaje H2 gore)
-  pageHeading: string;
-  pageHeadingAccent: string;
   subheading: string;
   additionalCosts: string[];
   excluded: string[];
@@ -38,10 +36,8 @@ export interface TourPricingContent {
 export const tourPricing: Record<"de" | "en", TourPricingContent> = {
   de: {
     badge: "Vorgeschlagene Enduro Bosnien Touren",
-    heading: "Wählen Sie Ihr",
-    headingAccent: "Abenteuer",
-    pageHeading: "Enduro Touren in Bosnien",
-    pageHeadingAccent: "Preise & Leistungen",
+    heading: "Enduro Touren in Bosnien",
+    headingAccent: "Preise & Leistungen",
     subheading:
       "Von anfängerfreundlichen Routen bis hin zu extremen Herausforderungen - finden Sie die perfekte Tour für Ihr Niveau.",
     additionalCosts: [
@@ -105,10 +101,8 @@ export const tourPricing: Record<"de" | "en", TourPricingContent> = {
   },
   en: {
     badge: "Suggested Enduro Bosnia Tours",
-    heading: "Choose Your",
-    headingAccent: "Adventure",
-    pageHeading: "Enduro Tours in Bosnia",
-    pageHeadingAccent: "Prices & What's Included",
+    heading: "Enduro Tours in Bosnia",
+    headingAccent: "Prices & What's Included",
     subheading:
       "From beginner-friendly routes to extreme challenges - find the perfect tour for your level.",
     additionalCosts: [

@@ -24,11 +24,7 @@ export const faq: Record<"de" | "en", FaqContent> = {
         answer:
           "Ein eigenes Motorrad ist nicht bei jedem Angebot erforderlich. Enduro-Touren in Bosnien werden sowohl mit dem eigenen Bike als auch mit Leihmotorrad angeboten. Prüfe vor der Buchung, welche Motorräder verfügbar sind und ob Schutzausrüstung, Kraftstoff und mögliche Zusatzkosten im Mietpreis enthalten sind. Mit einem eigenen Motorrad solltest du vorab die technischen Anforderungen für die gewählte Tour klären.",
       },
-      {
-        question: "Was kostet eine Enduro-Tour in Bosnien und welche Leistungen sind enthalten?",
-        answer:
-          "Der Preis hängt vor allem von der Anzahl der Fahrtage, der Unterkunft und der Wahl zwischen eigenem Motorrad und Leihmotorrad ab. Vergleiche deshalb neben dem Gesamtpreis auch die enthaltenen Leistungen: Guide, Übernachtungen, Verpflegung und Motorradvermietung können je nach Paket unterschiedlich geregelt sein. Achte außerdem auf mögliche Zusatzkosten für Anreise, Transfers, Kraftstoff und Ausrüstung.",
-      },
+      // Pitanje o cijeni je na /touren (toursPage.ts) sa stvarnim cijenama — ne vraćati ga ovdje.
     ],
   },
   en: {
@@ -45,11 +41,7 @@ export const faq: Record<"de" | "en", FaqContent> = {
         answer:
           "No, your own motorcycle isn't required for every tour. Enduro tours in Bosnia are offered both with your own bike and with a rental motorcycle. Before booking, check which motorcycles are available and whether protective gear, fuel, and any additional costs are included in the rental price. If you bring your own motorcycle, clarify the technical requirements for the chosen tour in advance.",
       },
-      {
-        question: "How much does an enduro tour in Bosnia cost, and what's included?",
-        answer:
-          "The price mainly depends on the number of riding days, accommodation, and whether you choose your own motorcycle or a rental. So besides the total price, compare what's actually included: guide, accommodation, meals, and motorcycle rental can vary depending on the package. Also watch out for potential extra costs for travel, transfers, fuel, and equipment.",
-      },
+      // Pitanje o cijeni je na /tours (toursPage.ts) sa stvarnim cijenama — ne vraćati ga ovdje.
     ],
   },
 };

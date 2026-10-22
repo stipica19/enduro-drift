@@ -1,0 +1,85 @@
+---
+import { ArrowRight } from "lucide-astro";
+import { tourCardLabels } from "@/content/site/tourCard";
+import { tourDetailLabels } from "@/content/site/tourDetails";
+import { tourPricing } from "@/content/site/tourPricing";
+import type { ToursPageContent } from "@/content/site/toursPage";
+import type { Lang, Tour } from "@/lib/tours";
+
+interface Props {
+  lang: Lang;
+  tours: Tour[];
+  labels: ToursPageContent["comparison"];
+}
+
+// Tabela poređenja na /touren (cilj linka "Alle Touren vergleichen" s detalj-stranica). Sve vrijednosti
+// su s kartica u tourPricing.ts; termini namjerno nisu ovdje nego na /termine (link ispod tabele).
+const { lang, tours, labels } = Astro.props;
+const facts = tourDetailLabels[lang].facts;
+const datesLink = tourDetailLabels[lang].datesLink;
+const cardLabels = tourCardLabels[lang];
+const pricing = tourPricing[lang];
+
+const rows: { label: string; value: (tour: Tour) => string | number; strong?: boolean }[] = [
+  { label: labels.level, value: (tour) => tour.detail.level },
+  {
+    label: labels.terrain,
+    value: (tour) => (tour.detail.terrain === "hard" ? pricing.hardEnduro : pricing.mediumEnduro).title,
+  },
+  { label: facts.ridingDays, value: (tour) => tour.card.ridingDays },
+  { label: facts.nights, value: (tour) => tour.card.nights },
+  { label: facts.arrival, value: (tour) => tour.card.arrival },
+  { label: facts.departure, value: (tour) => tour.card.departure },
+  { label: cardLabels.ownBike, value: (tour) => `${tour.card.ownBikePrice} €`, strong: true },
+  { label: cardLabels.rentalBike, value: (tour) => `${tour.card.rentalBikePrice} €`, strong: true },
+];
+---
+
+<section class="bg-white py-16 text-neutral-900 lg:py-24">
+  <div class="mx-auto max-w-5xl px-4 lg:px-8">
+    <h2 class="text-3xl font-bold lg:text-4xl">
+      {labels.heading} <span class="text-red-500">{labels.headingAccent}</span>
+    </h2>
+    <p class="mt-4 max-w-2xl text-neutral-600">{labels.intro}</p>
+
+    <div class="mt-10 overflow-x-auto rounded-xl ring-1 ring-neutral-200">
+      <table class="w-full min-w-[36rem] text-left text-sm">
+        <caption class="sr-only">{labels.caption}</caption>
+        <thead class="bg-neutral-900 text-white">
+          <tr>
+            <th scope="col" class="px-4 py-3 font-semibold">{labels.tour}</th>
+            {
+              tours.map((tour) => (
+                <th scope="col" class="px-4 py-3 font-semibold">
+                  <a href={tour.path} class="underline-offset-4 hover:text-red-400 hover:underline">
+                    {tour.detail.name}
+                  </a>
+                </th>
+              ))
+            }
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-neutral-100 bg-white">
+          {
+            rows.map((row) => (
+              <tr>
+                <th scope="row" class="px-4 py-3 font-medium text-neutral-500">
+                  {row.label}
+                </th>
+                {tours.map((tour) => (
+                  <td class:list={["px-4 py-3", row.strong ? "font-bold text-neutral-900" : "text-neutral-700"]}>
+                    {row.value(tour)}
+                  </td>
+                ))}
+              </tr>
+            ))
+          }
+        </tbody>
+      </table>
+    </div>
+
+    <a href={datesLink.href} class="mt-6 inline-flex items-center gap-1 font-semibold text-red-600 hover:text-red-700">
+      {datesLink.label} <ArrowRight class="h-4 w-4" />
+    </a>
+  </div>
+</section>
