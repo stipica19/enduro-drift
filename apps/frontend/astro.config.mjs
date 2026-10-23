@@ -73,6 +73,9 @@ function stripTrailingSlash(pathname) {
 
 export default defineConfig({
   site: siteUrl,
+  build: {
+    inlineStylesheets: "always",
+  },
   integrations: [
     react(),
     sitemap({

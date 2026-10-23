@@ -1,24 +1,23 @@
----
-import { gaMeasurementId } from "@/lib/site";
----
-
-<!-- Google Analytics 4. Učitava se tek nakon "load" (kao lazyOnload u staroj Next.js aplikaciji),
-     da ne utječe na LCP i PageSpeed. -->
-<script is:inline define:vars={{ id: gaMeasurementId }}>
+<script is:inline define:vars={{ id: "G-HB03PKFBMW" }}>
   function loadAnalytics() {
+    if (window.__gaLoaded) return;
+    window.__gaLoaded = true;
     window.dataLayer = window.dataLayer || [];
-    function gtag() {
-      window.dataLayer.push(arguments);
-    }
+    window.gtag = function () {
+      dataLayer.push(arguments);
+    };
     gtag("js", new Date());
     gtag("config", id);
-
-    var script = document.createElement("script");
-    script.async = true;
-    script.src = "https://www.googletagmanager.com/gtag/js?id=" + id;
-    document.head.appendChild(script);
+    const s = document.createElement("script");
+    s.async = true;
+    s.src = "https://www.googletagmanager.com/gtag/js?id=" + id;
+    document.head.appendChild(s);
   }
-
-  if (document.readyState === "complete") loadAnalytics();
-  else window.addEventListener("load", loadAnalytics);
+  const evts = ["pointerdown", "keydown", "scroll", "touchstart"];
+  const go = () => {
+    evts.forEach((e) => removeEventListener(e, go));
+    loadAnalytics();
+  };
+  evts.forEach((e) => addEventListener(e, go, { once: true, passive: true }));
+  setTimeout(loadAnalytics, 5000);
 </script>
