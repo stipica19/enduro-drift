@@ -9,6 +9,7 @@ export const blogTranslations = {
   "enduro-tour-bosnien-2026-saisonstart": "enduro-tour-bosnia-2026-season-launch",
   "enduro-tour-bosnien-2027-saisonstart": "enduro-tour-bosnia-2027-season-open",
   "enduro-urlaub-balkan": "enduro-urlaub-balkan",
+  "enduro-urlaub-bosnien-kosten-planung": "enduro-holiday-bosnia-costs-planning",
   "oida-style-youtuber-besuch-enduro-drift": "enduro-abenteuer-vranica-berg",
   "top-5-grunde-enduro-bosnien": "top-5-grunde-enduro-bosnien",
 };
