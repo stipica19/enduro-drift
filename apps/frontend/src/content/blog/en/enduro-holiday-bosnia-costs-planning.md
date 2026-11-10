@@ -20,11 +20,11 @@ At Enduro Drift Bosnien, guided enduro tours currently start at **€490 with yo
 
 Our packages differ by riding level, riding days and nights. A first overview:
 
-| Tour | Riding days | Nights | Own motorcycle | Rental bike |
-|---|---:|---:|---:|---:|
-| Beginner Tour | 3 | 4 | €490 | €790 |
-| Bestseller Tour for intermediate riders | 4 | 5 | €590 | €890 |
-| Hard Enduro Week | 5 | 7 | €790 | €1,190 |
+| Tour | Own motorcycle | Rental bike |
+|---|---:|---:|
+| **Beginner Tour**<br>3 riding days · 4 nights | €490 | €790 |
+| **Bestseller Tour**<br>4 riding days · 5 nights | €590 | €890 |
+| **Hard Enduro Week**<br>5 riding days · 7 nights | €790 | €1,190 |
 
 The packages include guided riding with [local guides](/en/team/), accommodation with breakfast and [protective gear](/en/equipment/). The rental bike is included in the corresponding package.
 
