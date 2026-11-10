@@ -1,152 +1,152 @@
 ---
-title: "Enduro-Urlaub in Bosnien: Kosten & Planung ab Deutschland"
-metaTitle: "Enduro-Urlaub Bosnien: Kosten, Preise & Planung | Enduro Drift"
-description: "Was kostet ein Enduro-Urlaub in Bosnien? Geführte Touren ab 490 €, mit Leihmotorrad ab 790 €. Alle Zusatzkosten, Rechenbeispiel und Anreise aus Deutschland."
+title: "Enduro Holiday in Bosnia: Costs & Trip Planning"
+metaTitle: "Enduro Holiday Bosnia: Costs, Prices & Planning | Enduro Drift"
+description: "What does an enduro holiday in Bosnia cost? Guided tours from €490, with a rental bike from €790. Extra costs, a sample budget and how to plan your trip."
 date: 2026-11-10
 cover: "https://res.cloudinary.com/stipica/image/upload/f_auto,q_auto,w_1600/v1747232766/slika_znaq48.jpg"
 tags:
-  - "Enduro-Urlaub"
-  - "Bosnien"
-  - "Kosten"
-  - "Leihmotorrad"
-  - "Anreise"
+  - "Enduro Holiday"
+  - "Bosnia"
+  - "Costs"
+  - "Rental Bike"
+  - "Travel"
 ---
 
-Du möchtest in Bosnien Enduro fahren und fragst dich, was die Reise insgesamt kostet? Für eine sinnvolle Kalkulation brauchst du mehr als den Tourpreis: Entscheidend sind auch die Anreise aus Deutschland, dein Motorrad und die Leistungen, die bereits im Paket stecken.
+You want to ride enduro in Bosnia and wonder what the whole trip will cost? A realistic budget needs more than the tour price: your journey to Bosnia, your motorcycle and the services already included in the package all matter.
 
-Bei Enduro Drift Bosnien beginnen die geführten Enduro-Touren aktuell bei **490 € mit eigenem Motorrad** oder **790 € mit Leihmotorrad**. Dieser Ratgeber hilft dir, daraus ein persönliches Reisebudget zu machen und die passende Tour für deinen Enduro-Urlaub in Bosnien auszuwählen.
+At Enduro Drift Bosnien, guided enduro tours currently start at **€490 with your own motorcycle** or **€790 with a rental bike**. This guide helps you turn those figures into a personal travel budget and pick the right tour for your enduro holiday in Bosnia.
 
-## Was kostet eine geführte Enduro-Tour in Bosnien?
+## What does a guided enduro tour in Bosnia cost?
 
-Unsere Pakete unterscheiden sich nach Fahrniveau, Fahrtagen und Übernachtungen. Für einen ersten Überblick:
+Our packages differ by riding level, riding days and nights. A first overview:
 
-| Tour | Fahrtage | Übernachtungen | Eigenes Motorrad | Leihmotorrad |
-|---|---:|---:|---:|---:|
-| Einsteiger-Tour | 3 | 4 | 490 € | 790 € |
-| Bestseller-Tour für Fortgeschrittene | 4 | 5 | 590 € | 890 € |
-| Hard-Enduro-Woche | 5 | 7 | 790 € | 1.190 € |
+| Tour | Own motorcycle | Rental bike |
+|---|---:|---:|
+| **Beginner Tour**<br>3 riding days · 4 nights | €490 | €790 |
+| **Bestseller Tour**<br>4 riding days · 5 nights | €590 | €890 |
+| **Hard Enduro Week**<br>5 riding days · 7 nights | €790 | €1,190 |
 
-Die Pakete beinhalten geführtes Fahren mit [ortskundigen Guides](/de/team/), Übernachtungen mit Frühstück und die [Schutzausrüstung](/de/ausruestung/). Das Leihmotorrad ist im entsprechenden Paket enthalten.
+The packages include guided riding with [local guides](/en/team/), accommodation with breakfast and [protective gear](/en/equipment/). The rental bike is included in the corresponding package.
 
-**Preisstand: 10. November 2026.** Die aktuellen Konditionen und vollständigen Leistungen findest du unter [Enduro-Touren in Bosnien: Preise und Vergleich](/de/touren/).
+**Prices as of 10 November 2026.** You'll find current conditions and everything that's included at [Enduro tours in Bosnia: prices and comparison](/en/tours/).
 
-Vergleiche bei deiner Urlaubsplanung immer Fahrtage und Übernachtungen getrennt. Drei Tage auf dem Motorrad bedeuten nicht, dass du nur drei Tage von zu Hause weg bist. Hin- und Rückreise gehören ebenfalls in deinen Kalender.
+When planning your time off, always look at riding days and nights separately. Three days on the bike doesn't mean you're only away from home for three days. Travel there and back belongs in your calendar too.
 
-## Welche zusätzlichen Kosten solltest du einplanen?
+## Which extra costs should you plan for?
 
-Zum Tourpaket kommen deine individuellen Reisekosten. Auf unserer Preisübersicht sind außerdem folgende Zusatzposten angegeben:
+Your individual travel costs come on top of the tour package. Our price overview also lists these extras:
 
-- Mittagessen: 15 € pro Tag.
-- Einzelzimmer: 15 € pro Tag zusätzlich.
-- Flughafentransfer hin und zurück: 70 €.
-- Abendessen außerhalb des Pakets.
-- Bei eigenem Motorrad: die in der Leistungsübersicht ausgewiesene Vignette von 25 € pro Monat.
+- Lunch: €15 per day.
+- Single room: €15 per day extra.
+- Airport transfer (return): €70.
+- Dinner, which is not part of the package.
+- With your own motorcycle: the road tax of €25 per month listed in the price overview.
 
-Kläre bei deiner Anfrage, welche Posten auf deine Reise zutreffen. Frage auch nach den Bedingungen für Kraftstoff, Kaution und mögliche Schäden am Leihmotorrad, damit dein Budget auf einem vollständigen Angebot beruht.
+When you send your enquiry, clarify which items apply to your trip. Also ask about the conditions for fuel, deposit and possible damage to the rental bike, so your budget is based on a complete offer.
 
-### Rechenbeispiel: drei Fahrtage mit Leihmotorrad
+### Sample budget: three riding days with a rental bike
 
-Für die Einsteiger-Tour kannst du zunächst so rechnen:
+For the Beginner Tour, you can start with this calculation:
 
-| Budgetposten | Betrag |
+| Budget item | Amount |
 |---|---:|
-| Tourpaket mit Leihmotorrad | 790 € |
-| Mittagessen für drei Fahrtage | 45 € |
-| Flughafentransfer, falls genutzt | 70 € |
-| **Zwischensumme** | **905 €** |
+| Tour package with rental bike | €790 |
+| Lunch for three riding days | €45 |
+| Airport transfer, if used | €70 |
+| **Subtotal** | **€905** |
 
-**905 € sind kein Gesamtpreis für die komplette Reise.** Flug oder andere Anreisekosten, Abendessen, persönliche Ausgaben und gegebenenfalls weitere vereinbarte Zusatzleistungen kommen hinzu. Ein Einzelzimmer ist in diesem Beispiel nicht berücksichtigt.
+**€905 is not the total price of the whole trip.** Flights or other travel costs, dinners, personal spending and any other extras you agree on come on top. A single room is not included in this example.
 
-Lege dir vor der Buchung eine eigene Liste an: Tourpaket, Anreise, Zusatzleistungen und persönlicher Puffer. So kannst du Angebote vergleichen, ohne einen niedrigen Einstiegspreis mit einem vollständigen Reisebudget zu verwechseln.
+Before you book, write your own list: tour package, travel, extras and a personal buffer. That way you can compare offers without mistaking a low starting price for a complete travel budget.
 
-## Eigenes Motorrad oder Leihmotorrad: Was passt zu deiner Reise?
+## Own motorcycle or rental bike: which suits your trip?
 
-Die Entscheidung betrifft nicht nur den Preis. Sie beeinflusst auch, wie du anreist und wie viel du vorbereiten musst.
+The decision is not only about price. It also affects how you travel and how much you need to prepare.
 
-### Mit dem eigenen Motorrad anreisen
+### Bringing your own motorcycle
 
-Du kennst dein Motorrad, seine Bedienung und dein persönliches Setup. Das kann angenehm sein, wenn du regelmäßig im Gelände fährst und bereits eine passende Transportmöglichkeit hast.
+You know your bike, its controls and your personal setup. That can be a plus if you ride off-road regularly and already have a way to transport it.
 
-Rechne für die Entscheidung aber auch Fahrzeugkosten, einen möglichen Anhänger oder Transporter und die Zeit unterwegs ein. Besprecht bei einer Gruppenreise vorab, welche Kosten ihr teilt und wer den Transport organisiert. Frage uns vor der Buchung, ob dein Motorrad zur gewählten Tour passt.
+For a fair comparison, also count vehicle costs, a trailer or van if you need one, and the time on the road. If you travel as a group, agree in advance which costs you share and who organises the transport. Ask us before booking whether your motorcycle suits the tour you've chosen.
 
-### Ein Leihmotorrad vor Ort nutzen
+### Riding a rental bike on site
 
-Ein Leihmotorrad ist eine Option, wenn du dein Bike nicht transportieren möchtest oder kein geeignetes Motorrad besitzt. Vergleiche den Aufpreis mit den Kosten und dem Aufwand für den eigenen Transport. Welche Modelle bei uns bereitstehen, siehst du unter [Enduro-Motorräder zum Mieten](/de/motorraeder/).
+A rental bike is an option if you don't want to transport your bike or don't own a suitable one. Compare the surcharge with the cost and effort of transporting your own. You can see the models we have available under [enduro motorcycles for rent](/en/motorcycles/).
 
-Bei der Einsteiger- und Bestseller-Tour beträgt der Unterschied zwischen den beiden Paketen jeweils 300 €, bei der Hard-Enduro-Woche 400 €. Ob sich das für dich rechnet, hängt von deinem Abfahrtsort, der Gruppengröße und deiner Anreise ab.
+For the Beginner and Bestseller Tour, the difference between the two packages is €300 each; for the Hard Enduro Week it is €400. Whether that pays off for you depends on where you start, your group size and how you travel.
 
-Nenne bei deiner Anfrage deine Körpergröße, bisherige Motorräder und Offroad-Erfahrung. Je genauer du beschreibst, womit du vertraut bist, desto gezielter können wir die Motorradwahl mit dir besprechen.
+In your enquiry, tell us your height, the motorcycles you've ridden and your off-road experience. The more precisely you describe what you're used to, the better we can discuss the choice of bike with you.
 
-## Welche Enduro-Tour passt zu deinem Fahrniveau?
+## Which enduro tour matches your riding level?
 
-Wähle die Tour nach deiner tatsächlichen Erfahrung. Eine passende Gruppe und ein realistischer Schwierigkeitsgrad machen die Urlaubstage auf dem Motorrad angenehmer.
+Choose the tour based on your actual experience. A well-matched group and a realistic difficulty level make your days on the bike more enjoyable.
 
-### Einsteiger: sicher auf dem Motorrad, neu im Gelände
+### Beginners: confident on a motorcycle, new to off-road
 
-Die [Enduro-Tour für Einsteiger in Bosnien](/de/touren/einsteiger-tour/) richtet sich an Motorradfahrer, die ins Offroadfahren einsteigen möchten. Sicheres Anfahren, Bremsen und Schalten werden vorausgesetzt. Sie ist deshalb kein Ersatz für die grundlegende Motorradausbildung.
+The [enduro tour for beginners in Bosnia](/en/tours/beginner-tour/) is for motorcyclists who want to get into off-road riding. You need to be able to pull away, brake and change gears safely, so it does not replace basic motorcycle training.
 
-Überlege vor der Anfrage: Bist du bereits auf Schotter gefahren? Wie sicher fühlst du dich im Stehen? Welche Erfahrungen hast du mit längeren Fahrtagen? Solche Angaben sind hilfreicher als die pauschale Selbsteinschätzung „Anfänger“.
+Before you enquire, ask yourself: Have you ridden on gravel before? How comfortable are you standing on the pegs? What experience do you have with longer riding days? Details like these are more useful than simply calling yourself a "beginner".
 
-### Fortgeschrittene: mehr Zeit für geführte Touren
+### Intermediate riders: more time on guided tours
 
-Wenn du erste Offroad-Erfahrung mitbringst und vier Fahrtage einplanen möchtest, schau dir unsere [Bestseller-Tour für Fortgeschrittene](/de/touren/bestseller-tour/) an.
+If you bring some off-road experience and want to plan four riding days, take a look at our [Bestseller Tour for intermediate riders](/en/tours/bestseller-tour/).
 
-Für Freundesgruppen lohnt es sich, das Können jedes Teilnehmers einzeln zu besprechen. Orientiert die gemeinsame Planung nicht nur am erfahrensten Fahrer.
+For groups of friends, it's worth discussing each rider's skill individually. Don't plan the trip around the most experienced rider alone.
 
-### Erfahrene Fahrer: gezielt Hard Enduro wählen
+### Experienced riders: choosing hard enduro on purpose
 
-Die [Hard-Enduro-Woche in Bosnien](/de/touren/hard-enduro-woche/) ist die Option für erfahrene Fahrer, die technische Herausforderungen suchen. Beschreibe uns vorab, auf welchem Gelände du bisher unterwegs warst und was du von der Woche erwartest.
+The [Hard Enduro Week in Bosnia](/en/tours/hard-enduro-week/) is the option for experienced riders looking for technical challenges. Tell us in advance what kind of terrain you've ridden so far and what you expect from the week.
 
-## Anreise aus Deutschland: erst die Tour, dann die Verbindung buchen
+## Getting to Bosnia: confirm the tour first, then book your travel
 
-Unser Ausgangspunkt liegt in Gornji Vakuf-Uskoplje in Zentralbosnien. Für die Reiseplanung aus Deutschland kommen die Anfahrt mit eigenem Fahrzeug und eine Flugreise mit anschließendem Transfer infrage.
+Our base is in Gornji Vakuf-Uskoplje in central Bosnia. Whether you're coming from Germany, Austria or elsewhere in Europe, you can drive with your own vehicle or fly and take a transfer.
 
-**Mit Auto, Anhänger oder Transporter:** Plane die Strecke ab deinem tatsächlichen Wohnort. Berücksichtige Pausen, mögliche Zwischenübernachtungen, Maut und die Bedingungen für das gewählte Fahrzeug beziehungsweise Gespann. Eine Fahrzeit ab München hilft dir wenig, wenn du aus Hamburg startest.
+**By car, trailer or van:** Plan the route from where you actually live. Allow for breaks, possible overnight stops, tolls and the rules for your vehicle or trailer combination.
 
-**Mit dem Flugzeug:** Vergleiche für deinen Reisetermin die verfügbaren Verbindungen. Stimme Ankunftsflughafen, Uhrzeit und Transfer mit uns ab, bevor du buchst. Eine günstige Flugverbindung ist nur dann praktisch, wenn sie auch zum Tourablauf passt.
+**By plane:** Compare the connections available for your travel dates. Agree the arrival airport, time and transfer with us before you book. A cheap flight is only practical if it also fits the tour schedule.
 
-Bestätige zuerst deinen Tourtermin. Prüfe anschließend, ob Hin- und Rückreise ausreichend Zeit lassen. Aktuelle Einreiseinformationen erhältst du beim [Auswärtigen Amt](https://www.auswaertiges-amt.de/); Beförderungs- und Gepäckbedingungen direkt bei deiner Fluggesellschaft.
+Confirm your tour date first. Then check that your outbound and return journeys leave enough time. For current entry requirements, check your own government's official travel advice; for baggage and transport conditions, ask your airline directly.
 
-Tipps zu Reisezeit, Unterkunft und Sicherheit findest du in unserem Ratgeber [Enduro-Urlaub auf dem Balkan](/de/blog/enduro-urlaub-balkan/).
+For tips on the best season, accommodation and safety, read our guide to an [enduro holiday in the Balkans](/en/blog/enduro-urlaub-balkan/).
 
-## Diese Fragen helfen dir bei der Buchung
+## Questions that help when booking
 
-Mit einer konkreten Anfrage lässt sich schneller klären, welches Paket zu dir passt:
+A specific enquiry makes it quicker to work out which package suits you:
 
-1. Wann möchtest du reisen, und wie flexibel bist du?
-2. Wie viele Personen fahren mit?
-3. Welche Offroad-Erfahrung bringt jeder Teilnehmer mit?
-4. Möchtest du dein eigenes Motorrad oder ein Leihmotorrad nutzen?
-5. Welche [Enduro-Ausrüstung](/de/blog/enduro-ausruestung-bosnien/) bringst du selbst mit?
-6. Benötigst du einen Transfer oder ein Einzelzimmer?
-7. Welche Zusatzkosten und Mietbedingungen gelten für dein Angebot?
+1. When do you want to travel, and how flexible are you?
+2. How many people are coming?
+3. What off-road experience does each rider have?
+4. Do you want to use your own motorcycle or a rental bike?
+5. Which [enduro gear](/en/blog/enduro-ausruestung-bosnien/) are you bringing yourself?
+6. Do you need a transfer or a single room?
+7. Which extra costs and rental conditions apply to your offer?
 
-Du musst noch nicht jede Antwort kennen. Schreibe bei offenen Punkten dazu, wobei du Beratung möchtest.
+You don't need to know every answer yet. For open points, just tell us where you'd like advice.
 
-## Häufige Fragen zum Enduro-Urlaub in Bosnien
+## Frequently asked questions about an enduro holiday in Bosnia
 
-### Was kostet ein Enduro-Urlaub in Bosnien mit Leihmotorrad?
+### What does an enduro holiday in Bosnia cost with a rental bike?
 
-Unsere Tourpakete mit Leihmotorrad beginnen aktuell bei 790 € für die Einsteiger-Tour mit drei Fahrtagen und vier Übernachtungen. Für dein gesamtes Urlaubsbudget musst du zusätzlich die Anreise und die von dir genutzten Zusatzleistungen berücksichtigen.
+Our tour packages with a rental bike currently start at €790 for the Beginner Tour with three riding days and four nights. For your total holiday budget, add your travel costs and any extras you use.
 
-### Kann ich ohne eigenes Motorrad teilnehmen?
+### Can I take part without my own motorcycle?
 
-Ja, du kannst ein Paket mit Leihmotorrad wählen. Teile uns bei der Anfrage mit, welche Fahrerfahrung du hast, damit wir die passende Tour und Motorradwahl besprechen können.
+Yes, you can choose a package with a rental bike. Tell us about your riding experience in your enquiry so we can discuss the right tour and bike with you.
 
-### Ist die Einsteiger-Tour für Motorrad-Anfänger geeignet?
+### Is the Beginner Tour suitable for new motorcyclists?
 
-Sie eignet sich für den Einstieg ins Gelände, wenn du bereits sicher Motorrad fährst. Die Grundfertigkeiten Anfahren, Bremsen und Schalten solltest du beherrschen.
+It's suitable for getting started off-road if you already ride a motorcycle confidently. You should have the basics of pulling away, braking and changing gears under control.
 
-### Was ist im Tourpreis enthalten?
+### What is included in the tour price?
 
-Geführtes Endurofahren, Übernachtungen mit Frühstück und die Schutzausrüstung. Mittagessen, Abendessen, Einzelzimmer und Flughafentransfer kommen bei Bedarf hinzu.
+Guided enduro riding, accommodation with breakfast and protective gear. Lunch, dinner, a single room and the airport transfer are added if you need them.
 
-### Wie finde ich die günstigere Anreise aus Deutschland?
+### How do I find the cheaper way to get there?
 
-Vergleiche beide Varianten als vollständige Rechnung: Flug, Gepäck und Transfer einerseits sowie Fahrzeug, Transportmöglichkeit und mögliche Zwischenübernachtungen andererseits. Beziehe auch die Kostenaufteilung innerhalb deiner Gruppe ein.
+Compare both options as a complete calculation: flight, baggage and transfer on one side; vehicle, transport and possible overnight stops on the other. Include how your group splits the costs.
 
-## Plane deine Enduro-Reise nach Bosnien mit uns
+## Plan your enduro trip to Bosnia with us
 
-Ob drei Fahrtage zum Einstieg oder eine Woche mit technischen Herausforderungen: Beginne mit deinem Fahrniveau, deinem verfügbaren Urlaub und einem vollständigen Budget.
+Whether it's three riding days to get started or a week of technical challenges: begin with your riding level, the time off you have and a complete budget.
 
-Sieh dir unsere [freien Tourtermine](/de/termine/) an oder schicke uns eine [Anfrage für deinen Enduro-Urlaub in Bosnien](/de/anmeldung/). Nenne uns deinen Wunschtermin, die Gruppengröße und ob du ein Motorrad vor Ort benötigst. Gemeinsam klären wir, welche Tour zu dir passt. Offene Fragen beantworten wir auch über das [Kontaktformular](/de/kontakt/).
+Check our [available tour dates](/en/dates/) or send us a [booking enquiry for your enduro holiday in Bosnia](/en/booking/). Tell us your preferred date, your group size and whether you need a motorcycle on site. Together we'll work out which tour suits you. You can also reach us with open questions via the [contact form](/en/contact/).
